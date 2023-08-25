@@ -1,0 +1,38 @@
+type Mutation{
+    saveUser(userRequest: UserRequest): User
+    updateUser(id: ID!, userRequest: UserRequest!): User
+    deleteUser(id: ID!): String
+}
+
+# All available queries
+type Query {
+    users: [User]
+    user(id: ID): User
+}
+
+type User {
+    user: ID
+    firstname: String
+    lastname: String
+    username: String
+    password: String
+    mail: String
+    document: Int
+}
+
+type Customer {
+    customerId: ID
+    firstname: String
+    lastname: String
+    document: String
+    address: String
+}
+
+input UserRequest {
+    firstname: String!
+    lastname: String!
+    username: String!
+    password: String!
+    mail: String!
+    document: Int!
+}
