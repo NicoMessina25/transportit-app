@@ -14,7 +14,7 @@ type TextInputProps = {
   onBlur: FocusEventHandler<HTMLInputElement>;
 };
 
-export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, value, error, name, required, className, ...props }, ref) => {
     return (
       <div>
@@ -37,3 +37,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     );
   }
 );
+
+TextInput.displayName = "TextInput";
+
+export {TextInput}
