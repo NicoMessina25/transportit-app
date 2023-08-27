@@ -17,7 +17,7 @@ export default function Page() {
         if(data?.authenticate){
             router.push('/')
         } else if(error) console.log("error", error.message);
-    },[data])
+    },[data, router, error])
 
     return (
         <section className='w-full h-screen bg-slate-900 flex flex-col justify-center items-center '>
