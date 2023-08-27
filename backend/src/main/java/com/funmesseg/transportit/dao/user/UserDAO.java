@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,18 +30,6 @@ public class UserDAO {
     @Transactional(readOnly = true)
     public User getUserById(Long userId){
         return entityManager.find(User.class, userId);
-    }
-
-    @Transactional(readOnly = true)
-    public boolean authenticate(String username, String password){
-        User user;
-        try {
-            user = entityManager.createQuery("from User where deleted IS NULL AND username='" + username+"'", User.class).getSingleResult();
-        } catch (NoResultException e) {
-            return false;
-        } 
-        
-        return user.getPassword().equals(password);
     }
 
     @Transactional

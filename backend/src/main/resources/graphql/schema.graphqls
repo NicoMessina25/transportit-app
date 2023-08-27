@@ -8,7 +8,7 @@ type Mutation{
 type Query {
     users: [User]
     user(id: ID): User
-    authenticate(userRequest: UserRequest): Boolean
+    authenticate(userRequest: UserRequest): Int
 }
 
 

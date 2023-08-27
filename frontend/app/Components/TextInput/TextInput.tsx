@@ -4,6 +4,7 @@ import { ReadonlySignal } from '@preact/signals-react'
 type TextInputProps = {
   name: string;
   className?: string;
+  inputClassName?:string;
   type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'date';
   label?: string;
   placeholder?: string;
@@ -15,11 +16,11 @@ type TextInputProps = {
 };
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, value, error, name, required, className, ...props }, ref) => {
+  ({ label, value, error, name, required, inputClassName, className, ...props }, ref) => {
     return (
-      <div>
+      <div className={className}>
         {label && (
-          <label htmlFor={name}>
+          <label htmlFor={name} className='font-semibold'>
             {label} {required && <span>*</span>}
           </label>
         )}
@@ -27,12 +28,12 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           {...props}
           ref={ref}
           id={name}
-          className={`${className} w-full border-none rounded focus:border-none`}
+          className={`${inputClassName} text-zinc-300 bg-blue-900 ${error.value? "border-red-400 border-2":""} w-full rounded focus:outline-0 px-2 py-1`}
           value={value.value ?? ''}
           aria-invalid={!!error.value}
           aria-errormessage={`${name}-error`}
         />
-        {error.value && <div id={`${name}-error`}>{error}</div>}
+        {error.value && <div id={`${name}-error`} className='text-red-400'>{error}</div>}
       </div>
     );
   }

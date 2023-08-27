@@ -2,7 +2,7 @@
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client'
 import './globals.css'
-import type { Metadata } from 'next'
+import 'react-toastify/dist/ReactToastify.css';
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
