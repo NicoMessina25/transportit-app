@@ -7,6 +7,7 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.funmesseg.transportit.api.user.dto.UserRequest;
 import com.funmesseg.transportit.dao.user.UserDAO;
@@ -26,6 +27,11 @@ public class UserGQLController {
     @QueryMapping
     public User user(@Argument Long id){
         return userDAO.getUserById(id);
+    }
+
+    @QueryMapping
+    public boolean authenticate(@Argument UserRequest userRequest){
+        return userDAO.authenticate(userRequest.username(), userRequest.password());
     }
 
     @MutationMapping

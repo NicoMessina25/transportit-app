@@ -8,7 +8,10 @@ type Mutation{
 type Query {
     users: [User]
     user(id: ID): User
+    authenticate(userRequest: UserRequest): Boolean
 }
+
+
 
 type User {
     user: ID
@@ -29,10 +32,10 @@ type Customer {
 }
 
 input UserRequest {
-    firstname: String!
-    lastname: String!
+    firstname: String
+    lastname: String
     username: String!
     password: String!
-    mail: String!
-    document: Int!
+    mail: String
+    document: Int
 }

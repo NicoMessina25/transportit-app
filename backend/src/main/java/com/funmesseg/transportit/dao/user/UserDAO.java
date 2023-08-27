@@ -13,6 +13,7 @@ import com.funmesseg.transportit.api.user.dto.UserRequest;
 import com.funmesseg.transportit.model.User;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 
 @Repository
 public class UserDAO {
@@ -28,6 +29,18 @@ public class UserDAO {
     @Transactional(readOnly = true)
     public User getUserById(Long userId){
         return entityManager.find(User.class, userId);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean authenticate(String username, String password){
+        User user;
+        try {
+            user = entityManager.createQuery("from User where deleted IS NULL AND username='" + username+"'", User.class).getSingleResult();
+        } catch (NoResultException e) {
+            return false;
+        } 
+        
+        return user.getPassword().equals(password);
     }
 
     @Transactional
