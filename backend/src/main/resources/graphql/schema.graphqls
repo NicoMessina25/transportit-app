@@ -1,17 +1,26 @@
 type Mutation{
-    saveUser(userRequest: UserRequest): User
-    updateUser(id: ID!, userRequest: UserRequest!): User
-    deleteUser(id: ID!): String
-}
+    saveUser(userRequest: UserRequest): CustomResponse
+    updateUser(id: ID!, userRequest: UserRequest!): CustomResponse
+    deleteUser(id: ID!): CustomResponse
 
+    saveCustomer(customerRequest: CustomerRequest): CustomResponse
+    updateCustomer(id: ID!, customerRequest: CustomerRequest!): CustomResponse
+    deleteCustomer(id: ID!): CustomResponse
+}
 # All available queries
 type Query {
     users: [User]
     user(id: ID): User
     authenticate(userRequest: UserRequest): Int
+
+    customers: [Customer]
+    customer(id: ID): Customer
 }
 
-
+type CustomResponse {
+    success: Boolean
+    message: String
+}
 
 type User {
     user: ID
@@ -19,6 +28,14 @@ type User {
     lastname: String
     username: String
     password: String
+    mail: String
+    document: Int
+}
+input UserRequest {
+    firstname: String
+    lastname: String
+    username: String!
+    password: String!
     mail: String
     document: Int
 }
@@ -31,11 +48,9 @@ type Customer {
     address: String
 }
 
-input UserRequest {
-    firstname: String
-    lastname: String
-    username: String!
-    password: String!
-    mail: String
-    document: Int
+input CustomerRequest {
+    firstname: String!
+    lastname: String!
+    address: String
+    document: String!
 }

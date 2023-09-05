@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.funmesseg.transportit.api.Response.CustomResponse;
 import com.funmesseg.transportit.api.user.dto.UserRequest;
 import com.funmesseg.transportit.model.User;
 
@@ -33,13 +34,24 @@ public class UserDAO {
     }
 
     @Transactional
-    public void saveUser(UserRequest userRequest){
-        entityManager.persist(getUserFromRequest(null, userRequest));
+    public CustomResponse saveUser(UserRequest userRequest){
+        try {
+            entityManager.persist(getUserFromRequest(null, userRequest));
+        } catch (Exception e) { 
+            return new CustomResponse(false, "No se guardo exitosamente: " + e.getMessage());
+        } 
+        return new CustomResponse(true, "Se guardo exitosamente: ");
+        
     }
 
     @Transactional
-    public void updateUser(Long id, UserRequest userRequest){
-        entityManager.merge(getUserFromRequest(id, userRequest));
+    public CustomResponse updateUser(Long id, UserRequest userRequest){
+        try{   
+            entityManager.merge(getUserFromRequest(id, userRequest));
+        } catch (Exception e) { 
+            return new CustomResponse(false, "No se actualizo exitosamente: " + e.getMessage());
+        } 
+        return new CustomResponse(true, "Se actualizo exitosamente: ");
     }
 
     private User getUserFromRequest(Long id, UserRequest userRequest){
@@ -59,10 +71,15 @@ public class UserDAO {
     }
 
     @Transactional
-    public void deleteUser(Long id){
-        User u = entityManager.getReference(User.class, id);
-        u.setDeleted(LocalDateTime.now());
-        entityManager.merge(u);
+    public CustomResponse deleteUser(Long id){
+        try{
+            User u = entityManager.getReference(User.class, id);
+            u.setDeleted(LocalDateTime.now());
+            entityManager.merge(u);
+        } catch (Exception e) { 
+            return new CustomResponse(false, "No se elimino exitosamente: " + e.getMessage());
+        } 
+        return new CustomResponse(true, "Se elimino exitosamente: ");
     }
 
 }
