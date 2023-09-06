@@ -41,7 +41,7 @@ input UserRequest {
 }
 
 type Customer {
-    customerId: ID
+    customerid: ID
     firstname: String
     lastname: String
     document: String

@@ -4,14 +4,14 @@ import { minLength, required, useForm } from '@modular-forms/react'
 import React, {useEffect} from 'react'
 import { TextInput } from '../Components/TextInput/TextInput';
 import { useLazyQuery } from '@apollo/client'
-import { AUTHENTICATE } from '../graphql/user/queries';
+import { AUTHENTICATE } from '../graphql/user/userQueries';
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function Page() {
+export default function LoginPage() {
     const [, {Field, Form}] = useForm<LoginForm>();
-    const [authenticate, { data, error }] = useLazyQuery<{authenticate: number}>(AUTHENTICATE);
+    const [authenticate, { data, error, loading }] = useLazyQuery<{authenticate: number}>(AUTHENTICATE);
     const router:AppRouterInstance = useRouter()
 
     const notify = () => toast.error("Usuario o contraseña incorrectos", {
@@ -44,7 +44,7 @@ export default function Page() {
                     ]}>
                         {(field, props)=><TextInput label='Contraseña' type='password' value={field.value} error={field.error} onChange={props.onChange} name={field.name} onBlur={props.onBlur} className='my-2' inputClassName='text-neutral-950 my-1' required />}
                     </Field>
-                    <button type='submit' className='rounded-full font-bold p-1 my-1 bg-blue-950 text-white hover:bg-blue-500 transition-all' >Ingresar</button>
+                    <button type='submit' className='rounded-full font-bold p-1 my-1 bg-blue-950 text-white hover:bg-blue-500 transition-all' > {loading? "Cargando...":"Ingresar"} </button>
                 </Form>
             </div>
             <ToastContainer />
