@@ -1,32 +1,19 @@
+"use client"
+
+import BackButton from '@/app/Components/BackButton/BackButton';
 import { TextInput } from '@/app/Components/TextInput/TextInput';
+import useLoadForm from '@/app/hooks/useLoadForm';
 import { Customer } from '@/app/types/customer'
-import { maxLength, minLength, required, setValues, useForm } from '@modular-forms/react';
-import { useRouter } from 'next/navigation';
-import React, { forwardRef, useImperativeHandle, useEffect } from 'react'
+import { FormProps } from '@/app/types/form';
+import { maxLength, minLength, required, useForm } from '@modular-forms/react';
+import React from 'react'
 
-type CustomFormProps<T> = {
-    onSubmit: (c:Customer)=>void,
-    onCancel?: ()=>void,
-    loadingInitialValue?: boolean,
-    initialValue?: T
-}
 
-export default function CustomerForm({onSubmit,onCancel, loadingInitialValue, initialValue}:CustomFormProps<Customer>){
+
+export default function CustomerForm({onSubmit,onCancel, loadingInitialValue, initialValue}:FormProps<Customer>){
     
     const [form, {Field, Form}] = useForm<Customer>();
-    const router = useRouter();
-
-    useEffect(() => {
-        if(!loadingInitialValue && initialValue){
-            console.log('Entraa', initialValue);
-            setValues(form, {
-                firstname: initialValue.firstname,
-                lastname: initialValue.lastname,
-                document: initialValue.document,
-                address: initialValue.address
-            });
-        }
-    }, [loadingInitialValue])
+    useLoadForm(form, loadingInitialValue, initialValue)
 
     return <div className='flex flex-col'>
         <Form onSubmit={onSubmit} className='flex flex-col justify-center p-4' >
@@ -50,9 +37,8 @@ export default function CustomerForm({onSubmit,onCancel, loadingInitialValue, in
             <Field name='address'>
                 {(field, props)=><TextInput label='Dirección' type='text' value={field.value} error={field.error} onChange={props.onChange} name={field.name} onBlur={props.onBlur} className='my-2' inputClassName='text-neutral-950 my-1' />}
             </Field>
-            <button type='submit' className='rounded-full font-bold p-1 my-1 bg-blue-950 text-white hover:bg-blue-500 transition-all' > {initialValue? "Guardar":"Crear"} </button>
-            
+            <button type='submit' className='rounded-full font-bold p-1 my-1 bg-blue-950 text-white hover:bg-blue-500 transition-all' > {initialValue? "Guardar":"Crear"} </button>  
         </Form>
-        <button className='rounded-full flex-grow mx-4 font-bold p-1 my-1 bg-blue-950 text-white hover:bg-blue-500 transition-all' onClick={onCancel ?? router.back} > Cancelar </button>
+        <BackButton text='Cancelar' onBack={onCancel} />
     </div>
 }
