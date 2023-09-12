@@ -1,3 +1,5 @@
+"use client"
+
 import BackButton from '@/app/Components/BackButton/BackButton';
 import { TextInput } from '@/app/Components/TextInput/TextInput';
 import useLoadForm from '@/app/hooks/useLoadForm';

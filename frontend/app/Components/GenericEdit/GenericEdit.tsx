@@ -1,3 +1,5 @@
+"use client"
+
 import useQueryMutHandler from '@/app/hooks/useQueryMutHandler';
 import { EditProps, FormProps } from '@/app/types/form'
 import { GraphMutation, GraphQuery } from '@/app/types/graphql';

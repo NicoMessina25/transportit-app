@@ -1,9 +1,9 @@
-import { CustomResponse } from '@/app/types/serverResponse'
-import { notifyError, notifyInfo } from '@/app/types/toastFunctions'
-import { DocumentNode, useMutation, useQuery } from '@apollo/client'
+"use client"
+
+import { useMutation, useQuery } from '@apollo/client'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'
 import { useRouter } from 'next/navigation'
-import React,{useEffect} from 'react'
+import React from 'react'
 import Table, { Column, Indexable } from '../Table/Table'
 import { ToastContainer } from 'react-bootstrap'
 import { GraphMutation, GraphQuery } from '@/app/types/graphql'

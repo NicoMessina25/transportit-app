@@ -1,3 +1,5 @@
+"use client"
+
 import { SAVE_SHIPPING_REQUEST } from '@/app/graphql/shippingRequest/shippingRequestQueries';
 import useQueryMutHandler from '@/app/hooks/useQueryMutHandler';
 import { CustomResponse } from '@/app/types/serverResponse';

@@ -1,4 +1,4 @@
-
+"use client"
 
 import { SAVE_PACKAGE } from '@/app/graphql/_package/packageQueries';
 import useQueryMutHandler from '@/app/hooks/useQueryMutHandler';
