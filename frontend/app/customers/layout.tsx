@@ -1,12 +1,10 @@
 "use client"
 
 import React from 'react'
+import GenericLayout from '../Components/GenericLayout/GenericLayout'
 
 export default function CustomersLayout({children}:{children: React.ReactNode}) {
-  return (
-    <section>
-        <h1>Customers</h1>
-        {children}
-    </section>
-  )
+  return <GenericLayout title='Customers'>
+    {children}
+  </GenericLayout>
 }

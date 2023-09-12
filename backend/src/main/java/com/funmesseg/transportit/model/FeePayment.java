@@ -1,8 +1,13 @@
 package com.funmesseg.transportit.model;
 
+import com.funmesseg.transportit.model.enums.EFeeType;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +18,7 @@ import lombok.Setter;
 
 @Entity
 @DiscriminatorValue(value = "1")
+@DiscriminatorColumn(name = "feeType", columnDefinition = "bigint")
 @Table(name = "feepayment")
 @Getter
 @Setter
@@ -23,6 +29,10 @@ public class FeePayment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long feepayment;
+
+    @Column(name = "feeType", insertable = false, updatable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private EFeeType feeType;
 
     @Column(columnDefinition = "numeric")
     private float kgprice;

@@ -5,15 +5,15 @@ type TextInputProps = {
   name: string;
   className?: string;
   inputClassName?:string;
-  type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'date';
+  type: 'text' | 'email' | 'tel' | 'password' | 'url' | 'date' | 'number';
   label?: string;
   placeholder?: string;
-  value: ReadonlySignal<string | undefined>;
+  value: ReadonlySignal<string | number | undefined>;
   error: ReadonlySignal<string>;
   required?: boolean;
   onChange: ChangeEventHandler<HTMLInputElement>;
   onBlur: FocusEventHandler<HTMLInputElement>;
-};
+}
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   ({ label, value, error, name, required, inputClassName, className, ...props }, ref) => {

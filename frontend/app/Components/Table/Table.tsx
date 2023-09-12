@@ -1,26 +1,28 @@
 import React from 'react'
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid'
+import BoostrapTable from 'react-bootstrap/Table';
 
 export type Column = {
   field: string;
   header: string;
 }
 
-export type Item = {
+export interface Indexable {
   [key: string]:any;
 }
 
 export type TableProps<T> = {
   columns: Column[], 
   items:T[],
-  itemsKeyField: string;
+  itemsKeyField: string,
   onEdit?: (item:T)=> void
-  onDelete?: (item:T) => void
+  onDelete?: (item:T) => void,
+  className?: string
 }
 
-export default function Table<T extends Item>({columns, items, itemsKeyField, onEdit, onDelete}:TableProps<T>) {
+export default function Table<T extends Indexable>({columns, items, itemsKeyField, onEdit, onDelete, className}:TableProps<T>) {
   return (
-    <table className="table-auto hover:table-fixed">
+    <BoostrapTable className={`table-auto`} striped bordered hover variant='dark'  >
     <thead>
       <tr>
         {columns.map((c)=><th key={c.field}>{c.header}</th>)}
@@ -37,6 +39,6 @@ export default function Table<T extends Item>({columns, items, itemsKeyField, on
         {onDelete && <td className='cursor-pointer'><TrashIcon onClick={()=> onDelete(i)} className='w-5 h-5' /></td>}
       </tr>)}
     </tbody>
-  </table>
+  </BoostrapTable>
   )
 }
