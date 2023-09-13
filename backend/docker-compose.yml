@@ -1,0 +1,42 @@
+version: '3.9'
+
+volumes:
+  sql-server-data:
+    driver: local
+  sqldata:
+  sqllog:
+  sqlbackup:
+
+services:
+  transportit-app:
+    container_name: transportit-app
+    image: transportit-image
+    build: .
+    ports:
+      - 8080:8080
+    networks:
+      - my-network
+    depends_on:
+      - db-sqlserver
+
+  db-sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-CU3-ubuntu-18.04
+    container_name: db-sqlserver
+    restart: always
+    env_file:
+      - sqlserver.env
+      - sapassword.env
+    ports:
+      - 1433:1433
+    volumes:
+      - sql-server-data:/var/opt/mssql/
+      - sqldata:/var/opt/sqlserver/data
+      - sqllog:/var/opt/sqlserver/log
+      - sqlbackup:/var/opt/sqlserver/backup
+      - /c/docker/shared:/usr/shared
+    networks:
+      - my-network
+
+networks:
+  my-network:
+  
