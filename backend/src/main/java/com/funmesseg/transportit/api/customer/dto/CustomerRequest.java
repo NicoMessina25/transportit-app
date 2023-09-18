@@ -6,7 +6,7 @@ public record CustomerRequest(
     Long customerId,
     String firstname,
     String lastname,
-    String document,
+    Long document,
     String address
 ) {
     

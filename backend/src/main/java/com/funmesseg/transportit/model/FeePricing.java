@@ -21,16 +21,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@DiscriminatorColumn(name = "feeType", columnDefinition = "bigint")
+@DiscriminatorColumn(name = "feetype", columnDefinition = "bigint")
 @DiscriminatorValue(value = "2")
 public class FeePricing {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fee")
-    private Long feePricing;
+    private Long feeId;
 
-    @Column(name = "feeType", insertable = false, updatable = false)
+    @Column(name = "feetype", insertable = false, updatable = false)
     @Enumerated(EnumType.ORDINAL)
     private EFeeType feeType;
 

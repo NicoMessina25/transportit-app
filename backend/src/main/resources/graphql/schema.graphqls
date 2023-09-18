@@ -1,3 +1,6 @@
+scalar LocalDateTime
+
+#All available mutation
 type Mutation{
     saveUser(userRequest: UserRequest): CustomResponse
     updateUser(id: ID!, userRequest: UserRequest!): CustomResponse
@@ -6,6 +9,10 @@ type Mutation{
     saveCustomer(customerRequest: CustomerRequest): CustomResponse
     updateCustomer(id: ID!, customerRequest: CustomerRequest!): CustomResponse
     deleteCustomer(id: ID!): CustomResponse
+
+    saveDriver(driverRequest: DriverRequest!): CustomResponse
+    updateDriver(driverRequest: DriverRequest!): CustomResponse
+    deleteDriver(driverId: ID!): CustomResponse
 }
 # All available queries
 type Query {
@@ -15,6 +22,9 @@ type Query {
 
     customers: [Customer]
     customer(id: ID): Customer
+
+    drivers: [Driver]
+    driver(driverId: ID!): Driver
 }
 
 type CustomResponse {
@@ -22,35 +32,131 @@ type CustomResponse {
     message: String
 }
 
-type User {
+
+# User ------------------------------------------------------------
+type User{
     user: ID
     firstname: String
     lastname: String
+    document: Int
     username: String
     password: String
     mail: String
-    document: Int
 }
 input UserRequest {
-    firstname: String
-    lastname: String
+    firstname: String!
+    lastname: String!
+    document: Int!
     username: String!
     password: String!
     mail: String
-    document: Int
 }
 
+
+
+# Customer ------------------------------------------------------------
 type Customer {
     customerid: ID
     firstname: String
     lastname: String
-    document: String
+    document: Int
     address: String
 }
-
 input CustomerRequest {
     firstname: String!
     lastname: String!
+    document: Int!
     address: String
-    document: String!
+
+}
+
+
+# Driver ------------------------------------------------------------
+type Driver {
+    driverId: ID
+    firstname: String
+    lastname: String
+    document: Int
+    address: String
+    province: String
+    city: String
+    phone: String
+    particular:Boolean
+    available: Boolean
+    feePayments: [Fee]
+    trucks: [Truck]
+    currentcity: City
+}
+
+input DriverRequest{
+    driverId: ID
+    firstname: String!
+    lastname: String!
+    document: Int!
+    address: String
+    province: String
+    city: String
+    phone: String!
+    available: Boolean
+    fee: FeePaymentRequest
+    trucks: [TruckRequest]
+    currentcityId: Int!
+}
+
+
+
+
+# Fee ------------------------------------------------------------
+enum FeeType {
+    PAYMENT
+    PRICING
+}
+
+
+type Fee {
+    feeId: ID
+    kgprice: Float
+    kmprice: Float
+    cm3price: Float
+    registrationDate: LocalDateTime
+    endDate:LocalDateTime
+    particular: Boolean
+    feeType: FeeType
+}
+
+input FeePaymentRequest {
+    feeId: ID
+    driverId: ID
+    kgprice: Float
+    kmprice: Float
+}
+
+
+
+
+# Truck ------------------------------------------------------------
+type Truck{
+    truckId: ID
+    driver: Driver
+    registrationDate: LocalDateTime
+    registration: String
+    maxweight: Float
+    available: Boolean
+    city: City
+}
+
+input TruckRequest{
+    truckId: ID
+    driverId: ID
+    registration: String
+    maxweight: Float
+    available: Boolean
+    cityId: ID
+}
+
+
+# City ------------------------------------------------------------
+type City {
+    cityId: ID
+    name: String
 }

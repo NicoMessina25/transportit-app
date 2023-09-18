@@ -30,8 +30,8 @@ public class Customer {
     @Column
     private String lastname;
 
-    @Column
-    private String document;
+    @Column(name = "_document")
+    private Long document;
 
     @Column
     private String address;

@@ -19,9 +19,6 @@ public class CustomerGQLController {
     @Autowired
     private CustomerDAO customerDAO;
 
-    @Autowired
-    private CustomerRepository customerRepository;
-
 
     @QueryMapping
     public List<Customer> customers(){

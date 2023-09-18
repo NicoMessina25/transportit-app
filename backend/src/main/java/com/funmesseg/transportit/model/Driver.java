@@ -1,6 +1,7 @@
 package com.funmesseg.transportit.model;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -8,6 +9,7 @@ import com.funmesseg.transportit.api.feepayment.dto.FeePaymentDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,8 +32,8 @@ public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Long driver;
+    @Column(name = "driverid")
+    private Long driverId;
 
     @Column
     private String firstname;
@@ -39,8 +41,8 @@ public class Driver {
     @Column
     private String lastname;
 
-    @Column
-    private Long dni;
+    @Column(name = "_document")
+    private Long document;
     
     @Column
     private String address;
@@ -52,7 +54,7 @@ public class Driver {
     private String city;
 
     @Column
-    private Long phone;
+    private String phone;
 
     @Column(columnDefinition = "bit")
     private boolean particular;
@@ -60,20 +62,22 @@ public class Driver {
     @Column(columnDefinition = "bit")
     private boolean available;
 
-    @JoinColumn(name = "fee")
-    @ManyToOne
-    private FeePayment feepayment;
+    @OneToMany(mappedBy = "driver")
+    private List<FeePayment> feePayments;
 
     @OneToMany(mappedBy = "driver")
     private List<Truck> trucks;
 
-    @JoinColumn(name = "currentcity")
+    @JoinColumn(name = "currentcityid")
     @ManyToOne
-    private City currentcityid;
+    private City currentcity;
+
+    @Column
+    private LocalDateTime deleted;
 
     @Override
     public String toString(){
-        return "Driver: Id:" + driver + ", name: " + firstname + ", lastname: " + lastname;
+        return "Driver: Id:" + driverId + ", name: " + firstname + ", lastname: " + lastname;
     }
 
 }

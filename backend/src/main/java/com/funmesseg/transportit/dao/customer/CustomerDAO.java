@@ -38,10 +38,10 @@ public class CustomerDAO {
             entityManager.persist(getCustomerFromRequest(null, customerRequest));
         } catch (Exception e) {
             
-            return new CustomResponse(false, "No se guardo exitosamente: " + e.getMessage());
+            return new CustomResponse(false, "No se guardó exitosamente: " + e.getMessage());
         }
         
-        return new CustomResponse(true, "Se guardo exitosamente: ");
+        return new CustomResponse(true, "Se guardó exitosamente: ");
     }
 
     @Transactional
@@ -49,9 +49,9 @@ public class CustomerDAO {
         try {
             entityManager.merge(getCustomerFromRequest(id, customerRequest));
         } catch (Exception e) {
-            return new CustomResponse(false, "No se actualizo exitosamente: " + e.getMessage());
+            return new CustomResponse(false, "No se actualizó exitosamente: " + e.getMessage());
         }
-        return new CustomResponse(true, "Se actualizo exitosamente: ");
+        return new CustomResponse(true, "Se actualizó exitosamente: ");
     }
 
     private Customer getCustomerFromRequest(Long id, CustomerRequest customerRequest){
@@ -75,9 +75,9 @@ public class CustomerDAO {
             customer.setDeleted(LocalDateTime.now());
             entityManager.merge(customer);
         } catch (Exception e) {
-            return new CustomResponse(false, "No se elimino exitosamente: " + e.getMessage());
+            return new CustomResponse(false, "No se eliminó exitosamente: " + e.getMessage());
         }
-        return new CustomResponse(true, "Se elimino exitosamente: ");
+        return new CustomResponse(true, "Se eliminó exitosamente: ");
     }
 
 }
