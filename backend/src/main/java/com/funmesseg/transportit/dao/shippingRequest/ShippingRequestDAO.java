@@ -15,12 +15,15 @@ import com.funmesseg.transportit.dao._package.PackageDAO;
 import com.funmesseg.transportit.model.City;
 import com.funmesseg.transportit.model.Customer;
 import com.funmesseg.transportit.model.ShippingRequest;
+import com.funmesseg.transportit.model.enums.EShippingState;
 import com.funmesseg.transportit.model.Package;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
+import lombok.extern.slf4j.Slf4j;
 
 @Repository
+@Slf4j
 public class ShippingRequestDAO {
     
     @Autowired
@@ -39,10 +42,12 @@ public class ShippingRequestDAO {
         return entityManager.find(ShippingRequest.class, requestId);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public CustomResponse saveShippingRequest(ShippingRequestRequest shippingRequestRequest){
         try {
             ShippingRequest shippingRequest = getShippingRequestFromRequest(shippingRequestRequest);
+            shippingRequest.setRequestDate(LocalDateTime.now());
+            shippingRequest.setState(EShippingState.ORDERED);
             entityManager.persist(shippingRequest);            
 
             if(shippingRequestRequest.packages() != null){
@@ -55,7 +60,7 @@ public class ShippingRequestDAO {
             
 
         } catch (Exception e) {
-            //log.error("---------------------------------------------------------- " + e.getMessage());
+            log.error("---------------------------------------------------------- " + e.getMessage());
             return new CustomResponse(false, "No se guardo exitosamente: " + e.getMessage());
         }
         
@@ -73,7 +78,7 @@ public class ShippingRequestDAO {
             
 
         } catch (Exception e) {
-            //log.error("---------------------------------------------------------- " + e.getMessage());
+            log.error("---------------------------------------------------------- " + e.getMessage());
             return new CustomResponse(false, "No se actualizó exitosamente: " + e.getMessage());
         }
         
@@ -89,7 +94,7 @@ public class ShippingRequestDAO {
 
             shippingRequest.getPackages().forEach(p -> packageDAO.deletePackage(p.getPackageId()));
         } catch (Exception e) {
-            //log.error("---------------------------------------------------------- " + e.getMessage());
+            log.error("---------------------------------------------------------- " + e.getMessage());
             return new CustomResponse(false, "No se eliminó exitosamente: " + e.getMessage());
         }
         return new CustomResponse(true, "Se eliminó exitosamente: ");
@@ -101,16 +106,31 @@ public class ShippingRequestDAO {
             shippingRequest = new ShippingRequest();
         else shippingRequest = entityManager.find(ShippingRequest.class, shippingRequestRequest.requestId());
 
-        City cityFrom = entityManager.find(City.class, shippingRequestRequest.cityFromId());
-        City cityTo = entityManager.find(City.class, shippingRequestRequest.cityToId());
-        Customer customer = entityManager.find(Customer.class, shippingRequestRequest.customerId());
-
-        shippingRequest.setPrice(shippingRequestRequest.price());
-        shippingRequest.setState(shippingRequestRequest.state());
-        shippingRequest.setRequestDate(shippingRequestRequest.requestDate());
-        shippingRequest.setCityFrom(cityFrom);
-        shippingRequest.setCityTo(cityTo);
-        shippingRequest.setCustomer(customer);
+        City cityFrom;
+        City cityTo;
+        Customer customer;
+        if (shippingRequestRequest.cityFromId() != null){
+            cityFrom = entityManager.find(City.class, shippingRequestRequest.cityFromId());
+            shippingRequest.setCityFrom(cityFrom);
+        }
+        if (shippingRequestRequest.cityToId() != null){
+            cityTo = entityManager.find(City.class, shippingRequestRequest.cityToId());
+            shippingRequest.setCityTo(cityTo);
+        }
+        if (shippingRequestRequest.customerId() != null){
+            customer = entityManager.find(Customer.class, shippingRequestRequest.customerId());
+            shippingRequest.setCustomer(customer);
+        }
+        if (Float.valueOf(shippingRequestRequest.price()) != null){
+            shippingRequest.setPrice(shippingRequestRequest.price());
+        }
+        if (shippingRequestRequest.state() != null){
+            shippingRequest.setState(shippingRequestRequest.state());
+        }
+        
+        //shippingRequest.setRequestDate(shippingRequestRequest.requestDate()); //no se actualiza
+        
+        
         //shippingRequest.setPackages(shippingRequestRequest.packages());
 
         return shippingRequest;

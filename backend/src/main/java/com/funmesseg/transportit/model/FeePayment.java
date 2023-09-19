@@ -18,7 +18,7 @@ import lombok.Setter;
 
 @Entity
 @DiscriminatorValue(value = "1")
-@DiscriminatorColumn(name = "feeType", columnDefinition = "bigint")
+@DiscriminatorColumn(name = "feetype", columnDefinition = "bigint")
 @Table(name = "feepayment")
 @Getter
 @Setter
@@ -30,7 +30,7 @@ public class FeePayment {
     @Column
     private Long feepayment;
 
-    @Column(name = "feeType", insertable = false, updatable = false)
+    @Column(name = "feetype", insertable = false, updatable = false)
     @Enumerated(EnumType.ORDINAL)
     private EFeeType feeType;
 

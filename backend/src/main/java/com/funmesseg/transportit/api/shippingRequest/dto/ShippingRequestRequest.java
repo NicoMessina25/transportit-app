@@ -1,6 +1,6 @@
 package com.funmesseg.transportit.api.shippingRequest.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.funmesseg.transportit.api._package.dto.PackageRequest;
@@ -10,7 +10,7 @@ public record ShippingRequestRequest(
     Long requestId,
     float price,
     EShippingState state,
-    Date requestDate,
+    LocalDateTime requestDate,
     Long cityFromId,
     Long cityToId,
     Long customerId,

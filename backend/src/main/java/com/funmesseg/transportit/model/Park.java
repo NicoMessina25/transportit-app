@@ -2,6 +2,7 @@ package com.funmesseg.transportit.model;
 
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,9 +24,10 @@ public class Park {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "parkid")
     private Long parkId;
-
-    @JoinColumn(name = "cityId")
+    
+    @JoinColumn(name = "cityid")
     @ManyToOne
     private City city;
 

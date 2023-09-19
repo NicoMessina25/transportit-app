@@ -27,6 +27,7 @@ public class Package {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="packageid")   //poner el name en minuscula para que no convierta las mayusculas en guiones bajos
     private Long packageId;
 
     @Column
@@ -42,25 +43,25 @@ public class Package {
     @Enumerated(EnumType.ORDINAL)
     private EShippingState state;
 
-    @JoinColumn(name = "requestId")
+    @JoinColumn(name = "requestid")
     @ManyToOne
     private ShippingRequest shippingRequest;
 
-    @JoinColumn(name = "routeMapId")
+    @JoinColumn(name = "routemapid")
     @ManyToOne
     private RouteMap routeMap;
 
-    @JoinColumn(name = "feePricingId")
+    @JoinColumn(name = "feepricingid")
     @ManyToOne
     private FeePricing feePricing;
 
-    @Column
+    @Column(name = "recipientdocument")
     private String recipientDocument;
 
-    @Column 
+    @Column(name = "recipientfirstname")
     private String recipientFirstname;
 
-    @Column
+    @Column(name = "cityfeecoefficient")
     private float cityFeeCoefficient;
 
     @Column

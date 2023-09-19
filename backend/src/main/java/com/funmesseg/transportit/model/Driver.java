@@ -3,9 +3,6 @@ package com.funmesseg.transportit.model;
 
 import java.util.List;
 
-
-import com.funmesseg.transportit.api.feepayment.dto.FeePaymentDTO;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,7 +27,7 @@ public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "driverid")
     private Long driver;
 
     @Column
@@ -39,7 +36,7 @@ public class Driver {
     @Column
     private String lastname;
 
-    @Column
+    @Column(name = "_document")
     private Long dni;
     
     @Column
@@ -60,14 +57,10 @@ public class Driver {
     @Column(columnDefinition = "bit")
     private boolean available;
 
-    @JoinColumn(name = "fee")
-    @ManyToOne
-    private FeePayment feepayment;
-
     @OneToMany(mappedBy = "driver")
     private List<Truck> trucks;
 
-    @JoinColumn(name = "currentcity")
+    @JoinColumn(name = "currentcityid")
     @ManyToOne
     private City currentcityid;
 

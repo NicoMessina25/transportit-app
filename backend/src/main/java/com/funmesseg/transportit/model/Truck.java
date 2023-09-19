@@ -23,17 +23,17 @@ public class Truck {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "truckid")
     private Long truck;
 
     @JoinColumn(name = "driver")
     @ManyToOne
     private Driver driver;
 
-    @Column
+    @Column(name = "registrationdate")
     private Date dischargedate;
     
-    @Column
+    @Column(name = "registration")
     private String tuition;
 
     @Column(columnDefinition = "numeric")

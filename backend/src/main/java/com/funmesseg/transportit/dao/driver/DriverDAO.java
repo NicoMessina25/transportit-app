@@ -52,7 +52,6 @@ public class DriverDAO {
         }
         City currentcity = entityManager.getReference(City.class, driverDTO.getCurrentcityid());
 
-        driver.setFeepayment(feePayment);
         driver.setTrucks(trucks);
         driver.setCurrentcityid(currentcity);
 

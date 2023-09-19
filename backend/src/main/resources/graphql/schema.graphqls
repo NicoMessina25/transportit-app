@@ -1,3 +1,5 @@
+scalar LocalDateTime
+
 type Mutation{
     saveUser(userRequest: UserRequest): CustomResponse
     updateUser(id: ID!, userRequest: UserRequest!): CustomResponse
@@ -6,6 +8,14 @@ type Mutation{
     saveCustomer(customerRequest: CustomerRequest): CustomResponse
     updateCustomer(id: ID!, customerRequest: CustomerRequest!): CustomResponse
     deleteCustomer(id: ID!): CustomResponse
+
+    saveShippingRequest(shippingRequestRequest: ShippingRequestRequest): CustomResponse
+    updateShippingRequest(shippingRequestRequest: ShippingRequestRequest): CustomResponse
+    deleteShippingRequest(id: ID!): CustomResponse
+
+    savePackage(packageRequest: PackageRequest): Package
+    updatePackage(id: ID!, packageRequest: PackageRequest): Package
+    deletePackage(id: ID!): CustomResponse
 }
 # All available queries
 type Query {
@@ -61,7 +71,7 @@ type RouteMap {
     routeMapId: ID
     state: EShippingState
     payloadVolume: Float
-    startDate: Date
+    startDate: LocalDateTime
     price: Float
     driver: Driver
     truck: Truck
@@ -69,12 +79,29 @@ type RouteMap {
     packages: [Package]
 }
 
+# Trailer ------------------------------------------------------------
+type Trailer {
+    trailerId: ID
+    weight: Float
+    payloadWeight: Float
+    registration: String
+    available: Boolean
+    park: Park
+}
+
+# Park ------------------------------------------------------------
+type Park {
+    parkId: ID
+    city: City
+    trailers: [Trailer]
+}
+
 # ShippingRequest ------------------------------------------------------------
 type ShippingRequest {
     requestId: ID
     price: Float
     state: EShippingState
-    requestDate: Date
+    requestDate: LocalDateTime
     cityFrom: City
     cityTo: City 
     customer: Customer
@@ -82,13 +109,14 @@ type ShippingRequest {
 }
 
 input ShippingRequestRequest {
+    requestId: ID
     price: Float
     state: EShippingState
-    requestDate: Date
-    cityFromId: ID 
-    cityToId: ID 
-    customerId: ID 
-    packages: [PackageRequest] 
+    requestDate: LocalDateTime
+    cityFromId: ID
+    cityToId: ID
+    customerId: ID
+    packages: [PackageRequest]
 }
 
 enum EShippingState {
@@ -119,10 +147,10 @@ input PackageRequest {
     weight: Float
     size: Float
     price: Float
-    state: Int!
-    requestId: Int!
-    routeMapId: Int!
-    feePricingId: Int!
+    state: EShippingState
+    requestId: ID
+    routeMapId: ID
+    feePricingId: ID
     recipientDocument: String!
     recipientFirstName: String!
     cityFeeCoefficient: Float 
@@ -155,7 +183,6 @@ input DriverRequest{
     city: String
     phone: String!
     available: Boolean
-    fee: FeePaymentRequest
     trucks: [TruckRequest]
     currentcityId: Int!
 }

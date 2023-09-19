@@ -30,7 +30,7 @@ public class Customer {
     @Column
     private String lastname;
 
-    @Column
+    @Column(name = "_document")
     private String document;
 
     @Column

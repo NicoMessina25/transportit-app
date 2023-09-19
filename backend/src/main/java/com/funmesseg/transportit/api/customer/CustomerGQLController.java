@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import com.funmesseg.transportit.api.Response.CustomResponse;
 import com.funmesseg.transportit.api.customer.dto.CustomerRequest;
 import com.funmesseg.transportit.dao.customer.CustomerDAO;
-import com.funmesseg.transportit.dao.customer.CustomerRepository;
 import com.funmesseg.transportit.model.Customer;
 
 @Controller
