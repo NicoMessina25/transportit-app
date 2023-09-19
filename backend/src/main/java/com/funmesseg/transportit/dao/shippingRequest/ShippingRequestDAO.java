@@ -35,7 +35,7 @@ public class ShippingRequestDAO {
     }
 
     @Transactional(readOnly = true)
-    public ShippingRequest getShippingRequestById(int requestId){
+    public ShippingRequest getShippingRequestById(Long requestId){
         return entityManager.find(ShippingRequest.class, requestId);
     }
 

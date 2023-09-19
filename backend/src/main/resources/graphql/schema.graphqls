@@ -56,6 +56,7 @@ input CustomerRequest {
     document: String!
 }
 
+# RouteMap ------------------------------------------------------------
 type RouteMap {
     routeMapId: ID
     state: EShippingState
@@ -68,15 +69,26 @@ type RouteMap {
     packages: [Package]
 }
 
+# ShippingRequest ------------------------------------------------------------
 type ShippingRequest {
     requestId: ID
     price: Float
     state: EShippingState
-    requesDate: Date
+    requestDate: Date
     cityFrom: City
     cityTo: City 
     customer: Customer
     packages: [Package]
+}
+
+input ShippingRequestRequest {
+    price: Float
+    state: EShippingState
+    requestDate: Date
+    cityFromId: ID 
+    cityToId: ID 
+    customerId: ID 
+    packages: [PackageRequest] 
 }
 
 enum EShippingState {
@@ -86,6 +98,7 @@ enum EShippingState {
     DELIVERED
 }
 
+# Package ------------------------------------------------------------
 type Package {
     packageid: ID
     weight: Float
@@ -113,4 +126,94 @@ input PackageRequest {
     recipientDocument: String!
     recipientFirstName: String!
     cityFeeCoefficient: Float 
+}
+
+# Driver ------------------------------------------------------------
+type Driver {
+    driverId: ID
+    firstname: String
+    lastname: String
+    document: Int
+    address: String
+    province: String
+    city: String
+    phone: String
+    particular:Boolean
+    available: Boolean
+    feePayments: [Fee]
+    trucks: [Truck]
+    currentcity: City
+}
+
+input DriverRequest{
+    driverId: ID
+    firstname: String!
+    lastname: String!
+    document: Int!
+    address: String
+    province: String
+    city: String
+    phone: String!
+    available: Boolean
+    fee: FeePaymentRequest
+    trucks: [TruckRequest]
+    currentcityId: Int!
+}
+
+
+
+
+# Fee ------------------------------------------------------------
+enum FeeType {
+    PAYMENT
+    PRICING
+}
+
+
+type Fee {
+    feeId: ID
+    kgprice: Float
+    kmprice: Float
+    cm3price: Float
+    registrationDate: LocalDateTime
+    endDate:LocalDateTime
+    particular: Boolean
+    feeType: FeeType
+}
+
+input FeePaymentRequest {
+    feeId: ID
+    driverId: ID
+    kgprice: Float
+    kmprice: Float
+}
+
+
+
+
+# Truck ------------------------------------------------------------
+type Truck{
+    truckId: ID
+    driver: Driver
+    registrationDate: LocalDateTime
+    registration: String
+    maxweight: Float
+    available: Boolean
+    city: City
+}
+
+input TruckRequest{
+    truckId: ID
+    driverId: ID
+    registration: String
+    maxweight: Float
+    available: Boolean
+    cityId: ID
+}
+
+
+# City ------------------------------------------------------------
+type City {
+    cityId: ID
+    name: String
 }

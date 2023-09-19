@@ -32,7 +32,7 @@ public class ShippingRequestGQLController {
     }
 
     @QueryMapping
-    public ShippingRequest user(@Argument Long id){
+    public ShippingRequest shippingRequest(@Argument Long id){
         return shippingRequestDAO.getShippingRequestById(id);
     }
 
@@ -43,7 +43,7 @@ public class ShippingRequestGQLController {
 
     @MutationMapping
     public CustomResponse updateShippingRequest(@Argument Long id, @Argument ShippingRequestRequest shippingRequestRequest){
-        return shippingRequestDAO.updateShippingRequest(id, shippingRequestRequest);
+        return shippingRequestDAO.updateShippingRequest(shippingRequestRequest);
     }
 
     @MutationMapping
