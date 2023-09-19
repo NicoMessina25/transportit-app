@@ -1,5 +1,6 @@
 package com.funmesseg.transportit.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class ShippingRequest {
     private EShippingState state;
 
     @Column
-    private Date requesDate;
+    private Date requestDate;
 
     @ManyToOne
     @JoinColumn
@@ -56,4 +57,8 @@ public class ShippingRequest {
 
     @OneToMany(mappedBy = "shippingRequest")
     private List<Package> packages;
+
+    @Column
+    private LocalDateTime deleted;
+    
 }

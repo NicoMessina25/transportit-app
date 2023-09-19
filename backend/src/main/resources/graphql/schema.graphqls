@@ -31,6 +31,7 @@ type User {
     mail: String
     document: Int
 }
+
 input UserRequest {
     firstname: String
     lastname: String
@@ -53,4 +54,63 @@ input CustomerRequest {
     lastname: String!
     address: String
     document: String!
+}
+
+type RouteMap {
+    routeMapId: ID
+    state: EShippingState
+    payloadVolume: Float
+    startDate: Date
+    price: Float
+    driver: Driver
+    truck: Truck
+    trailer: Trailer
+    packages: [Package]
+}
+
+type ShippingRequest {
+    requestId: ID
+    price: Float
+    state: EShippingState
+    requesDate: Date
+    cityFrom: City
+    cityTo: City 
+    customer: Customer
+    packages: [Package]
+}
+
+enum EShippingState {
+    ORDERED
+    PENDING
+    SHIPPED
+    DELIVERED
+}
+
+type Package {
+    packageid: ID
+    weight: Float
+    size: Float
+    price: Float
+    state: EShippingState
+    shippingRequest: ShippingRequest
+    cityTo: Int
+    shippingRequestID: Int
+    routeMap: RouteMap
+    feePricing: Fee
+    recipientDocument: String
+    recipientFirstName: String
+    feeCoefficient: Float 
+}
+
+input PackageRequest {
+    weight: Float
+    size: Float
+    price: Float
+    state: Int!
+    requestId: Int!
+    routeMapId: Int!
+    feePricingId: Int!
+    recipientDocument: String!
+    recipientFirstName: String!
+    cityFeeCoefficient: Float 
 }

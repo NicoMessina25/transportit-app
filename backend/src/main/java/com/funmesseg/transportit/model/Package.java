@@ -1,5 +1,7 @@
 package com.funmesseg.transportit.model;
 
+import java.time.LocalDateTime;
+
 import com.funmesseg.transportit.model.enums.EShippingState;
 
 import jakarta.persistence.Column;
@@ -61,5 +63,7 @@ public class Package {
     @Column
     private float cityFeeCoefficient;
 
+    @Column
+    private LocalDateTime deleted;
 
 }
