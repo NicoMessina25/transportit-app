@@ -1,20 +1,36 @@
-import { FieldValues } from "@modular-forms/react";
-import { City } from "./city";
-import { FeePayment } from "./fee";
+import { Indexable } from "../Components/Table/Table";
+import { City, defaultCity } from "./city";
+import { FeePayment, defaultFeePayment } from "./fee";
 import { Truck } from "./truck";
 
-export interface Driver extends FieldValues {
-    driverid: number,
+export interface Driver extends Indexable{
+    driverid?: number,
     firstname: string;
     lastname:string;
-    dni: string;
-    address:string;
-    province:string;
-    city:string;
+    document: string;
+    address?:string;
+    province?:string;
+    city?:string;
     phone:string;
-    particular:boolean;
-    available:boolean;
-    feepayment: FeePayment;
-    trucks: Truck[];
-    currentcity: City;
+    particular?:boolean;
+    available?:boolean;
+    fee?: FeePayment;
+    trucks?: Truck[];
+    currentcity?: City;
+}
+
+export const defaultDriver:Driver = {
+    driverid: undefined,
+    firstname: "",
+    lastname: "",
+    address: "",
+    document: "",
+    province:"",
+    phone:"",
+    city:"",
+    particular:false,
+    available:true,
+    fee: undefined,
+    trucks: [],
+    currentcity: undefined
 }

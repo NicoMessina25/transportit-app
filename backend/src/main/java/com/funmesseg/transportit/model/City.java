@@ -24,7 +24,7 @@ public class City {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="cityid")
+    @Column(name = "cityid")
     private Long cityId;
 
     @Column

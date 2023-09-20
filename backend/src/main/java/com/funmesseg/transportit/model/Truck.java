@@ -1,5 +1,6 @@
 package com.funmesseg.transportit.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -24,17 +25,20 @@ public class Truck {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "truckid")
-    private Long truck;
+    private Long truckId;
+
 
     @JoinColumn(name = "driver")
     @ManyToOne
     private Driver driver;
 
     @Column(name = "registrationdate")
-    private Date dischargedate;
+    private LocalDateTime registrationDate;
     
-    @Column(name = "registration")
-    private String tuition;
+    @Column
+    private String registration;
+
+
 
     @Column(columnDefinition = "numeric")
     private float maxweight;
@@ -46,9 +50,12 @@ public class Truck {
     @ManyToOne
     private City city;
 
+    @Column
+    private LocalDateTime deleted;
+
     @Override
     public String toString(){
-        return "Truck: Id:" + truck + ", driver: " + driver.getFirstname() + " " + driver.getLastname() + ", max weight: " + maxweight;
+        return "Truck: Id:" + truckId + ", driver: " + driver.getFirstname() + " " + driver.getLastname() + ", max weight: " + maxweight;
     }
 
 }

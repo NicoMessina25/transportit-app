@@ -35,30 +35,30 @@ public class CustomerDAO {
     @Transactional
     public CustomResponse saveCustomer(CustomerRequest customerRequest){
         try {
-            entityManager.persist(getCustomerFromRequest(null, customerRequest));
+            entityManager.persist(getCustomerFromRequest(customerRequest));
         } catch (Exception e) {
             
-            return new CustomResponse(false, "No se guardo exitosamente: " + e.getMessage());
+            return new CustomResponse(false, "No se guardó exitosamente: " + e.getMessage());
         }
         
-        return new CustomResponse(true, "Se guardo exitosamente: ");
+        return new CustomResponse(true, "Se guardó exitosamente: ");
     }
 
     @Transactional
-    public CustomResponse updateCustomer(Long id, CustomerRequest customerRequest){
+    public CustomResponse updateCustomer(CustomerRequest customerRequest){
         try {
-            entityManager.merge(getCustomerFromRequest(id, customerRequest));
+            entityManager.merge(getCustomerFromRequest(customerRequest));
         } catch (Exception e) {
-            return new CustomResponse(false, "No se actualizo exitosamente: " + e.getMessage());
+            return new CustomResponse(false, "No se actualizó exitosamente: " + e.getMessage());
         }
-        return new CustomResponse(true, "Se actualizo exitosamente: ");
+        return new CustomResponse(true, "Se actualizó exitosamente: ");
     }
 
-    private Customer getCustomerFromRequest(Long id, CustomerRequest customerRequest){
+    private Customer getCustomerFromRequest(CustomerRequest customerRequest){
         Customer customer;
-        if(id == null)
+        if(customerRequest.customerid() == null)
             customer = new Customer();
-        else customer = entityManager.find(Customer.class, id);
+        else customer = entityManager.find(Customer.class, customerRequest.customerid());
 
         customer.setDocument(customerRequest.document());
         customer.setFirstname(customerRequest.firstname());
@@ -75,9 +75,9 @@ public class CustomerDAO {
             customer.setDeleted(LocalDateTime.now());
             entityManager.merge(customer);
         } catch (Exception e) {
-            return new CustomResponse(false, "No se elimino exitosamente: " + e.getMessage());
+            return new CustomResponse(false, "No se eliminó exitosamente: " + e.getMessage());
         }
-        return new CustomResponse(true, "Se elimino exitosamente: ");
+        return new CustomResponse(true, "Se eliminó exitosamente: ");
     }
 
 }

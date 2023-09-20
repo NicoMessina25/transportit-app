@@ -2,7 +2,7 @@ package com.funmesseg.transportit.model.enums;
 
 public enum EFeeType {
     PAYMENT(1),
-    PRINCING(2);
+    PRICING(2);
 
     private int value;
 

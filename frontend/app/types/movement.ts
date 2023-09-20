@@ -1,7 +1,7 @@
-import { FieldValues } from "@modular-forms/react";
 import { EMovementType } from "./EMovementType";
+import { Indexable } from "../Components/Table/Table";
 
-export interface Movement extends FieldValues {
+export interface Movement extends Indexable {
     movement:number;
     amounttopay:number;
     movementtype: EMovementType;

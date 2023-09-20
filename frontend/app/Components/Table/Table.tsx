@@ -2,9 +2,10 @@ import React from 'react'
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid'
 import BoostrapTable from 'react-bootstrap/Table';
 
-export type Column = {
+export type Column<T> = {
   field: string;
   header: string;
+  body?: (props: T, key:React.Key) => React.JSX.Element
 }
 
 export interface Indexable {
@@ -12,7 +13,7 @@ export interface Indexable {
 }
 
 export type TableProps<T> = {
-  columns: Column[], 
+  columns: Column<T>[], 
   items:T[],
   itemsKeyField: string,
   onEdit?: (item:T)=> void
@@ -32,9 +33,16 @@ export default function Table<T extends Indexable>({columns, items, itemsKeyFiel
     </thead>
     <tbody>
       {items.map((i)=><tr key={i[itemsKeyField]}>
-        {columns.map((c)=><td key={c.field + i[itemsKeyField]}>
-            {c.field in i ? i[c.field] : c.field}
-        </td>)}
+        {columns.map((c)=> {
+          const key = c.field + i[itemsKeyField]
+
+          if(c.body)
+            return c.body(i, key)
+          else return <td key={key}>
+              {c.field in i ? i[c.field] : c.field}
+          </td>
+        
+        } )}
         {onEdit && <td className='cursor-pointer'><PencilIcon onClick={()=> onEdit(i)} className='w-5 h-5' /></td>}
         {onDelete && <td className='cursor-pointer'><TrashIcon onClick={()=> onDelete(i)} className='w-5 h-5' /></td>}
       </tr>)}

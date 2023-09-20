@@ -22,7 +22,7 @@ public class CityDAO {
     
     @Transactional(readOnly = true)
     public List<City> getCities(){
-        return entityManager.createQuery("from city", City.class).getResultList();
+        return entityManager.createQuery("from City", City.class).getResultList();
     }
 
     @Transactional(readOnly = true)
