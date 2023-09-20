@@ -2,22 +2,17 @@
 
 import BackButton from '@/app/Components/Buttons/BackButton/BackButton';
 import { TextInput } from '@/app/Components/TextInput/TextInput';
-import useLoadForm from '@/app/hooks/useLoadForm';
 import { FormProps } from '@/app/types/form';
 import { ShippingRequest } from '@/app/types/shippingRequest';
-import { minRange, useForm } from '@modular-forms/react';
 import React from 'react'
+import { useForm } from 'react-hook-form';
 
-export default function ShippingRequestForm({onSubmit,onCancel, loadingInitialValue, initialValue}:FormProps<ShippingRequest>) {
-    const [form, {Field, Form}] = useForm<ShippingRequest>();
-    useLoadForm(form, loadingInitialValue, initialValue)
+export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:FormProps<ShippingRequest>) {
+    const {} = useForm<ShippingRequest>()
   
     return (
         <div className='flex flex-col'>
-            <Form onSubmit={onSubmit} className='flex flex-col justify-center p-4'>
-                
-            </Form>
-            <BackButton text='Cancelar' onBack={onCancel} />
+            <BackButton text='Cancelar' onClick={onCancel} />
         </div>
     )
 }
