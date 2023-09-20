@@ -16,7 +16,7 @@ import { Label } from '@/app/Components/Label/Label'
 import { Button } from '@/components/ui/button';
 import { Spinner } from 'react-bootstrap';
 
-export const loginSchema = object({
+const loginSchema = object({
     username: string([minLength(1,requiredMessage)]),
     password: string([minLength(1,requiredMessage)])
 })
