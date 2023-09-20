@@ -3,10 +3,10 @@ package com.funmesseg.transportit.api.customer.dto;
 import java.time.LocalDateTime;
 
 public record CustomerRequest(
-    Long customerId,
+    Long customerid,
     String firstname,
     String lastname,
-    Long document,
+    String document,
     String address
 ) {
     

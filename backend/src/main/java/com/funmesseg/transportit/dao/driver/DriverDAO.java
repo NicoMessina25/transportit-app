@@ -44,9 +44,9 @@ public class DriverDAO {
     @Transactional(readOnly = true)
     public List<Driver> getDrivers(){
         return entityManager.createQuery("SELECT d FROM Driver d " +
-        "LEFT JOIN d.feePayments pf " + 
+        "LEFT JOIN d.fee f " + 
         "LEFT JOIN d.trucks " + 
-        "JOIN d.currentcity WHERE d.deleted IS NULL", Driver.class).getResultList();
+        "LEFT JOIN d.currentcity WHERE d.deleted IS NULL", Driver.class).getResultList();
     }
 
     @Transactional(readOnly = true)
@@ -60,8 +60,9 @@ public class DriverDAO {
             Driver driver = getDriverFromRequest(driverRequest);
             entityManager.persist(driver);            
         
-            feePaymentDAO.saveOrUpdateDriverFeePayment(driverRequest.fee(), getCurrentFeePayment(driver), driver.getDriverId());  
-
+            driver.setFee(feePaymentDAO.saveOrUpdateDriverFeePayment(driverRequest.fee(), getCurrentFeePayment(driver), driver.getDriverId())); 
+            
+            
             if(driverRequest.trucks() != null){
                 List<Truck> trucks = new ArrayList<>();
                 driverRequest.trucks().forEach(t -> {
@@ -69,6 +70,8 @@ public class DriverDAO {
                     trucks.add(truck);
                 });
             }
+
+            entityManager.merge(driver);
             
 
         } catch (Exception e) {
@@ -85,12 +88,11 @@ public class DriverDAO {
             Driver driver = getDriverFromRequest(driverRequest);
             entityManager.merge(driver);
 
-
-            feePaymentDAO.saveOrUpdateDriverFeePayment(driverRequest.fee(), getCurrentFeePayment(driver), driver.getDriverId());
+            driver.setFee(feePaymentDAO.saveOrUpdateDriverFeePayment(driverRequest.fee(), getCurrentFeePayment(driver), driver.getDriverId()));
 
             truckDAO.updateTrucksFromDriver(driverRequest.trucks(), getCurrentTrucks(driver), driver.getDriverId());
 
-            
+            entityManager.merge(driver);
 
         } catch (Exception e) {
             log.error("---------------------------------------------------------- " + e.getMessage());
@@ -108,7 +110,11 @@ public class DriverDAO {
             entityManager.merge(driver);
 
             driver.getTrucks().forEach(t -> truckDAO.deleteTruck(t.getTruckId()));
-            feePaymentDAO.deleteFeePayment(getCurrentFeePayment(driver).getFeeId());            
+
+            FeePayment feePayment = getCurrentFeePayment(driver);
+
+            if(feePayment != null)
+                feePaymentDAO.deleteFeePayment(feePayment.getFeeId());            
         } catch (Exception e) {
             log.error("---------------------------------------------------------- " + e.getMessage());
             return new CustomResponse(false, "No se eliminó exitosamente: " + e.getMessage());
@@ -132,7 +138,12 @@ public class DriverDAO {
         driver.setParticular(driverRequest.fee() != null || driverRequest.trucks()!=null);
         driver.setAvailable(driverRequest.available());
 
-        City currentcity = entityManager.getReference(City.class, driverRequest.currentcityId());
+        City currentcity = null;
+
+        if(driverRequest.currentcity()!=null)
+            currentcity = entityManager.getReference(City.class, driverRequest.currentcity().cityId());
+
+        
         driver.setCurrentcity(currentcity);      
 
         return driver;

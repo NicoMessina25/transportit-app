@@ -31,7 +31,7 @@ public class Customer {
     private String lastname;
 
     @Column(name = "_document")
-    private Long document;
+    private String document;
 
     @Column
     private String address;

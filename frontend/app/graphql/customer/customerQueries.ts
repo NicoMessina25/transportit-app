@@ -14,6 +14,7 @@ export const CUSTOMERS = gql`
 export const GET_CUSTOMER = gql`
     query($id: ID){
         customer(id: $id){
+            customerid,
             firstname,
             lastname,
             document,
@@ -32,8 +33,8 @@ export const SAVE_CUSTOMER = gql`
 
 `
 export const UPDATE_CUSTOMER = gql`
-    mutation($id: ID!, $customer: CustomerRequest!){
-        updateCustomer(id: $id, customerRequest:$customer) {
+    mutation updateCustomer($customer: CustomerRequest!){
+        updateCustomer(customerRequest:$customer) {
             success,
             message
         }

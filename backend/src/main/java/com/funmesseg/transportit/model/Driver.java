@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,7 +43,7 @@ public class Driver {
     private String lastname;
 
     @Column(name = "_document")
-    private Long document;
+    private String document;
     
     @Column
     private String address;
@@ -62,8 +63,9 @@ public class Driver {
     @Column(columnDefinition = "bit")
     private boolean available;
 
-    @OneToMany(mappedBy = "driver")
-    private List<FeePayment> feePayments;
+    @JoinColumn(name = "feeid")
+    @ManyToOne
+    private FeePayment fee;
 
     @OneToMany(mappedBy = "driver")
     private List<Truck> trucks;

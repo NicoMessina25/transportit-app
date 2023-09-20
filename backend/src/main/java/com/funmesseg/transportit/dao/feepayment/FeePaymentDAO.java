@@ -69,7 +69,7 @@ public class FeePaymentDAO {
     @Transactional
     public FeePayment saveOrUpdateDriverFeePayment(FeePaymentRequest feePaymentRequest, FeePayment oldFeePayment, Long driverId){
 
-        FeePayment feePayment = null;     
+        FeePayment feePayment = null;   
 
         if(feePaymentRequest != null){
             if(feePaymentRequest.feeId() == null){
@@ -77,6 +77,8 @@ public class FeePaymentDAO {
                     deleteFeePayment(oldFeePayment.getFeeId());
 
                 feePayment = saveFeePayment(new FeePaymentRequest(feePaymentRequest.feeId(), driverId, feePaymentRequest.kmprice(), feePaymentRequest.kgprice()));
+            } else {
+                feePayment = oldFeePayment;
             }
                 
         } else if(oldFeePayment != null)

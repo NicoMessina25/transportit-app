@@ -42,6 +42,7 @@ public class TruckDAO {
     public Truck saveTruck(TruckRequest truckRequest){
        
         Truck truck = getTruckFromRequest(truckRequest);
+        truck.setAvailable(true);
         entityManager.persist(truck);
         return truck;
         
@@ -51,6 +52,7 @@ public class TruckDAO {
     public Truck updateTruck(TruckRequest truckRequest){
     
         Truck truck = getTruckFromRequest(truckRequest);
+        truck.setAvailable(truckRequest.available());
         entityManager.merge(truck);
         return truck;
     }

@@ -36,8 +36,8 @@ public class CustomerGQLController {
     }
 
     @MutationMapping
-    public CustomResponse updateCustomer(@Argument Long id, @Argument CustomerRequest customerRequest){
-        return customerDAO.updateCustomer(id, customerRequest);
+    public CustomResponse updateCustomer(@Argument CustomerRequest customerRequest){
+        return customerDAO.updateCustomer(customerRequest);
         
     }
 

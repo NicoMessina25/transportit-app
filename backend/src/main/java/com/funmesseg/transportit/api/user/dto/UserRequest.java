@@ -5,7 +5,7 @@ public record UserRequest(
     String firstname,
     String lastname,
     String mail,
-    Long document,
+    String document,
     String username,
     String password
 ) {
