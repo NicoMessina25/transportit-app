@@ -18,7 +18,7 @@ type Mutation{
 type Query {
     users: [User]
     user(id: ID): User
-    authenticate(userRequest: UserRequest): Int
+    authenticate(userRequest: UserRequest!): Int
 
     customers: [Customer]
     customer(id: ID): Customer
@@ -46,9 +46,9 @@ type User{
     mail: String
 }
 input UserRequest {
-    firstname: String!
-    lastname: String!
-    document: String!
+    firstname: String
+    lastname: String
+    document: String
     username: String!
     password: String!
     mail: String
