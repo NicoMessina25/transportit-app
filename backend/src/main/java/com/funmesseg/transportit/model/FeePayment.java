@@ -26,6 +26,7 @@ import lombok.Setter;
 @DiscriminatorValue(value = "1")
 @DiscriminatorColumn(name = "feetype", columnDefinition = "bigint")
 @Table(name = "fee")
+
 @Getter
 @Setter
 @NoArgsConstructor

@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "routeMap")
+@Table(name = "routemap")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,30 +29,31 @@ public class RouteMap {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "routemapid")
     private Long routeMapId;
 
     @Column
     @Enumerated(EnumType.ORDINAL)
     private EShippingState state;
 
-    @Column
+    @Column(name = "payloadvolume")
     private float payloadVolume;
 
-    @Column
+    @Column(name = "startdate")
     private Date startDate;
 
     @Column 
     private float price;
 
-    @JoinColumn(name = "driverId")
+    @JoinColumn(name = "driverid")
     @ManyToOne
     private Driver driver;
 
-    @JoinColumn(name = "truckId")
+    @JoinColumn(name = "truckid")
     @ManyToOne
     private Truck truck;
 
-    @JoinColumn(name = "trailerId")
+    @JoinColumn(name = "trailerid")
     @ManyToOne
     private Trailer trailer;
 

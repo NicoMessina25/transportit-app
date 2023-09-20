@@ -1,6 +1,6 @@
 package com.funmesseg.transportit.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.funmesseg.transportit.model.enums.EShippingState;
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "shippingRequest")
+@Table(name = "shippingrequest")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,7 +29,7 @@ public class ShippingRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+    @Column(name = "requestid")
     private Long requestId;
 
     @Column
@@ -39,21 +39,25 @@ public class ShippingRequest {
     @Column
     private EShippingState state;
 
-    @Column
-    private Date requesDate;
+    @Column(name = "requestdate")
+    private LocalDateTime requestDate;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "cityfrom")
     private City cityFrom;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "cityto")
     private City cityTo;
 
     @ManyToOne
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name = "customerid")
     private Customer customer;
 
     @OneToMany(mappedBy = "shippingRequest")
     private List<Package> packages;
+
+    @Column
+    private LocalDateTime deleted;
+    
 }

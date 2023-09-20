@@ -1,5 +1,6 @@
 scalar LocalDateTime
 
+
 #All available mutation
 type Mutation{
     saveUser(userRequest: UserRequest): CustomResponse
@@ -10,9 +11,19 @@ type Mutation{
     updateCustomer(customerRequest: CustomerRequest!): CustomResponse
     deleteCustomer(id: ID!): CustomResponse
 
+
     saveDriver(driverRequest: DriverRequest!): CustomResponse
     updateDriver(driverRequest: DriverRequest!): CustomResponse
     deleteDriver(driverId: ID!): CustomResponse
+
+    saveShippingRequest(shippingRequestRequest: ShippingRequestRequest): CustomResponse
+    updateShippingRequest(shippingRequestRequest: ShippingRequestRequest): CustomResponse
+    deleteShippingRequest(id: ID!): CustomResponse
+
+    savePackage(packageRequest: PackageRequest): Package
+    updatePackage(id: ID!, packageRequest: PackageRequest): Package
+    deletePackage(id: ID!): CustomResponse
+
 }
 # All available queries
 type Query {
@@ -45,6 +56,7 @@ type User{
     password: String
     mail: String
 }
+
 input UserRequest {
     firstname: String
     lastname: String
@@ -91,11 +103,118 @@ type Driver {
     currentcity: City
 }
 
+# RouteMap ------------------------------------------------------------
+type RouteMap {
+    routeMapId: ID
+    state: EShippingState
+    payloadVolume: Float
+    startDate: LocalDateTime
+    price: Float
+    driver: Driver
+    truck: Truck
+    trailer: Trailer
+    packages: [Package]
+}
+
+# Trailer ------------------------------------------------------------
+type Trailer {
+    trailerId: ID
+    weight: Float
+    payloadWeight: Float
+    registration: String
+    available: Boolean
+    park: Park
+}
+
+# Park ------------------------------------------------------------
+type Park {
+    parkId: ID
+    city: City
+    trailers: [Trailer]
+}
+
+# ShippingRequest ------------------------------------------------------------
+type ShippingRequest {
+    requestId: ID
+    price: Float
+    state: EShippingState
+    requestDate: LocalDateTime
+    cityFrom: City
+    cityTo: City 
+    customer: Customer
+    packages: [Package]
+}
+
+input ShippingRequestRequest {
+    requestId: ID
+    price: Float
+    state: EShippingState
+    requestDate: LocalDateTime
+    cityFromId: ID
+    cityToId: ID
+    customerId: ID
+    packages: [PackageRequest]
+}
+
+enum EShippingState {
+    ORDERED
+    PENDING
+    SHIPPED
+    DELIVERED
+}
+
+# Package ------------------------------------------------------------
+type Package {
+    packageid: ID
+    weight: Float
+    size: Float
+    price: Float
+    state: EShippingState
+    shippingRequest: ShippingRequest
+    cityTo: Int
+    shippingRequestID: Int
+    routeMap: RouteMap
+    feePricing: Fee
+    recipientDocument: String
+    recipientFirstName: String
+    feeCoefficient: Float 
+}
+
+input PackageRequest {
+    weight: Float
+    size: Float
+    price: Float
+    state: EShippingState
+    requestId: ID
+    routeMapId: ID
+    feePricingId: ID
+    recipientDocument: String!
+    recipientFirstName: String!
+    cityFeeCoefficient: Float 
+}
+
+# Driver ------------------------------------------------------------
+type Driver {
+    driverId: ID
+    firstname: String
+    lastname: String
+    document: Int
+    address: String
+    province: String
+    city: String
+    phone: String
+    particular:Boolean
+    available: Boolean
+    feePayments: [Fee]
+    trucks: [Truck]
+    currentcity: City
+}
+
 input DriverRequest{
     driverId: ID
     firstname: String!
     lastname: String!
-    document: String!
+    document: Int!
     address: String
     province: String
     city: String

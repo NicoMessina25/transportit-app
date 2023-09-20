@@ -4,9 +4,6 @@ package com.funmesseg.transportit.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
-import com.funmesseg.transportit.api.feepayment.dto.FeePaymentDTO;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,6 +32,7 @@ public class Driver {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "driverid")
     private Long driverId;
+
 
     @Column
     private String firstname;

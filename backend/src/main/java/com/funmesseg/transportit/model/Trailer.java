@@ -21,12 +21,13 @@ public class Trailer {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "trailerid")
     private Long trailerId;
 
     @Column
     private float weight;
 
-    @Column
+    @Column(name = "payloadweight")
     private float payloadWeight;
 
     @Column
@@ -35,10 +36,12 @@ public class Trailer {
     @Column(columnDefinition = "bit")
     private boolean available;
 
-    @JoinColumn(name = "parkId")
+    @JoinColumn(name = "parkid")
     @ManyToOne
     private Park park;
 
-    
+    @JoinColumn(name = "cityid")
+    @ManyToOne
+    private City city;
 
 }

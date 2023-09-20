@@ -27,6 +27,7 @@ public class Truck {
     @Column(name = "truckid")
     private Long truckId;
 
+
     @JoinColumn(name = "driver")
     @ManyToOne
     private Driver driver;
@@ -36,6 +37,8 @@ public class Truck {
     
     @Column
     private String registration;
+
+
 
     @Column(columnDefinition = "numeric")
     private float maxweight;
