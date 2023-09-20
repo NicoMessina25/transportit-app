@@ -1,8 +1,8 @@
-import { FieldValues } from "@modular-forms/react";
 import { EShippingState } from "./EShippingState";
 import { FeePricing } from "./fee";
+import { Indexable } from "../Components/Table/Table";
 
-export interface Package extends FieldValues {
+export interface Package extends Indexable {
     packageid: number,
     weight:number,
     size:number,

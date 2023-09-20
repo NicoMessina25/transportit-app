@@ -1,7 +1,7 @@
-import { FieldValues } from "@modular-forms/react";
+import { Indexable } from "../Components/Table/Table";
 import { Park } from "./park";
 
-export interface Trailer extends FieldValues {
+export interface Trailer extends Indexable {
     trailerid:number;
     weight:number;
     payloadWeight:number;
