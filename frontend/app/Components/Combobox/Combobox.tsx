@@ -18,8 +18,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { Indexable } from "../Table/Table"
-import { Label } from "../Label/Label"
-import ErrorLabel from "../ErrorLabel/ErrorLabel"
+import { Label } from "../Labels/Label/Label"
+import ErrorLabel from "../Labels/ErrorLabel/ErrorLabel"
 
 interface ComboboxProps<TItem extends Indexable>{
   items: TItem[],

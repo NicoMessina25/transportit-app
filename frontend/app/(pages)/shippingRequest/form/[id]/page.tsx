@@ -1,6 +1,6 @@
 import GenericEdit from '@/app/Components/GenericEdit/GenericEdit'
 import React from 'react'
-import ShippingRequestForm from '../shippingRequestForm'
+import ShippingRequestForm from '../../../../Components/Forms/shippingRequestForm'
 import { GET_SHIPPING_REQUEST, SHIPPING_REQUESTS, UPDATE_SHIPPING_REQUEST } from '@/app/graphql/shippingRequest/shippingRequestQueries'
 import { EditProps } from '@/app/types/form'
 

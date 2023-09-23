@@ -1,4 +1,4 @@
-import { custom, minLength, string, toTrimmed,length, optional } from "valibot";
+import { custom, minLength, string, toTrimmed,length, optional, nullable } from "valibot";
 
 export const requiredMessage = 'Este campo es requerido'
 
@@ -24,7 +24,7 @@ export const personSchema = {
         custom((input:string)=> !!Number(input), 'Debe ser un número'),
         length(8,'Debe tener 8 caracteres')
       ]),
-    address: optional(string([
+    address: nullable(optional(string([
         toTrimmed()
-    ]))
+    ])))
 }

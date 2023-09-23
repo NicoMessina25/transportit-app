@@ -12,8 +12,8 @@ export const CUSTOMERS = gql`
     }`
 
 export const GET_CUSTOMER = gql`
-    query($id: ID){
-        customer(id: $id){
+    query getCustomerById($customerId: ID){
+        customer(customerid: $customerId){
             customerid,
             firstname,
             lastname,

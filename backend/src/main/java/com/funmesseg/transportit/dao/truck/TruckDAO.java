@@ -131,5 +131,9 @@ public class TruckDAO {
         
         return truck;
     }
+
+    public List<Truck> getActiveTrucks(List<Truck> trucks){
+        return trucks.stream().filter(t -> t.getDeleted() == null).toList();
+    }
     
 }

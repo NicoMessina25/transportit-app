@@ -32,7 +32,7 @@ type Query {
     authenticate(userRequest: UserRequest!): Int
 
     customers: [Customer]
-    customer(id: ID): Customer
+    customer(customerid: ID): Customer
 
     drivers: [Driver]
     driver(driverId: ID!): Driver
@@ -85,23 +85,6 @@ input CustomerRequest {
 
 }
 
-
-# Driver ------------------------------------------------------------
-type Driver {
-    driverId: ID
-    firstname: String
-    lastname: String
-    document: String
-    address: String
-    province: String
-    city: String
-    phone: String
-    particular:Boolean
-    available: Boolean
-    fee: Fee
-    trucks: [Truck]
-    currentcity: City
-}
 
 # RouteMap ------------------------------------------------------------
 type RouteMap {
@@ -198,23 +181,24 @@ type Driver {
     driverId: ID
     firstname: String
     lastname: String
-    document: Int
+    document: String
     address: String
     province: String
     city: String
     phone: String
     particular:Boolean
     available: Boolean
-    feePayments: [Fee]
+    fee: Fee
     trucks: [Truck]
     currentcity: City
 }
+
 
 input DriverRequest{
     driverId: ID
     firstname: String!
     lastname: String!
-    document: Int!
+    document: String!
     address: String
     province: String
     city: String

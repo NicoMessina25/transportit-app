@@ -1,4 +1,5 @@
 import React from 'react'
+import BackButton from '../Buttons/BackButton/BackButton'
 
 interface GenericLayoutProps {
     title?: string,
@@ -7,7 +8,11 @@ interface GenericLayoutProps {
 
 export default function GenericLayout({title, children}:GenericLayoutProps) {
   return <section>
-    <h1>{title}</h1>
+    <div className='flex w-10 items-center'>
+      <BackButton />
+      <h1>{title}</h1>
+    </div>
+    
     {children}
   </section>
 }

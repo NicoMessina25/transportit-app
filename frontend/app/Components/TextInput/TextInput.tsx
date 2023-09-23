@@ -3,16 +3,16 @@
 import { InputProps } from '@/app/types/input';
 import { Input } from '@/components/ui/input';
 import { forwardRef, ForwardedRef } from 'react';
-import { Label } from '../Label/Label';
-import ErrorLabel from '../ErrorLabel/ErrorLabel';
+import { Label } from '../Labels/Label/Label';
+import ErrorLabel from '../Labels/ErrorLabel/ErrorLabel';
 
 interface TextInputProps extends InputProps {
   type?: 'text' | 'password' | 'email' | "tel" | "number"
-  value: string | number | undefined
+  value: string | number | null | undefined
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, error, name, required, inputClassName, className, type="text", ...props }, ref) => {
+  ({ label, error, name, required, inputClassName, className, type="text", value, ...props }, ref) => {
     
 
     return (
@@ -22,6 +22,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         )}
         <Input
           {...props}
+          value={value ?? ""}
           ref={ref}
           type={type}
           step={"any"}

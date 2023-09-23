@@ -16,10 +16,11 @@ import { Controller, useForm } from 'react-hook-form';
 import {Output, array, string, minLength, number, object,optional,transform, minValue, maxValue, regex, nullable} from 'valibot'
 import { Button } from '@/components/ui/button';
 import { EFeeType } from '@/app/types/EFeeType';
-import { Label } from '@/app/Components/Label/Label';
+import { Label } from '@/app/Components/Labels/Label/Label';
 import { Truck, defaultTruck } from '@/app/types/truck';
-import ErrorLabel from '@/app/Components/ErrorLabel/ErrorLabel';
-import KeyValueLabel from '@/app/Components/KeyValueLabel/KeyValueLabel';
+import ErrorLabel from '@/app/Components/Labels/ErrorLabel/ErrorLabel';
+import KeyValueLabel from '@/app/Components/Labels/KeyValueLabel/KeyValueLabel';
+import { FeePayment } from '@/app/types/fee';
 
 export const feeSchema = object({
     feeId: optional(transform(string(requiredMessage),(input:string)=>Number(input))),
@@ -42,8 +43,8 @@ const driverSchema = object({
     phone: string([
         minLength(1,requiredMessage)
     ]),
-    province: optional(string()),
-    city: optional(string()),
+    province: optional(nullable(string())),
+    city: optional(nullable(string())),
     currentcity: optional(object({
         cityId: transform(string(), (input:string)=>Number(input)),
         name: string()
@@ -60,6 +61,7 @@ type DriverSchema = Output<typeof driverSchema>
 export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<Driver>){   
 
     const { handleSubmit, control, formState: {errors}} = useForm<DriverSchema>({defaultValues: initialValue ?? defaultDriver, resolver: valibotResolver(driverSchema)})
+    const initialFee: FeePayment | undefined = initialValue?.fee;
     const [isFee, setIsFee] = useState(!!initialValue?.fee);
     const [areTrucks, setAreTrucks] = useState(!!initialValue?.trucks?.length);
     const [newTruck, setNewTruck] = useState<Truck|null>(defaultTruck)
@@ -90,6 +92,9 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
     return <div className='flex flex-col items-center'>
         
         <form onSubmit={handleSubmit((d:DriverSchema)=>{
+            if(d.fee && initialFee){
+                d.fee.feeId = initialFee.kgprice == d.fee.kgprice && initialFee.kmprice == d.fee.kmprice? d.fee.feeId : undefined
+            }
             onSubmit(d as Driver)
         })} className='flex flex-col w-1/2' >
             

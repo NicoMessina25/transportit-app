@@ -43,15 +43,22 @@ public class DriverDAO {
     
     @Transactional(readOnly = true)
     public List<Driver> getDrivers(){
-        return entityManager.createQuery("SELECT d FROM Driver d " +
+        List<Driver> drivers = entityManager.createQuery("SELECT d FROM Driver d " +
         "LEFT JOIN d.fee f " + 
-        "LEFT JOIN d.trucks " + 
-        "LEFT JOIN d.currentcity WHERE d.deleted IS NULL", Driver.class).getResultList();
+        "LEFT JOIN d.trucks t " + 
+        "LEFT JOIN d.currentcity WHERE d.deleted IS NULL ", Driver.class).getResultList();
+
+        drivers.forEach(d ->
+            d.setTrucks(truckDAO.getActiveTrucks(d.getTrucks())));
+
+        return drivers;
     }
 
     @Transactional(readOnly = true)
     public Driver getDriverById(int driverId){
-        return entityManager.find(Driver.class, driverId);
+        Driver driver = entityManager.find(Driver.class, driverId);
+        driver.setTrucks(truckDAO.getActiveTrucks(driver.getTrucks()));
+        return driver;
     }
 
     @Transactional
@@ -135,7 +142,7 @@ public class DriverDAO {
         driver.setProvince(driverRequest.province());
         driver.setCity(driverRequest.city());
         driver.setPhone(driverRequest.phone());
-        driver.setParticular(driverRequest.fee() != null || driverRequest.trucks()!=null);
+        driver.setParticular(driverRequest.fee() != null || driverRequest.trucks()!=null && !driverRequest.trucks().isEmpty());
         driver.setAvailable(driverRequest.available());
 
         City currentcity = null;
@@ -166,5 +173,7 @@ public class DriverDAO {
             return null;
         } else return result.getResultList();
     }
+
+     
 
 }

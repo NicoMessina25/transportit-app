@@ -24,8 +24,8 @@ public class CustomerGQLController {
     }
 
     @QueryMapping
-    public Customer customer(@Argument Long id){
-        return customerDAO.getCustomerById(id);
+    public Customer customer(@Argument Long customerid){
+        return customerDAO.getCustomerById(customerid);
     }
 
     @MutationMapping

@@ -1,6 +1,6 @@
 import React from 'react'
-import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid'
 import BoostrapTable from 'react-bootstrap/Table';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 export type Column<T> = {
   field: string;
@@ -43,8 +43,8 @@ export default function Table<T extends Indexable>({columns, items, itemsKeyFiel
           </td>
         
         } )}
-        {onEdit && <td className='cursor-pointer'><PencilIcon onClick={()=> onEdit(i)} className='w-5 h-5' /></td>}
-        {onDelete && <td className='cursor-pointer'><TrashIcon onClick={()=> onDelete(i)} className='w-5 h-5' /></td>}
+        {onEdit && <td className='cursor-pointer'><Icon icon={'uil:edit'} onClick={()=> onEdit(i)} className='w-5 h-5' /></td>}
+        {onDelete && <td className='cursor-pointer'><Icon icon={'mdi:trash'} onClick={()=> onDelete(i)} className='w-5 h-5' /></td>}
       </tr>)}
     </tbody>
   </BoostrapTable>

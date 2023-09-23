@@ -12,7 +12,7 @@ import { requiredMessage } from '@/app/types/form';
 import { TextInput } from '@/app/Components/TextInput/TextInput';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import { LoginForm } from '@/app/types/login';
-import { Label } from '@/app/Components/Label/Label'
+import { Label } from '@/app/Components/Labels/Label/Label'
 import { Button } from '@/components/ui/button';
 import { Spinner } from 'react-bootstrap';
 

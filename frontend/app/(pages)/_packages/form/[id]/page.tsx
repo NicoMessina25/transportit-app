@@ -3,7 +3,7 @@
 import { GET_PACKAGE, PACKAGES, UPDATE_PACKAGE } from '@/app/graphql/_package/packageQueries';
 import { EditProps } from '@/app/types/form';
 import React from 'react'
-import PackageForm from '../packageForm';
+import PackageForm from '../../../../Components/Forms/packageForm';
 import GenericEdit from '@/app/Components/GenericEdit/GenericEdit';
 
 export default function PackageEdit({params}:EditProps) {

@@ -1,15 +1,18 @@
 "use client"
 
 import GenericCRUD from '@/app/Components/GenericCRUD/GenericCRUD';
-import { DELETE_DRIVER, DRIVERS } from '@/app/graphql/driver/driverQueries';
+import useDriversCont from '@/app/hooks/controllers/driver/useDriversCont';
+import useDrivers from '@/app/hooks/fetchers/driver/useDrivers';
 import { Driver } from '@/app/types/driver';
 import React from 'react'
 
 export default function DriverCRUD() {
 
     const cityField = (driver:Driver, key:React.Key) => <td key={key}>{driver.currentcity?.name ?? ""}</td>
+    const {delete:{deleteEntity}} = useDriversCont({});
 
-    return <GenericCRUD getQuery={{name: "drivers", query: DRIVERS}} deleteMutation={{name:"deleteDriver", mutation: DELETE_DRIVER}} columns={[{
+
+    return <GenericCRUD useFetcher={useDrivers} deleteEntity={deleteEntity} columns={[{
         field: 'driverId',
         header: 'Id'
     }, {
