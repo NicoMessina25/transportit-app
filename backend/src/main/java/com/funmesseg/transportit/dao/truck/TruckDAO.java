@@ -11,10 +11,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.funmesseg.transportit.api.Response.CustomResponse;
-import com.funmesseg.transportit.api.city.dto.CityDTO;
-import com.funmesseg.transportit.api.driver.dto.DriverDTO;
-import com.funmesseg.transportit.api.driver.dto.DriverRequest;
-import com.funmesseg.transportit.api.truck.dto.TruckDTO;
 import com.funmesseg.transportit.api.truck.dto.TruckRequest;
 import com.funmesseg.transportit.model.City;
 import com.funmesseg.transportit.model.Driver;

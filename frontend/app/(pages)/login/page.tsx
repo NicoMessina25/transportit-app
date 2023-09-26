@@ -4,7 +4,6 @@ import React, {useEffect} from 'react'
 import { useLazyQuery } from '@apollo/client'
 import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { AUTHENTICATE } from '@/app/graphql/user/userQueries';
 import { Controller, useForm } from 'react-hook-form';
 import { notifyError, notifyInfo } from '@/app/types/toastFunctions';
 import { Output, minLength, object, string } from 'valibot';
@@ -15,6 +14,8 @@ import { LoginForm } from '@/app/types/login';
 import { Label } from '@/app/Components/Labels/Label/Label'
 import { Button } from '@/components/ui/button';
 import { Spinner } from 'react-bootstrap';
+import useAuth from '@/app/hooks/fetchers/auth/useAuth';
+import JwtUser from '@/app/types/jwtUser';
 
 const loginSchema = object({
     username: string([minLength(1,requiredMessage)]),
@@ -25,22 +26,19 @@ type LoginSchema = Output<typeof loginSchema>
 
 export default function LoginPage() {
     const {handleSubmit, control, formState: {errors}} = useForm<LoginSchema>({defaultValues: {username:"", password:""} , resolver: valibotResolver(loginSchema)});
-    const [authenticate, { data, error, loading }] = useLazyQuery<{authenticate: number}>(AUTHENTICATE);
-    const router:AppRouterInstance = useRouter()
-    
-    useEffect(()=>{
-        if(data)
-            if(data.authenticate != -1){
-                notifyInfo("Has ingresado")
-                router.push('/')
-            } else  if(error) console.log("error", error.message);
-                    else notifyError("Usuario o contraseña incorrectos")
-    },[data, router, error])
+    const {authenticate,loading} = useAuth()
+    const router:AppRouterInstance = useRouter();
 
     return (
         <section className='w-full h-screen flex flex-col justify-center items-center '>
             <form className='h-fit w-1/4 bg-blue-950 p-4 rounded-xl flex flex-col items-center' onSubmit={handleSubmit((u)=>{
-                authenticate({variables: {username: u.username, password:u.password }})
+                authenticate(u.username, u.password).then((u:JwtUser|null)=>{
+                    console.log(u);
+                    if(u?.accessToken){
+                        notifyInfo("Has ingresado")
+                        router.push('/')
+                    } else notifyError("Usuario o contraseña incorrectos")
+                })
             })}>
                 <Controller 
                     name='username'

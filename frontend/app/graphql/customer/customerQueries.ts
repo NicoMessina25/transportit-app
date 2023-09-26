@@ -43,7 +43,7 @@ export const UPDATE_CUSTOMER = gql`
 
 export const DELETE_CUSTOMER = gql`
     mutation($id: ID!){
-        deleteCustomer(id: $id) {
+        deleteCustomer(customerId: $id) {
             success,
             message
         }

@@ -1,6 +1,6 @@
 "use client"
 
-import GenericCRUD from '@/app/Components/GenericCRUD/GenericCRUD';
+import GenericCRUDView from '@/app/Components/GenericCRUDView/GenericCRUDView';
 import useDriversCont from '@/app/hooks/controllers/driver/useDriversCont';
 import useDrivers from '@/app/hooks/fetchers/driver/useDrivers';
 import { Driver } from '@/app/types/driver';
@@ -12,7 +12,7 @@ export default function DriverCRUD() {
     const {delete:{deleteEntity}} = useDriversCont({});
 
 
-    return <GenericCRUD useFetcher={useDrivers} deleteEntity={deleteEntity} columns={[{
+    return <GenericCRUDView useFetcher={useDrivers} deleteEntity={deleteEntity} columns={[{
         field: 'driverId',
         header: 'Id'
     }, {

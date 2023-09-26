@@ -4,22 +4,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.util.CustomObjectInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.funmesseg.transportit.api.Response.CustomResponse;
-import com.funmesseg.transportit.api.customer.dto.CustomerRequest;
-import com.funmesseg.transportit.api.driver.dto.DriverDTO;
 import com.funmesseg.transportit.api.driver.dto.DriverRequest;
-import com.funmesseg.transportit.api.feepayment.dto.FeePaymentDTO;
-import com.funmesseg.transportit.api.feepayment.dto.FeePaymentRequest;
 import com.funmesseg.transportit.api.truck.dto.TruckRequest;
 import com.funmesseg.transportit.dao.feepayment.FeePaymentDAO;
 import com.funmesseg.transportit.dao.truck.TruckDAO;
 import com.funmesseg.transportit.model.City;
-import com.funmesseg.transportit.model.Customer;
 import com.funmesseg.transportit.model.Driver;
 import com.funmesseg.transportit.model.FeePayment;
 import com.funmesseg.transportit.model.Truck;
@@ -67,7 +61,7 @@ public class DriverDAO {
             Driver driver = getDriverFromRequest(driverRequest);
             entityManager.persist(driver);            
         
-            driver.setFee(feePaymentDAO.saveOrUpdateDriverFeePayment(driverRequest.fee(), getCurrentFeePayment(driver), driver.getDriverId())); 
+            driver.setFee(feePaymentDAO.saveOrUpdateDriverFeePayment(driverRequest.fee(), getCurrentFeePayment(driver.getDriverId()), driver.getDriverId())); 
             
             
             if(driverRequest.trucks() != null){
@@ -95,9 +89,9 @@ public class DriverDAO {
             Driver driver = getDriverFromRequest(driverRequest);
             entityManager.merge(driver);
 
-            driver.setFee(feePaymentDAO.saveOrUpdateDriverFeePayment(driverRequest.fee(), getCurrentFeePayment(driver), driver.getDriverId()));
+            driver.setFee(feePaymentDAO.saveOrUpdateDriverFeePayment(driverRequest.fee(), getCurrentFeePayment(driver.getDriverId()), driver.getDriverId()));
 
-            truckDAO.updateTrucksFromDriver(driverRequest.trucks(), getCurrentTrucks(driver), driver.getDriverId());
+            truckDAO.updateTrucksFromDriver(driverRequest.trucks(), getCurrentTrucks(driver.getDriverId()), driver.getDriverId());
 
             entityManager.merge(driver);
 
@@ -118,7 +112,7 @@ public class DriverDAO {
 
             driver.getTrucks().forEach(t -> truckDAO.deleteTruck(t.getTruckId()));
 
-            FeePayment feePayment = getCurrentFeePayment(driver);
+            FeePayment feePayment = getCurrentFeePayment(driver.getDriverId());
 
             if(feePayment != null)
                 feePaymentDAO.deleteFeePayment(feePayment.getFeeId());            
@@ -130,11 +124,12 @@ public class DriverDAO {
     }
 
     private Driver getDriverFromRequest(DriverRequest driverRequest){
-        Driver driver;
-        if(driverRequest.driverId() == null)
+        Driver driver = new Driver();
+        /* if(driverRequest.driverId() == null)
             driver = new Driver();
-        else driver = entityManager.find(Driver.class, driverRequest.driverId());
+        else driver = entityManager.find(Driver.class, driverRequest.driverId()); */
 
+        driver.setDriverId(driverRequest.driverId());
         driver.setFirstname(driverRequest.firstname());
         driver.setLastname(driverRequest.lastname());
         driver.setDocument(driverRequest.document());
@@ -156,8 +151,8 @@ public class DriverDAO {
         return driver;
     }
 
-    public FeePayment getCurrentFeePayment(Driver driver){
-        String query = "FROM FeePayment WHERE endDate IS NULL AND driver.driverId = " + driver.getDriverId();
+    public FeePayment getCurrentFeePayment(Long driverId){
+        String query = "FROM FeePayment WHERE endDate IS NULL AND driver.driverId = " + driverId;
         TypedQuery<FeePayment> result = entityManager.createQuery(query, FeePayment.class);
         
         if(result.getResultList().isEmpty()){
@@ -165,8 +160,8 @@ public class DriverDAO {
         } else return result.getSingleResult();
     }
 
-    public List<Truck> getCurrentTrucks(Driver driver){
-        String query = "FROM Truck WHERE deleted IS NULL AND driver.driverId = " + driver.getDriverId();
+    public List<Truck> getCurrentTrucks(Long driverId){
+        String query = "FROM Truck WHERE deleted IS NULL AND driver.driverId = " + driverId;
         TypedQuery<Truck> result = entityManager.createQuery(query, Truck.class);
 
         if(result.getResultList().isEmpty()){

@@ -2,13 +2,17 @@
 
 import { InputProps } from '@/app/types/input';
 import { Input } from '@/components/ui/input';
-import { forwardRef, ForwardedRef } from 'react';
+import { forwardRef, ForwardedRef, ChangeEventHandler, FocusEventHandler } from 'react';
 import { Label } from '../Labels/Label/Label';
 import ErrorLabel from '../Labels/ErrorLabel/ErrorLabel';
 
 interface TextInputProps extends InputProps {
   type?: 'text' | 'password' | 'email' | "tel" | "number"
   value: string | number | null | undefined
+  name?: string;
+  inputClassName?:string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(

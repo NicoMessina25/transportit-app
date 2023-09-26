@@ -9,8 +9,7 @@ type Mutation{
 
     saveCustomer(customerRequest: CustomerRequest): CustomResponse
     updateCustomer(customerRequest: CustomerRequest!): CustomResponse
-    deleteCustomer(id: ID!): CustomResponse
-
+    deleteCustomer(customerId: ID!): CustomResponse
 
     saveDriver(driverRequest: DriverRequest!): CustomResponse
     updateDriver(driverRequest: DriverRequest!): CustomResponse
@@ -24,12 +23,16 @@ type Mutation{
     updatePackage(id: ID!, packageRequest: PackageRequest): Package
     deletePackage(id: ID!): CustomResponse
 
+    saveRouteMap(routeMapRequest: RouteMapRequest!): CustomResponse
+    updateRouteMap(routeMapRequest: RouteMapRequest!): CustomResponse
+    deleteRouteMap(routeMapId: ID!):CustomResponse
+
+
 }
 # All available queries
 type Query {
     users: [User]
     user(id: ID): User
-    authenticate(userRequest: UserRequest!): Int
 
     customers: [Customer]
     customer(customerid: ID): Customer
@@ -38,6 +41,9 @@ type Query {
     driver(driverId: ID!): Driver
 
     cities: [City]
+
+    routeMaps: [RouteMap]
+    routeMap(routeMapId:ID): RouteMap
 }
 
 type CustomResponse {
@@ -99,6 +105,18 @@ type RouteMap {
     packages: [Package]
 }
 
+input RouteMapRequest {
+    routeMapId: ID
+    state: EShippingState
+    payloadVolume: Float
+    startDate: LocalDateTime
+    price: Float
+    driver: DriverRequest
+    truck: TruckRequest
+    trailer: TrailerRequest
+    packages: [PackageRequest]
+}
+
 # Trailer ------------------------------------------------------------
 type Trailer {
     trailerId: ID
@@ -109,11 +127,26 @@ type Trailer {
     park: Park
 }
 
+input TrailerRequest{
+    trailerId: ID
+    weight: Float
+    payloadWeight: Float
+    registration: String
+    available: Boolean
+    park: ParkRequest
+}
+
 # Park ------------------------------------------------------------
 type Park {
     parkId: ID
     city: City
     trailers: [Trailer]
+}
+
+input ParkRequest {
+    parkId: ID
+    city: CityRequest
+    trailers: [TrailerRequest]
 }
 
 # ShippingRequest ------------------------------------------------------------

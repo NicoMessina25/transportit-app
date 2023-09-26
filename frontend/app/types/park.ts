@@ -3,7 +3,11 @@ import { City } from "./city";
 import { Trailer } from "./trailer";
 
 export interface Park extends Indexable {
-    parkid: number;
-    city: City;
+    parkid?: number;
+    city?: City;
     trailers: Trailer[];
+}
+
+export const defaultPark:Park = {
+    trailers: []
 }

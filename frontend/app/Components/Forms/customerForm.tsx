@@ -75,8 +75,10 @@ export default function CustomerForm({onSubmit,onCancel, initialValue}:FormProps
                 }
             />
 
-            <SubmitButton text='Guardar' />
-            <BackButton text='Cancelar' onClick={onCancel} />
+            <div className='flex justify-end'>
+                <SubmitButton text='Guardar' className='mx-1' />
+                <BackButton text='Cancelar' onClick={onCancel} />
+            </div>
         </form>
         
     </div>

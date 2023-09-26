@@ -12,13 +12,13 @@ import { Spinner } from 'react-bootstrap';
 import { Fetcher } from '@/app/types/fetcher';
 import { ControllerInterface, ControllerProps } from '@/app/types/controller';
 
-interface GenericEditProps<TEntity> extends EditProps {
+interface GenericEditEntityViewProps<TEntity> extends EditProps {
     useFetcher: Fetcher<TEntity>,
     useEntityCont: (props: ControllerProps) => ControllerInterface
     formComponent: (props: FormProps<TEntity>) => React.JSX.Element
 }
 
-export default function GenericEdit<TEntity>({params, useFetcher, useEntityCont, formComponent}:GenericEditProps<TEntity>) {
+export default function GenericEditEntityView<TEntity>({params, useFetcher, useEntityCont, formComponent}:GenericEditEntityViewProps<TEntity>) {
 
     const {id} = params;
     const router = useRouter();

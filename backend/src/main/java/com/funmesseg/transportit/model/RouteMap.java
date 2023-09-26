@@ -59,4 +59,7 @@ public class RouteMap {
 
     @OneToMany(mappedBy = "routeMap")
     private List<Package> packages;
+
+    @OneToMany(mappedBy = "routeMap")
+    private List<RouteMapCity> cities;
 }

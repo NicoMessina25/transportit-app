@@ -22,6 +22,11 @@ import ErrorLabel from '@/app/Components/Labels/ErrorLabel/ErrorLabel';
 import KeyValueLabel from '@/app/Components/Labels/KeyValueLabel/KeyValueLabel';
 import { FeePayment } from '@/app/types/fee';
 
+export const citySchema = object({
+    cityId: transform(string(), (input:string)=>Number(input)),
+    name: string()
+})
+
 export const feeSchema = object({
     feeId: optional(transform(string(requiredMessage),(input:string)=>Number(input))),
     kgprice: number([minValue(0,'No puede ser negativo'), maxValue(20,'No se permite más de 20 pesos por kg')]),
@@ -45,10 +50,7 @@ const driverSchema = object({
     ]),
     province: optional(nullable(string())),
     city: optional(nullable(string())),
-    currentcity: optional(object({
-        cityId: transform(string(), (input:string)=>Number(input)),
-        name: string()
-    })),
+    currentcity: optional(citySchema),
     fee: optional(nullable(feeSchema)),
     trucks: optional(array(truckSchema))
 })
@@ -277,9 +279,11 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                     setAreTrucks(true)
                 }} >Camiones particulares</Button>}
             
-
-            <SubmitButton text='Guardar' />
-            <BackButton text='Cancelar' onClick={onCancel} />
+            <div className='flex justify-end'>
+                <SubmitButton text='Guardar' className='mx-1' />
+                <BackButton text='Cancelar' onClick={onCancel} />
+            </div>
+            
         </form>
     </div>
 }

@@ -21,9 +21,9 @@ export type TableProps<T> = {
   className?: string
 }
 
-export default function Table<T extends Indexable>({columns, items, itemsKeyField, onEdit, onDelete, className}:TableProps<T>) {
+export default function Table<T extends Indexable>({columns, items, itemsKeyField, onEdit, onDelete, className=""}:TableProps<T>) {
   return (
-    <BoostrapTable className={`table-auto`} striped bordered hover variant='dark'  >
+    <BoostrapTable className={`table-auto ${className}`} striped bordered hover variant='dark'  >
     <thead>
       <tr>
         {columns.map((c)=><th key={c.field}>{c.header}</th>)}

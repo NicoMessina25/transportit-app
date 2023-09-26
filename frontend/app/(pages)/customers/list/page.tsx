@@ -1,6 +1,6 @@
 "use client"
 
-import GenericCRUD from '@/app/Components/GenericCRUD/GenericCRUD';
+import GenericCRUDView from '@/app/Components/GenericCRUDView/GenericCRUDView';
 import useCustomersCont from '@/app/hooks/controllers/customer/useCustomersCont';
 import useCustomers from '@/app/hooks/fetchers/customer/useCustomers';
 import React from 'react'
@@ -10,7 +10,7 @@ export default function CustomerCRUD() {
 
   const { delete: {deleteEntity} } = useCustomersCont({});
 
-  return <GenericCRUD useFetcher={useCustomers} deleteEntity={deleteEntity} columns={[{
+  return <GenericCRUDView useFetcher={useCustomers} deleteEntity={deleteEntity} columns={[{
     field: 'customerid',
     header: 'Id'
   }, {

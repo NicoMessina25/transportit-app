@@ -20,24 +20,22 @@ import {
 import { Indexable } from "../Table/Table"
 import { Label } from "../Labels/Label/Label"
 import ErrorLabel from "../Labels/ErrorLabel/ErrorLabel"
+import { InputProps } from "@/app/types/input"
 
-interface ComboboxProps<TItem extends Indexable>{
+interface ComboboxProps<TItem extends Indexable> extends InputProps{
   items: TItem[],
-  placeholder?: string,
   optionLabel:keyof TItem,
   keyField: keyof TItem,
   notFoundText:string,
-  label?:string,
   value: TItem | undefined,
   onChange: (i:TItem|undefined) => void,
-  error?:string
 }
 
 export function Combobox<TItem extends Indexable>({items,placeholder = "",optionLabel,keyField,label,notFoundText,onChange,error,value}:ComboboxProps<TItem>) {
   const [open, setOpen] = React.useState(false)
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      {label && <Label text={label} className="mt-1" />}
+      {label && <Label text={label} className="my-1" />}
       <PopoverTrigger asChild>
         <Button
           variant="outline"

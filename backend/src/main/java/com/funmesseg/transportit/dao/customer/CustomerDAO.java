@@ -4,14 +4,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.funmesseg.transportit.api.Response.CustomResponse;
 import com.funmesseg.transportit.api.customer.dto.CustomerRequest;
-import com.funmesseg.transportit.api.trailer.HttpsStatus;
 import com.funmesseg.transportit.model.Customer;
 
 import jakarta.persistence.EntityManager;
