@@ -61,8 +61,10 @@ public class RouteMap {
     private List<Package> packages;
 
     @JoinColumn(name = "citytoid")
+    @ManyToOne
     private City cityTo;
 
     @JoinColumn(name = "cityfromid")
+    @ManyToOne
     private City cityFrom;
 }
