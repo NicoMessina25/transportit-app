@@ -30,9 +30,6 @@ public class City {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "city")
-    private List<RouteMapCity> routeMaps;
-
     @Override
     public String toString(){
         return "city: Id:" + cityId + ", name: " + name;
