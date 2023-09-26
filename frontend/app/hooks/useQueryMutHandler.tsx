@@ -2,8 +2,6 @@ import { ApolloQueryResult, MutationResult, OperationVariables, QueryResult } fr
 import { DocumentNode } from 'graphql';
 import React, { useEffect } from 'react'
 import { notifyError, notifyInfo } from '../types/toastFunctions';
-import { useRouter } from 'next/navigation';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { Indexable } from '../Components/Table/Table';
 
 interface QueryMutHandlerProps<TResult extends Indexable> {
@@ -16,9 +14,10 @@ export default function useQueryMutHandler<TResult extends Indexable>({result, q
     
     useEffect(() => {
         const responseMessage = result.data?.[queryMutName].message ?? "";
+        const errorMessage = result.error?.message ?? "";
         if(!result.loading && result.data?.[queryMutName].success){
             notifyInfo(responseMessage)
             onSuccess?.()
-        } else if (result.error) notifyError(responseMessage)
+        } else if (result.error) notifyError(responseMessage + " ERROR: " + errorMessage)
     }, [result.loading])
 }

@@ -59,4 +59,10 @@ public class RouteMap {
 
     @OneToMany(mappedBy = "routeMap")
     private List<Package> packages;
+
+    @JoinColumn(name = "citytoid")
+    private City cityTo;
+
+    @JoinColumn(name = "cityfromid")
+    private City cityFrom;
 }

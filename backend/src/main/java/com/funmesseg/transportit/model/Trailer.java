@@ -36,12 +36,10 @@ public class Trailer {
     @Column(columnDefinition = "bit")
     private boolean available;
 
-    @JoinColumn(name = "parkid")
+  
+    @JoinColumn(name = "parkId")
+    @JoinColumn(name = "city")
     @ManyToOne
     private Park park;
-
-    @JoinColumn(name = "cityid")
-    @ManyToOne
-    private City city;
 
 }

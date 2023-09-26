@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import com.funmesseg.transportit.api.Response.CustomResponse;
@@ -36,23 +33,6 @@ public class UserGQLController {
     @QueryMapping
     public User user(@Argument Long id){
         return userDAO.getUserById(id);
-    }
-
-    @QueryMapping
-    public Long authenticate(@Argument UserRequest userRequest){
-
-        Optional<User> optionalUser = userRepository.findByUsername(userRequest.username());
-
-        if(!optionalUser.isEmpty() && optionalUser.get().getPassword().equals(userRequest.password())){
-            User userLogged = optionalUser.get();
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken(userLogged, userRequest.password());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            return userLogged.getUser();
-        }
-
-        return Long.valueOf(-1);
     }
 
     @MutationMapping

@@ -1,13 +1,19 @@
 scalar LocalDateTime
 
+
+#All available mutation
 type Mutation{
     saveUser(userRequest: UserRequest): CustomResponse
     updateUser(id: ID!, userRequest: UserRequest!): CustomResponse
     deleteUser(id: ID!): CustomResponse
 
     saveCustomer(customerRequest: CustomerRequest): CustomResponse
-    updateCustomer(id: ID!, customerRequest: CustomerRequest!): CustomResponse
-    deleteCustomer(id: ID!): CustomResponse
+    updateCustomer(customerRequest: CustomerRequest!): CustomResponse
+    deleteCustomer(customerId: ID!): CustomResponse
+
+    saveDriver(driverRequest: DriverRequest!): CustomResponse
+    updateDriver(driverRequest: DriverRequest!): CustomResponse
+    deleteDriver(driverId: ID!): CustomResponse
 
     saveShippingRequest(shippingRequestRequest: ShippingRequestRequest): CustomResponse
     updateShippingRequest(shippingRequestRequest: ShippingRequestRequest): CustomResponse
@@ -16,21 +22,34 @@ type Mutation{
     savePackage(packageRequest: PackageRequest): Package
     updatePackage(id: ID!, packageRequest: PackageRequest): Package
     deletePackage(id: ID!): CustomResponse
+
+    saveRouteMap(routeMapRequest: RouteMapRequest!): CustomResponse
+    updateRouteMap(routeMapRequest: RouteMapRequest!): CustomResponse
+    deleteRouteMap(routeMapId: ID!):CustomResponse
+
+
 }
 # All available queries
 type Query {
     users: [User]
     user(id: ID): User
-    authenticate(userRequest: UserRequest): Int
 
     customers: [Customer]
-    customer(id: ID): Customer
+    customer(customerid: ID): Customer
 
     shippingRequests: [ShippingRequest]
     shippingRequest(id: ID): ShippingRequest
 
     packages: [Package]
     packagee(id: ID): Package
+    
+    drivers: [Driver]
+    driver(driverId: ID!): Driver
+
+    cities: [City]
+
+    routeMaps: [RouteMap]
+    routeMap(routeMapId:ID): RouteMap
 }
 
 type CustomResponse {
@@ -38,25 +57,30 @@ type CustomResponse {
     message: String
 }
 
-type User {
+
+# User ------------------------------------------------------------
+type User{
     user: ID
     firstname: String
     lastname: String
+    document: String
     username: String
     password: String
     mail: String
-    document: Int
 }
 
 input UserRequest {
     firstname: String
     lastname: String
+    document: String
     username: String!
     password: String!
     mail: String
-    document: Int
 }
 
+
+
+# Customer ------------------------------------------------------------
 type Customer {
     customerid: ID
     firstname: String
@@ -64,13 +88,15 @@ type Customer {
     document: String
     address: String
 }
-
 input CustomerRequest {
+    customerid: ID
     firstname: String!
     lastname: String!
-    address: String
     document: String!
+    address: String
+
 }
+
 
 # RouteMap ------------------------------------------------------------
 type RouteMap {
@@ -85,6 +111,18 @@ type RouteMap {
     packages: [Package]
 }
 
+input RouteMapRequest {
+    routeMapId: ID
+    state: EShippingState
+    payloadVolume: Float
+    startDate: LocalDateTime
+    price: Float
+    driver: DriverRequest
+    truck: TruckRequest
+    trailer: TrailerRequest
+    packages: [PackageRequest]
+}
+
 # Trailer ------------------------------------------------------------
 type Trailer {
     trailerId: ID
@@ -95,11 +133,26 @@ type Trailer {
     park: Park
 }
 
+input TrailerRequest{
+    trailerId: ID
+    weight: Float
+    payloadWeight: Float
+    registration: String
+    available: Boolean
+    park: ParkRequest
+}
+
 # Park ------------------------------------------------------------
 type Park {
     parkId: ID
     city: City
     trailers: [Trailer]
+}
+
+input ParkRequest {
+    parkId: ID
+    city: CityRequest
+    trailers: [TrailerRequest]
 }
 
 # ShippingRequest ------------------------------------------------------------
@@ -166,30 +219,32 @@ type Driver {
     driverId: ID
     firstname: String
     lastname: String
-    document: Int
+    document: String
     address: String
     province: String
     city: String
     phone: String
     particular:Boolean
     available: Boolean
-    feePayments: [Fee]
+    fee: Fee
     trucks: [Truck]
     currentcity: City
 }
+
 
 input DriverRequest{
     driverId: ID
     firstname: String!
     lastname: String!
-    document: Int!
+    document: String!
     address: String
     province: String
     city: String
     phone: String!
     available: Boolean
+    fee: FeePaymentRequest
     trucks: [TruckRequest]
-    currentcityId: Int!
+    currentcity: CityRequest
 }
 
 
@@ -247,5 +302,10 @@ input TruckRequest{
 # City ------------------------------------------------------------
 type City {
     cityId: ID
+    name: String
+}
+
+input CityRequest {
+    cityId: ID!
     name: String
 }

@@ -41,7 +41,7 @@ public class User {
     private String mail;
 
     @Column(name = "_document")
-    private Long document;
+    private String document;
 
     @Column
     private LocalDateTime deleted;

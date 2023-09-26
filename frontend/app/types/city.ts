@@ -1,6 +1,12 @@
-import { FieldValues } from "@modular-forms/react";
+import { Indexable } from "../Components/Table/Table";
 
-export interface City extends FieldValues {
-    cityid: number,
-    name: string
+export interface City extends Indexable {
+    cityId?: number,
+    name?: string
 }
+
+export const defaultCity:City = {
+    cityId:-1,
+    name:""
+}
+

@@ -1,9 +1,13 @@
-import { FieldValues } from "@modular-forms/react";
+import { Indexable } from "../Components/Table/Table";
 import { City } from "./city";
 import { Trailer } from "./trailer";
 
-export interface Park extends FieldValues {
-    parkid: number;
-    city: City;
+export interface Park extends Indexable {
+    parkid?: number;
+    city?: City;
     trailers: Trailer[];
+}
+
+export const defaultPark:Park = {
+    trailers: []
 }
