@@ -14,6 +14,7 @@ import com.funmesseg.transportit.model.FeePricing;
 import com.funmesseg.transportit.model.Package;
 import com.funmesseg.transportit.model.RouteMap;
 import com.funmesseg.transportit.model.ShippingRequest;
+import com.funmesseg.transportit.model.enums.EShippingState;
 
 import jakarta.persistence.EntityManager;
 
@@ -25,7 +26,7 @@ public class PackageDAO {
     
     @Transactional(readOnly = true)
     public List<Package> getPackages(){
-        return entityManager.createQuery("from package", Package.class).getResultList();
+        return entityManager.createQuery("from package where deleted IS NULL", Package.class).getResultList();
     }
 
     @Transactional(readOnly = true)
@@ -49,6 +50,7 @@ public class PackageDAO {
     public Package savePackage(PackageRequest packageRequest){
        
         Package packagee = getPackageFromRequest(null ,packageRequest);
+        packagee.setState(EShippingState.ORDERED);
         entityManager.persist(packagee);
         return packagee;
         
@@ -79,56 +81,85 @@ public class PackageDAO {
             packagee = new Package();
         else packagee = entityManager.find(Package.class, id);
 
-        ShippingRequest shippingRequest = entityManager.find(ShippingRequest.class, packageRequest.requestId());
-        RouteMap routeMap = entityManager.find(RouteMap.class, packageRequest.routeMapId());
-        FeePricing feePricing = entityManager.find(FeePricing.class, packageRequest.feePricingId());
+        ShippingRequest shippingRequest;
+        RouteMap routeMap;
+        FeePricing feePricing;
 
-        packagee.setWeight(packageRequest.weight());
-        packagee.setSize(packageRequest.size());
-        packagee.setPrice(packageRequest.price());
-        packagee.setState(packageRequest.state());
-        packagee.setShippingRequest(shippingRequest);
-        packagee.setRouteMap(routeMap);
-        packagee.setFeePricing(feePricing);
-        packagee.setRecipientDocument(packageRequest.recipientDocument());
-        packagee.setRecipientFirstname(packageRequest.recipientFirstName());
-        packagee.setCityFeeCoefficient(packageRequest.cityFeeCoefficient());
+        if (Float.valueOf(packageRequest.weight()) != null)
+            packagee.setWeight(packageRequest.weight());
+        if (Float.valueOf(packageRequest.size()) != null)
+            packagee.setSize(packageRequest.size());
+        if (Float.valueOf(packageRequest.price()) != null)
+            packagee.setPrice(packageRequest.price());
+        if (packageRequest.state() != null)
+            packagee.setState(packageRequest.state());
+        if (packageRequest.requestId() != null){
+            shippingRequest = entityManager.find(ShippingRequest.class, packageRequest.requestId());
+            packagee.setShippingRequest(shippingRequest);
+        }
+        if (packageRequest.routeMapId() != null){
+            routeMap = entityManager.find(RouteMap.class, packageRequest.routeMapId());
+            packagee.setRouteMap(routeMap);
+        }
+        if (packageRequest.feePricingId() != null){
+            feePricing = entityManager.find(FeePricing.class, packageRequest.feePricingId());
+            packagee.setFeePricing(feePricing);
+        }
+        if (packageRequest.recipientDocument() != null)
+            packagee.setRecipientDocument(packageRequest.recipientDocument());
+        if (packageRequest.recipientFirstName() != null)
+            packagee.setRecipientFirstname(packageRequest.recipientFirstName());
+        if (Float.valueOf(packageRequest.cityFeeCoefficient()) != null)
+            packagee.setCityFeeCoefficient(packageRequest.cityFeeCoefficient());
 
         return packagee;
     }
 
     @Transactional
-    public List<Package> updatePackagesFromShippingRequest(List<PackageRequest> newPackages, List<Package> oldPackages, Long requestId){
+    public List<Package> updatePackagesFromShippingRequest(List<Long> newPackages, List<Package> oldPackages, Long requestId){
         final List<Package> packages = new ArrayList<>();
-        List<PackageRequest> packageToSave = new ArrayList<>();
+        List<Package> packageToSave = new ArrayList<>();
         List<Package> packagesToDelete = new ArrayList<>();
-        List<PackageRequest> packagesToUpdate;
+        List<Package> packagesToUpdate = new ArrayList<>();
 
 
 
-        if(newPackages != null && oldPackages != null){
-            
-            packageToSave = newPackages.stream().filter(np -> np.packageID() == null).toList();
-            packagesToDelete = oldPackages.stream().filter(op -> newPackages.stream().noneMatch(np -> op.getPackageId().equals(np.packageID()))).toList();
-            packagesToUpdate = newPackages.stream().filter(np -> oldPackages.stream().anyMatch(op -> op.getPackageId().equals(np.packageID()))).toList(); 
+        if(newPackages != null && oldPackages != null){                       
+            //packageToSave = newPackages.stream().filter(np -> np.packageID() == null).toList();
+            packagesToDelete = oldPackages.stream().filter(op -> newPackages.stream().noneMatch(np -> op.getPackageId().equals(np))).toList();//se borran
+            //List<Long> pTU = newPackages.stream().filter(np -> oldPackages.stream().anyMatch(op -> op.getPackageId().equals(np))).toList(); //se actualizan
 
-            for(PackageRequest p : packagesToUpdate){
-                Package packagee = updatePackage(p.packageID(), new PackageRequest(p.packageID(), p.weight(), p.size(), p.price(), p.state(), p.cityTo(), p.requestId(), p.routeMapId(), p.recipientDocument(), p.recipientFirstName(), p.feeCoefficient(), p.cityFeeCoefficient(), p.feePricingId()));
+            newPackages.forEach(p -> {
+                Package packagee = entityManager.find(Package.class, p);
+                packagesToUpdate.add(packagee);
+            });
+
+            for(Package p : packagesToUpdate){
+                Package packagee = updatePackage(p.getPackageId(), new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, /*packagee.getRouteMap().getRouteMapId()*/null, p.getRecipientDocument(), p.getRecipientFirstname(), p.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
                 packages.add(packagee);
             }
 
+            /*List<Long> pTS = newPackages.stream().filter(np -> oldPackages.stream().noneMatch(op -> op.getPackageId().equals(np))).toList();
 
-        } else if(newPackages != null) {
-            packageToSave = newPackages;
+            pTS.forEach(p -> {
+                Package packagee = entityManager.find(Package.class, p);
+                packageToSave.add(packagee);
+            });*/
+
+        } else if(newPackages != null) {    //los paquetes ya existen, se les actualiza el requestId
+            newPackages.forEach(p -> {
+                Package packagee = entityManager.find(Package.class, p);
+                packagesToUpdate.add(packagee);
+            });
         } else {
             packagesToDelete = oldPackages;
         }
         
-        if(packageToSave != null)
-            packageToSave.forEach(p -> {
-                    Package packagee = savePackage(new PackageRequest(null, p.weight(), p.size(), p.price(), p.state(), p.cityTo(), p.requestId(), p.routeMapId(), p.recipientDocument(), p.recipientFirstName(), p.feeCoefficient(), p.cityFeeCoefficient(), p.feePricingId()));
-                    packages.add(packagee);
-                });
+        if(packagesToUpdate != null)
+            packagesToUpdate.forEach(p -> {
+                Package packagee = updatePackage(p.getPackageId(), new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, /*packagee.getRouteMap().getRouteMapId()*/null, p.getRecipientDocument(), p.getRecipientFirstname(), p.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
+                packages.add(packagee);
+            });
             
         if(packagesToDelete != null)
             packagesToDelete.forEach(ot -> deletePackage(ot.getPackageId()));

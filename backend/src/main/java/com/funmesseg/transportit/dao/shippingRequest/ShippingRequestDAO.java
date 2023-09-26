@@ -34,7 +34,7 @@ public class ShippingRequestDAO {
 
     @Transactional(readOnly = true)
     public List<ShippingRequest> getShippingRequests(){
-        return entityManager.createQuery("from shippingRequest", ShippingRequest.class).getResultList();
+        return entityManager.createQuery("from shippingRequest where deleted IS NULL", ShippingRequest.class).getResultList();
     }
 
     @Transactional(readOnly = true)
@@ -51,10 +51,11 @@ public class ShippingRequestDAO {
             entityManager.persist(shippingRequest);            
 
             if(shippingRequestRequest.packages() != null){
-                List<Package> packages = new ArrayList<>();
+                List<Long> packages = new ArrayList<>();
                 shippingRequestRequest.packages().forEach(p -> {
-                    Package packagee = packageDAO.savePackage(new PackageRequest(p.packageID(), p.weight(), p.size(), p.price(), p.state(), p.cityTo(), p.requestId(), p.routeMapId(), p.recipientDocument(), p.recipientFirstName(), p.feeCoefficient(), p.cityFeeCoefficient(), p.feePricingId()));
-                    packages.add(packagee);
+                    Package packagee = entityManager.find(Package.class, p);
+                    packagee = packageDAO.updatePackage(packagee.getPackageId(), new PackageRequest(packagee.getPackageId(), packagee.getWeight(), packagee.getSize(), packagee.getPrice(), packagee.getState(), shippingRequest.getRequestId(), /*packagee.getRouteMap().getRouteMapId()*/null, packagee.getRecipientDocument(), packagee.getRecipientFirstname(), packagee.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
+                    packages.add(packagee.getPackageId());
                 });
             }
             
@@ -127,9 +128,6 @@ public class ShippingRequestDAO {
         if (shippingRequestRequest.state() != null){
             shippingRequest.setState(shippingRequestRequest.state());
         }
-        
-        //shippingRequest.setRequestDate(shippingRequestRequest.requestDate()); //no se actualiza
-        
         
         //shippingRequest.setPackages(shippingRequestRequest.packages());
 

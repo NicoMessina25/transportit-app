@@ -9,14 +9,13 @@ public record PackageRequest(
      float size,
      float price, 
      EShippingState state,
-     int cityTo,
-     int requestId,
-     int routeMapId,
+     Long requestId,
+     Long routeMapId,
      String recipientDocument,
      String recipientFirstName,
-     float feeCoefficient,
+     //float feeCoefficient,
      float cityFeeCoefficient,
-     float feePricingId
+     Long feePricingId
     ) {
     
 }
