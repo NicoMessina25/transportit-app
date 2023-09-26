@@ -25,6 +25,12 @@ type Query {
 
     customers: [Customer]
     customer(id: ID): Customer
+
+    shippingRequests: [ShippingRequest]
+    shippingRequest(id: ID): ShippingRequest
+
+    packages: [Package]
+    packagee(id: ID): Package
 }
 
 type CustomResponse {
@@ -116,7 +122,7 @@ input ShippingRequestRequest {
     cityFromId: ID
     cityToId: ID
     customerId: ID
-    packages: [PackageRequest]
+    packages: [ID]
 }
 
 enum EShippingState {
@@ -134,8 +140,7 @@ type Package {
     price: Float
     state: EShippingState
     shippingRequest: ShippingRequest
-    cityTo: Int
-    shippingRequestID: Int
+    shippingRequestID: ID
     routeMap: RouteMap
     feePricing: Fee
     recipientDocument: String

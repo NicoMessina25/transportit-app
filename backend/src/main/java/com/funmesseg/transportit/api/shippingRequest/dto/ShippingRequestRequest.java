@@ -3,7 +3,6 @@ package com.funmesseg.transportit.api.shippingRequest.dto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.funmesseg.transportit.api._package.dto.PackageRequest;
 import com.funmesseg.transportit.model.enums.EShippingState;
 
 public record ShippingRequestRequest(
@@ -14,7 +13,7 @@ public record ShippingRequestRequest(
     Long cityFromId,
     Long cityToId,
     Long customerId,
-    List<PackageRequest> packages
+    List<Long> packages
 ) {
     
 }
