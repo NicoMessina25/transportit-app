@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Icon } from '@iconify/react';
 import Title from '../Components/Labels/Title/Title';
 import { Button } from '@/components/ui/button';
-import { isLogged } from '../services/authServices';
+import { getUserFromLocalStrg, isLogged } from '../services/authServices';
+import { Label } from '../Components/Labels/Label/Label';
 
 export default function Home() {
 
@@ -13,6 +14,8 @@ export default function Home() {
   if(!isLogged()){
     window.location.pathname = "/login"
   }
+
+  const user = getUserFromLocalStrg();
   
   return (
     <main className="flex min-h-screen flex-col items-center p-12 md:p-24">
@@ -60,10 +63,23 @@ export default function Home() {
           icon='mingcute:transfer-fill'
         />
       </div>
-      <Button type='button' variant={'ghost'} onClick={()=>{
-        localStorage.removeItem('user')
-        router.push('/login')
-      }} >Salir</Button>
+      <div className='flex items-center w-48 justify-between'>
+        <div className='flex'>
+          <Icon icon={"solar:user-bold"} />
+          <Label text={user?.username} />
+        </div>
+        <Button 
+          type='button' 
+          variant={'ghost'} 
+          onClick={()=>{
+            localStorage.removeItem('user')
+            router.push('/login')
+          }} 
+        >
+          Salir
+        </Button>
+      </div>
+      
     </main>
   )
 }

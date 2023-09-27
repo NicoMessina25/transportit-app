@@ -280,8 +280,8 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                 }} >Camiones particulares</Button>}
             
             <div className='flex justify-end'>
-                <SubmitButton text='Guardar' className='mx-1' />
                 <BackButton text='Cancelar' onClick={onCancel} />
+                <SubmitButton text='Guardar' className='mx-1' />
             </div>
             
         </form>

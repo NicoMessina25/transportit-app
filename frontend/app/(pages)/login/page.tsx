@@ -31,7 +31,7 @@ export default function LoginPage() {
 
     return (
         <section className='w-full h-screen flex flex-col justify-center items-center '>
-            <form className='h-fit w-1/4 bg-blue-950 p-4 rounded-xl flex flex-col items-center' onSubmit={handleSubmit((u)=>{
+            <form className='h-fit w-2/3 md:w-1/4 bg-slate-900/75  p-4 rounded-xl flex flex-col items-center' onSubmit={handleSubmit((u)=>{
                 authenticate(u.username, u.password).then((u:JwtUser|null)=>{
                     console.log(u);
                     if(u?.accessToken){
@@ -66,7 +66,7 @@ export default function LoginPage() {
                         />
                     }
                 />
-                <Button className='text-xl mt-3' >{loading? <Spinner/>:"Ingresar"} </Button>
+                <Button variant='outline' className='mt-3' >{loading? <Spinner/>:"Ingresar"} </Button>
             </form>
         </section>
     )
