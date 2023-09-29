@@ -8,9 +8,9 @@ interface GenericLayoutProps {
 }
 
 export default function GenericLayout({title, children}:GenericLayoutProps) {
-  return <section className='p-20'>
+  return <section className='p-5 md:p-10 lg:p-20'>
     <div className='flex items-center'>
-      <BackButton className='mr-2' />
+      <BackButton className='mr-2 ' />
       <Title>{title}</Title>
     </div>
     

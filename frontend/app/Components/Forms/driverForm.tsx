@@ -68,6 +68,8 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
     const [areTrucks, setAreTrucks] = useState(!!initialValue?.trucks?.length);
     const [newTruck, setNewTruck] = useState<Truck|null>(defaultTruck)
 
+    const inputsWidth = 'w-full md:w-2/5 lg:w-1/4 mx-1';
+
     useEffect(()=>{
         console.log(errors);
     },[errors])
@@ -77,8 +79,8 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
     const truckTemplate = (truck:Truck,index:number,onEdit:()=>void,registrationErr:string|undefined, maxWeightErr:string|undefined) => {
         if(!truck) return
 
-        return <div key={truck.registration + index} className='rounded-lg bg-blue-950 p-3 flex flex-col justify-around my-3'>
-            <Label className='font-bold italic text-blue-200 mr-3' text={truck.truckId ? `Id: ${truck.truckId}` : 'Nuevo camión'}/>
+        return <div key={truck.registration + index} className='rounded-lg bg-cyan-950 p-3 flex flex-col justify-around my-3'>
+            <Label className='font-bold italic text-cyan-200 mr-3' text={truck.truckId ? `Id: ${truck.truckId}` : 'Nuevo camión'}/>
             <div className='flex my-4'>
                 <KeyValueLabel label='Matrícula: ' value={truck.registration} errorMessage={registrationErr} className='mx-1' />
                 <KeyValueLabel label='Peso máximo: ' value={truck.maxweight} errorMessage={maxWeightErr} className='mx-1' /> 
@@ -98,14 +100,15 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                 d.fee.feeId = initialFee.kgprice == d.fee.kgprice && initialFee.kmprice == d.fee.kmprice? d.fee.feeId : undefined
             }
             onSubmit(d as Driver)
-        })} className='flex flex-col w-1/2' >
+        })} className='flex flex-col w-full' >
             
-            <Controller
+            <div className='flex flex-wrap justify-between' ><Controller
                 name="firstname"
                 control={control}
                 render={({ field }) => 
                     <TextInput 
                         label='Nombre'
+                        className={inputsWidth}
                         {...field} 
                         error={errors.firstname?.message} 
                     />
@@ -118,6 +121,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                 render={({ field }) => 
                     <TextInput 
                         label='Apellido'
+                        className={inputsWidth}
                         {...field} 
                         error={errors.lastname?.message} 
                     />
@@ -130,6 +134,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                 render={({ field }) => 
                     <TextInput 
                         label='Documento'
+                        className={inputsWidth}
                         {...field} 
                         error={errors.document?.message}
                     />
@@ -142,6 +147,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                 render={({ field }) => 
                     <TextInput 
                         label='Dirección'
+                        className={inputsWidth}
                         {...field} 
                         error={errors.address?.message} 
                     />
@@ -154,6 +160,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                 render={({ field }) => 
                     <TextInput 
                         label='Teléfono'
+                        className={inputsWidth}
                         {...field} 
                         error={errors.phone?.message} 
                     />
@@ -166,6 +173,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                 render={({ field }) => 
                     <TextInput 
                         label='Provincia Nac.'
+                        className={inputsWidth}
                         {...field} 
                         error={errors.province?.message} 
                     />
@@ -178,6 +186,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                 render={({ field }) => 
                     <TextInput 
                         label='Ciudad Nac.'
+                        className={inputsWidth}
                         {...field} 
                         error={errors.city?.message} 
                     />
@@ -194,20 +203,21 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                         optionLabel={"name"}
                         value={field.value}
                         onChange={field.onChange}
+                        className={inputsWidth}
                         items={data?.cities}
                         placeholder='Selecciona una ciudad'
                         notFoundText='No se encontró la ciudad'
                         error={errors.currentcity?.name?.message}
                     />
                 }
-            />:<Spinner/>}
+            />:<Spinner/>}</div>
 
-
+            <div className='flex flex-col md:flex-row justify-between'>
             {isFee ? <Controller
                     name='fee'
                     control={control}
                     render={({field})=>
-                        <div className='my-3 justify-center w-2/3 rounded'>
+                        <div className='my-3 justify-center w-full md:w-1/4 rounded'>
                             <Label text='Tarifa' className='my-2 text-lg' />
                             <TextInput label='Pesos por kilo' value={field.value?.kgprice?.toString() ?? ""} name={field.name} onBlur={field.onBlur} onChange={(e)=>{
                                 field.onChange({...field.value, kgprice: Number(e.target.value)})
@@ -225,7 +235,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                     }
                 />
                 :
-                <Button className='my-2' onClick={()=>{
+                <Button className='my-3 w-full md:w-1/4 text-white transition-all bg-blue-700 hover:bg-blue-500' onClick={()=>{
                     setIsFee(true)
                 }} >Tarifa Particular</Button>
             }
@@ -234,7 +244,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                     name='trucks'
                     control={control}
                     render={({field})=>
-                        <div className='my-3 justify-center rounded'>
+                        <div className='my-3 w-full md:w-2/3 justify-center rounded'>
                             {field.value && field.value.length > 0 && <Label className='my-1 text-lg' text='Camiones' />}
                             {field.value?.map((truck,index)=>{
                                 
@@ -246,7 +256,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                             })}
 
                             {newTruck ? <><Label className='mt-2 text-lg' text={newTruck.truckId ? `Id: ${newTruck.truckId}`: 'Nuevo camión'} />
-                            <div className='rounded-lg bg-blue-800 p-3'>
+                            <div className='rounded-lg bg-cyan-600 p-3'>
                                 <TextInput label='Matrícula' name='registration' value={newTruck.registration} onChange={(e)=>{
                                     setNewTruck({...newTruck, registration: e.target.value})
                                 }} placeholder='XX9999XX' />
@@ -264,6 +274,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                                     }} >Agregar camión</Button>
                                     <Button variant='destructive' onClick={()=>{
                                         setNewTruck(null)
+                                        field.value?.length == 0 && setAreTrucks(false)
                                     }} >Eliminar camión</Button>
                                 </div>
                                 
@@ -275,9 +286,10 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                     }
                 />
                 :
-                <Button className='my-3' onClick={()=>{
+                <Button className='my-3 w-full md:w-1/4 text-white transition-all bg-blue-700 hover:bg-blue-500' onClick={()=>{
                     setAreTrucks(true)
-                }} >Camiones particulares</Button>}
+                    setNewTruck(defaultTruck)
+                }} >Camiones particulares</Button>}</div>
             
             <div className='flex justify-end'>
                 <BackButton text='Cancelar' onClick={onCancel} />

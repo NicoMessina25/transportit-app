@@ -11,19 +11,19 @@ export default function CustomerCRUD() {
   const { delete: {deleteEntity} } = useCustomersCont({});
 
   return <GenericCRUDView useFetcher={useCustomers} deleteEntity={deleteEntity} columns={[{
-    field: 'customerid',
+    accessorKey: 'customerid',
     header: 'Id'
   }, {
-    field: 'firstname',
+    accessorKey: 'firstname',
     header: 'Nombre'
   },{
-    field: 'lastname',
+    accessorKey: 'lastname',
     header: 'Apellido'
   },{
-    field: 'document',
+    accessorKey: 'document',
     header: 'Documento'
   },{
-    field: 'address',
+    accessorKey: 'address',
     header: 'Dirección'
   }]} entityIdField='customerid' />
 }

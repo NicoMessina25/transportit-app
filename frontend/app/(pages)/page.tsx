@@ -37,7 +37,7 @@ export default function Home() {
           onClick={()=>
             router.push('./drivers/list')
           }
-          icon='healthicons:truck-driver'
+          icon='mingcute:steering-wheel-fill'
         />
         <Card 
           label='Hojas de Ruta'

@@ -7,8 +7,8 @@ interface LabelProps{
     className?:string
 }
 
-export function Label({htmlFor, text = "", required,className}:LabelProps) {
-  return <LabelShadcn htmlFor={htmlFor} className={className}>{text} {required ? <span>*</span>:<></>}</LabelShadcn>
+export function Label({htmlFor, text = "", required,className=""}:LabelProps) {
+  return <LabelShadcn htmlFor={htmlFor} className={`text-slate-300 ${className}`}>{text} {required ? <span>*</span>:<></>}</LabelShadcn>
 
 
 }

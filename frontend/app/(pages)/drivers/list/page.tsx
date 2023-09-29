@@ -1,38 +1,38 @@
 "use client"
 
 import GenericCRUDView from '@/app/Components/GenericCRUDView/GenericCRUDView';
+import { Cell } from '@/app/Components/Table/Table';
 import useDriversCont from '@/app/hooks/controllers/driver/useDriversCont';
 import useDrivers from '@/app/hooks/fetchers/driver/useDrivers';
 import { Driver } from '@/app/types/driver';
 import React from 'react'
 
 export default function DriverCRUD() {
-
-    const cityField = (driver:Driver, key:React.Key) => <td key={key}>{driver.currentcity?.name ?? ""}</td>
+    const cityField: ({row}: Cell<Driver>) => React.JSX.Element = ({row:{original}}) => <div>{original.currentcity?.name ?? ""}</div>
     const {delete:{deleteEntity}} = useDriversCont({});
 
 
     return <GenericCRUDView useFetcher={useDrivers} deleteEntity={deleteEntity} columns={[{
-        field: 'driverId',
+        accessorKey: 'driverId',
         header: 'Id'
     }, {
-        field: 'firstname',
+        accessorKey: 'firstname',
         header: 'Nombre'
     },{
-        field: 'lastname',
+        accessorKey: 'lastname',
         header: 'Apellido'
     },{
-        field: 'document',
+        accessorKey: 'document',
         header: 'Documento'
     },{
-        field: 'address',
+        accessorKey: 'address',
         header: 'Dirección'
     },{
-        field: 'phone',
+        accessorKey: 'phone',
         header: 'Teléfono'
     },{
-        field: 'currentcity',
+        accessorKey: 'currentcity',
         header: 'Ciudad actual',
-        body: cityField
+        cell: cityField
     }]} entityIdField='driverId' />
 }

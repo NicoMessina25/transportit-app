@@ -11,7 +11,7 @@ interface CardProps {
 export default function Card({label, desc,onClick,icon}:CardProps) {
   return <div
     onClick={onClick}
-    className={`group w-full md:w-5/12 rounded-lg border border-transparent px-5 py-4 my-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 ${onClick? "cursor-pointer":""}`}
+    className={`group w-full md:w-5/12 rounded-lg border border-transparent px-5 py-7 my-4 transition-colors hover:dark:border-slate-400/75 hover:dark:bg-slate-800/30 ${onClick? "cursor-pointer":""}`}
     >
         <h2 className={`mb-3 flex justify-center text-2xl font-semibold transition-transform group-hover:-translate-y-1 motion-reduce:transform-none`}>
             {label + ' '} {icon && <Icon className='ml-3' icon={icon} />}

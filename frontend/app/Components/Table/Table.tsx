@@ -1,52 +1,95 @@
-import React from 'react'
-import BoostrapTable from 'react-bootstrap/Table';
-import { Icon } from '@iconify/react/dist/iconify.js';
+"use client"
 
-export type Column<T> = {
-  field: string;
-  header: string;
-  body?: (props: T, key:React.Key) => React.JSX.Element
-}
+import {
+  CellContext,
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
 
-export interface Indexable {
-  [key: string]:any;
-}
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { Icon } from "@iconify/react/dist/iconify.js"
 
-export type TableProps<T> = {
-  columns: Column<T>[], 
-  items:T[],
-  itemsKeyField: string,
-  onEdit?: (item:T)=> void
-  onDelete?: (item:T) => void,
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+  onEdit?: (item:TData)=> void
+  onDelete?: (item:TData) => void,
   className?: string
 }
 
-export default function Table<T extends Indexable>({columns, items, itemsKeyField, onEdit, onDelete, className=""}:TableProps<T>) {
-  return (
-    <BoostrapTable className={`table-auto ${className}`} striped bordered hover variant='dark'  >
-    <thead>
-      <tr>
-        {columns.map((c)=><th key={c.field}>{c.header}</th>)}
-        {onEdit && <th>Editar</th>}
-        {onDelete && <th>Eliminar</th>}
-      </tr>
-    </thead>
-    <tbody>
-      {items.map((i)=><tr key={i[itemsKeyField]}>
-        {columns.map((c)=> {
-          const key = c.field + i[itemsKeyField]
+export interface Cell<TData,TValue = unknown> extends CellContext<TData,TValue> {
+}
 
-          if(c.body)
-            return c.body(i, key)
-          else return <td key={key}>
-              {c.field in i ? i[c.field] : c.field}
-          </td>
-        
-        } )}
-        {onEdit && <td className='cursor-pointer'><Icon icon={'uil:edit'} onClick={()=> onEdit(i)} className='w-5 h-5' /></td>}
-        {onDelete && <td className='cursor-pointer'><Icon icon={'mdi:trash'} onClick={()=> onDelete(i)} className='w-5 h-5' /></td>}
-      </tr>)}
-    </tbody>
-  </BoostrapTable>
+
+
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  onDelete,
+  onEdit,
+  className = ""
+}: DataTableProps<TData, TValue>) {
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  })
+
+  return (
+    <div className={`rounded-md border ${className}`}>
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                )
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id} >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+                {onEdit && <TableCell><Icon icon={'material-symbols:edit'} onClick={()=> onEdit(row.original)} className='w-7 h-7 p-1 rounded transition-all hover:text-cyan-300 hover:bg-cyan-50/10 cursor-pointer' /></TableCell>}
+                {onDelete && <TableCell><Icon icon={'mdi:trash'} onClick={()=> onDelete(row.original)} className='w-7 h-7 p-1 rounded transition-all hover:text-cyan-300 hover:bg-cyan-50/10 cursor-pointer' /></TableCell>}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                No results.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
   )
 }

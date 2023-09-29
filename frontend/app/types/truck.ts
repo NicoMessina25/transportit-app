@@ -1,9 +1,10 @@
-import { Indexable } from "../Components/Table/Table";
+
 import { City } from "./city";
 import { Driver } from "./driver";
+import { Indexable } from "./indexable";
 
 export interface Truck extends Indexable {
-    truckid?: number;
+    truckId?: number;
     driver?: Driver;
     registrationDate?: Date;
     registration: string;
