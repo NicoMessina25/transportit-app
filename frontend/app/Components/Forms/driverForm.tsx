@@ -11,7 +11,6 @@ import { FormProps, personSchema, requiredMessage } from '@/app/types/form';
 import { useQuery } from '@apollo/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import React, { useEffect, useState } from 'react'
-import { Spinner } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 import {Output, array, string, minLength, number, object,optional,transform, minValue, maxValue, regex, nullable} from 'valibot'
 import { Button } from '@/components/ui/button';
@@ -21,6 +20,7 @@ import { Truck, defaultTruck } from '@/app/types/truck';
 import ErrorLabel from '@/app/Components/Labels/ErrorLabel/ErrorLabel';
 import KeyValueLabel from '@/app/Components/Labels/KeyValueLabel/KeyValueLabel';
 import { FeePayment } from '@/app/types/fee';
+import Spinner from '../Spinner/Spinner';
 
 export const citySchema = object({
     cityId: transform(string(), (input:string)=>Number(input)),
@@ -210,7 +210,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                         error={errors.currentcity?.name?.message}
                     />
                 }
-            />:<Spinner/>}</div>
+            />:<Spinner size={20}/>}</div>
 
             <div className='flex flex-col md:flex-row justify-between'>
             {isFee ? <Controller

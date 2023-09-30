@@ -1,16 +1,12 @@
 "use client"
 
-import useQueryMutHandler from '@/app/hooks/useQueryMutHandler';
 import { EditProps, FormProps } from '@/app/types/form'
-import { GraphMutation, GraphQuery } from '@/app/types/graphql';
-import { DocumentNode, useMutation, useQuery } from '@apollo/client';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-import { Indexable } from '../Table/Table';
-import { Spinner } from 'react-bootstrap';
+import useRouter from '@/app/hooks/useRouter';
+import React, {  } from 'react'
 import { Fetcher } from '@/app/types/fetcher';
 import { ControllerInterface, ControllerProps } from '@/app/types/controller';
+import useLoader from '@/app/hooks/useLoader';
+import Spinner from '../Spinner/Spinner';
 
 interface GenericEditEntityViewProps<TEntity> extends EditProps {
     useFetcher: Fetcher<TEntity>,
@@ -27,6 +23,9 @@ export default function GenericEditEntityView<TEntity>({params, useFetcher, useE
         router.back();
         refetch();
     }});
+
+    useLoader()
+
 
     if(loading)
         return <Spinner/>

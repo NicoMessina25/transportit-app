@@ -1,14 +1,10 @@
 "use client"
 
-import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import DriverForm from '../../../Components/Forms/driverForm';
-import { Driver } from '@/app/types/driver';
-import { CustomResponse } from '@/app/types/serverResponse';
-import { useMutation } from '@apollo/client';
-import useQueryMutHandler from '@/app/hooks/useQueryMutHandler';
-import { DRIVERS, SAVE_DRIVER } from '@/app/graphql/driver/driverQueries';
 import useDriversCont from '@/app/hooks/controllers/driver/useDriversCont';
+import useRouter from '@/app/hooks/useRouter';
+import useLoader from '@/app/hooks/useLoader';
 
 
 export default function DriverAddView() {
@@ -16,6 +12,8 @@ export default function DriverAddView() {
     const {save:{saveEntity}} = useDriversCont({onSave:()=>{
         router.back();
     }})
+    useLoader()
+
     return <DriverForm onSubmit={saveEntity} />        
 
 }

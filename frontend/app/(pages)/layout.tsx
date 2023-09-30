@@ -7,6 +7,11 @@ import { Inter } from 'next/font/google'
 import { ToastContainer } from 'react-toastify';
 import JwtUser from '../types/jwtUser';
 import { getUserFromLocalStrg, isLogged } from '../services/authServices';
+import { Provider } from 'react-redux'
+import { store } from '../redux/store';
+import AlertContainer from '../Components/Alert/AlertContainer';
+import WindowLoader from '../Components/WindowLoader/WindowLoader';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -54,10 +59,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className + " dark"}>
-        <ApolloProvider client={client} >
-          {children}
-          <ToastContainer />
-        </ApolloProvider>
+        <Provider store={store}>
+          <ApolloProvider client={client} >
+            {children}
+            <AlertContainer/>
+            <WindowLoader/>
+          </ApolloProvider>
+        </Provider>
       </body>
     </html>
   )

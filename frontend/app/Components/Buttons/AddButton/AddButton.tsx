@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { useRouter } from 'next/navigation'
+import useRouter from '@/app/hooks/useRouter';
 import React from 'react'
 
 

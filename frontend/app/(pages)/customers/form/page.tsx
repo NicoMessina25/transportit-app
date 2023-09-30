@@ -1,21 +1,16 @@
 "use client"
 
-import { CUSTOMERS, SAVE_CUSTOMER } from '@/app/graphql/customer/customerQueries';
-import { Customer } from '@/app/types/customer';
-import { CustomResponse } from '@/app/types/serverResponse';
-import {  useMutation } from '@apollo/client';
 import React from 'react'
 import CustomerForm from '../../../Components/Forms/customerForm';
-import { ToastContainer } from 'react-toastify';
-import useQueryMutHandler from '@/app/hooks/useQueryMutHandler';
-import { useRouter } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { DRIVERS } from '@/app/graphql/driver/driverQueries';
 import useCustomersCont from '@/app/hooks/controllers/customer/useCustomersCont';
+import useRouter from '@/app/hooks/useRouter';
+import useLoader from '@/app/hooks/useLoader';
 
 
 export default function CustomerAddView() {
     const router:AppRouterInstance = useRouter();
+    useLoader()
     
     const {save: {saveEntity}} = useCustomersCont({onSave:()=>{
         router.back();

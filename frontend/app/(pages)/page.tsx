@@ -1,12 +1,15 @@
 "use client"
 
 import Card from '../Components/Card/Card'
-import { useRouter } from 'next/navigation'
 import { Icon } from '@iconify/react';
 import Title from '../Components/Labels/Title/Title';
 import { Button } from '@/components/ui/button';
 import { getUserFromLocalStrg, isLogged } from '../services/authServices';
 import { Label } from '../Components/Labels/Label/Label';
+import { useDispatch } from 'react-redux';
+import useLoader from '../hooks/useLoader';
+import { useEffect } from 'react';
+import useRouter from '../hooks/useRouter';
 
 export default function Home() {
 
@@ -14,7 +17,7 @@ export default function Home() {
   if(!isLogged()){
     window.location.pathname = "/login"
   }
-
+  const loader = useLoader();
   const user = getUserFromLocalStrg();
   
   return (
@@ -45,6 +48,7 @@ export default function Home() {
           icon='gis:map-route'
           onClick={()=>{
             router.push('./routeMaps/list')
+            loader(true)
           }}
         />
         <Card 
@@ -74,6 +78,7 @@ export default function Home() {
           onClick={()=>{
             localStorage.removeItem('user')
             router.push('/login')
+            loader(true)
           }} 
         >
           Salir

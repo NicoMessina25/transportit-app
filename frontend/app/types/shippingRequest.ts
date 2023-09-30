@@ -1,7 +1,7 @@
-import { Indexable } from "../Components/Table/Table";
 import { EShippingState } from "./EShippingState";
 import { City } from "./city";
 import { Customer } from "./customer";
+import { Indexable } from "./indexable";
 import { Package } from "./package";
 
 export interface ShippingRequest extends Indexable {
