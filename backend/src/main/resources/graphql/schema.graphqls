@@ -196,7 +196,7 @@ type Package {
     routeMap: RouteMap
     feePricing: Fee
     recipientDocument: String
-    recipientFirstName: String
+    recipientFirstname: String
     cityFeeCoefficient: Float 
 }
 

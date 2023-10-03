@@ -26,7 +26,7 @@ public class PackageDAO {
     
     @Transactional(readOnly = true)
     public List<Package> getPackages(){
-        return entityManager.createQuery("from package where deleted IS NULL", Package.class).getResultList();
+        return entityManager.createQuery("from Package where deleted IS NULL", Package.class).getResultList();
     }
 
     @Transactional(readOnly = true)
@@ -107,8 +107,8 @@ public class PackageDAO {
         }
         if (packageRequest.recipientDocument() != null)
             packagee.setRecipientDocument(packageRequest.recipientDocument());
-        if (packageRequest.recipientFirstName() != null)
-            packagee.setRecipientFirstname(packageRequest.recipientFirstName());
+        if (packageRequest.recipientFirstname() != null)
+            packagee.setRecipientFirstname(packageRequest.recipientFirstname());
         if (Float.valueOf(packageRequest.cityFeeCoefficient()) != null)
             packagee.setCityFeeCoefficient(packageRequest.cityFeeCoefficient());
 

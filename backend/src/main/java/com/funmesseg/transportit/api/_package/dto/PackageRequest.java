@@ -11,7 +11,7 @@ public record PackageRequest(
      Long requestId,
      Long routeMapId,
      String recipientDocument,
-     String recipientFirstName,
+     String recipientFirstname,
      //float feeCoefficient,
      float cityFeeCoefficient,
      Long feePricingId

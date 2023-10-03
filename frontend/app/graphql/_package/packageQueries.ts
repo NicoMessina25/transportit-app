@@ -6,8 +6,8 @@ export const PACKAGES = gql`
             packageId,
             weight,
             size,
-            price
-            recipientDocument
+            price,
+            recipientDocument,
             recipientFirstname
         }
     }
