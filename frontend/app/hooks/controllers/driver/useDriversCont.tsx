@@ -20,7 +20,7 @@ export default function useDriversCont({onSave, onUpdate, onDelete}:ControllerPr
     }
 
     function deleteEntity(e:Driver){
-        deleteDriver({variables:{id: e.driverId}});
+        deleteDriver({variables:{id: e.driverid}});
     }
 
     function updateEntity(e:Driver, id:number){

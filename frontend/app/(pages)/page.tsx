@@ -62,6 +62,9 @@ export default function Home() {
         <Card 
           label='Solicitudes de Envío'
           desc='Consulta, registra, modifica o elimina conductores solicitudes de envío'
+          onClick={()=>
+            router.push('./shippingRequests/list')
+          }
           icon='quill:paper'
         />
         <Card 

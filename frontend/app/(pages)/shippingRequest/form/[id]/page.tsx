@@ -1,9 +1,13 @@
-import GenericEditEntityView from '@/app/Components/GenericEditEntityView/GenericEditEntityView'
-import React from 'react'
-import ShippingRequestForm from '../../../../Components/Forms/shippingRequestForm'
-import { GET_SHIPPING_REQUEST, SHIPPING_REQUESTS, UPDATE_SHIPPING_REQUEST } from '@/app/graphql/shippingRequest/shippingRequestQueries'
-import { EditProps } from '@/app/types/form'
+"use client"
 
-export default function ShippingRequestEdit({params}:EditProps) {
-  return <></> /* <GenericEdit formComponent={ShippingRequestForm} getByIdQuery={{name:"shippingRequest", query: GET_SHIPPING_REQUEST}} updateMutation={{name:"updateShippingRequest", mutation: UPDATE_SHIPPING_REQUEST}} entityName='shippingRequest' params={params} queryToRefetch={SHIPPING_REQUESTS} entityIdField='requestId' /> */
+import React from 'react'
+import { EditProps } from '@/app/types/form';
+import GenericEditEntityView from '@/app/Components/GenericEditEntityView/GenericEditEntityView';
+import ShippingRequestForm from '../../../../Components/Forms/shippingRequestForm';
+import useShippingRequests from '@/app/hooks/fetchers/shippingRequest/useShippingRequests';
+import useShippingRequestsCont from '@/app/hooks/controllers/shippingRequest/useShippingRequestsCont';
+
+export default function ShippingRequestUpdateForm({params}:EditProps) {
+    return <GenericEditEntityView formComponent={ShippingRequestForm} useFetcher={useShippingRequests} useEntityCont={useShippingRequestsCont}  params={params} />    
+
 }
