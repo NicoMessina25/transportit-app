@@ -48,7 +48,7 @@ public class RouteMapDAO {
         Trailer trailer = entityManager.getReference(Trailer.class, routeMapRequest.trailer().trailerId());
 
         for(PackageRequest _package : routeMapRequest.packages()){
-            Package p = entityManager.getReference(Package.class, _package.packageID());
+            Package p = entityManager.getReference(Package.class, _package.packageId());
             routeMap.getPackages().add(p);
         }
 

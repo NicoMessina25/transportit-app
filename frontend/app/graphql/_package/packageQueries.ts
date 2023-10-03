@@ -3,17 +3,12 @@ import { gql } from "@apollo/client";
 export const PACKAGES = gql`
     query{
         packages{
-            packageid,
+            packageId,
             weight,
             size,
             price
-            state
-            shippingRequestId
-            routeMapId
-            feePricingId
             recipientDocument
             recipientFirstname
-            cityFeeCoefficient
         }
     }
 `

@@ -26,3 +26,6 @@ alter column recipientDocument varchar(30) not null
 
 alter table package
 alter column recipientFirstname varchar(50) not null
+
+alter table package
+alter column requestId bigint null

@@ -1,3 +1,5 @@
+"use client"
+
 import GenericLayout from '@/app/Components/GenericLayout/GenericLayout'
 import React from 'react'
 

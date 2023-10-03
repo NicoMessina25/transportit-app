@@ -54,6 +54,9 @@ export default function Home() {
         <Card 
           label='Paquetes'
           desc='Carga paquetes para asignarlos a una hoja de ruta o una solicitud de envío'
+          onClick={()=>
+            router.push('./packages/list')
+          }
           icon='tabler:package'
         />
         <Card 

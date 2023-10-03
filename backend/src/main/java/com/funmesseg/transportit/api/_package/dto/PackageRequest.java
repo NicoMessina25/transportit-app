@@ -3,7 +3,7 @@ package com.funmesseg.transportit.api._package.dto;
 import com.funmesseg.transportit.model.enums.EShippingState;
 
 public record PackageRequest(
-     Long packageID,
+     Long packageId,
      float weight,
      float size,
      float price, 

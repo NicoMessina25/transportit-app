@@ -187,18 +187,17 @@ enum EShippingState {
 
 # Package ------------------------------------------------------------
 type Package {
-    packageid: ID
+    packageId: ID
     weight: Float
     size: Float
     price: Float
     state: EShippingState
     shippingRequest: ShippingRequest
-    shippingRequestID: ID
     routeMap: RouteMap
     feePricing: Fee
     recipientDocument: String
     recipientFirstName: String
-    feeCoefficient: Float 
+    cityFeeCoefficient: Float 
 }
 
 input PackageRequest {
