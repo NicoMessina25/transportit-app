@@ -27,7 +27,7 @@ public class FeePricing {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "fee")
+    @Column(name = "feeid")
     private Long feeId;
 
     @Column(name = "feetype", insertable = false, updatable = false)
