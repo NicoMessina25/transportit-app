@@ -224,7 +224,7 @@ export default function DriverForm({onSubmit,onCancel, initialValue}:FormProps<D
                             }} error={errors.fee?.kgprice?.message} type='number' />
                     
 
-                            <TextInput label='Pesos por metro' value={field.value?.kmprice?.toString() ?? ""} name={field.name} onBlur={field.onBlur} onChange={(e)=>{
+                            <TextInput label='Pesos por kilómetro' value={field.value?.kmprice?.toString() ?? ""} name={field.name} onBlur={field.onBlur} onChange={(e)=>{
                                 field.onChange({...field.value, kmprice: Number(e.target.value)})
                             }} error={errors.fee?.kmprice?.message} type='number' />
                             <Button variant='destructive' onClick={()=>{

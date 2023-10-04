@@ -67,7 +67,7 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
                 control={control}
                 render={({ field }) => 
                     <TextInput 
-                        label='Nombre'
+                        label='Nombre del destinatario'
                         {...field} 
                         error={errors.recipientfirstname?.message} 
                     />
@@ -75,11 +75,11 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
             />
 
             <Controller
-                name="recipientfirstname"
+                name="recipientdocument"
                 control={control}
                 render={({ field }) => 
                     <TextInput 
-                        label='Documento'
+                        label='Documento del destinatario'
                         {...field} 
                         error={errors.recipientfirstname?.message} 
                     />
@@ -109,45 +109,6 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
                     />
                 }
             />
-
-            <Controller
-                name="price"
-                control={control}
-                render={({ field }) => 
-                    <TextInput 
-                        label='precio'
-                        {...field} 
-                        error={errors.price?.message} 
-                    />
-                }
-            />
-
-            {isFee ? <Controller
-                    name='feepricing'
-                    control={control}
-                    render={({field})=>
-                        <div className='my-3 justify-center w-2/3 rounded'>
-                            <Label text='Tarifa' className='my-2 text-lg' />
-                            <TextInput label='Pesos por kilo' value={field.value?.kgprice?.toString() ?? ""} name={field.name} onBlur={field.onBlur} onChange={(e)=>{
-                                field.onChange({...field.value, kgprice: Number(e.target.value)})
-                            }} error={errors.feepricing?.kgprice?.message} type='number' />
-                    
-
-                            <TextInput label='Pesos por metro' value={field.value?.cm3price?.toString() ?? ""} name={field.name} onBlur={field.onBlur} onChange={(e)=>{
-                                field.onChange({...field.value, cm3price: Number(e.target.value)})
-                            }} error={errors.feepricing?.cm3price?.message} type='number' />
-                            <Button variant='destructive' onClick={()=>{
-                                setIsFee(false)
-                                field.onChange(undefined)
-                            }} >Eliminar tarifa</Button>
-                        </div>
-                    }
-                />
-                :
-                <Button className='my-2' onClick={()=>{
-                    setIsFee(true)
-                }} >Tarifa</Button>
-            }
             
             <div className='flex justify-end'>
                 <SubmitButton text='Guardar' className='mx-1' />
