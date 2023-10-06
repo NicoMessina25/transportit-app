@@ -5,7 +5,8 @@ public enum EShippingState {
     ORDERED(1),
     PENDING(2),
     SHIPPED(3),
-    DELIVERED(4);
+    DELIVERED(4),
+    RECEIVED(5);
 
     private final int value;
 
