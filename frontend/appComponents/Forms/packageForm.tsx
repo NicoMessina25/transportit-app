@@ -92,6 +92,9 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
                         {...field} 
                         error={errors.weight?.message}
                         type = 'number'
+                        onChange={(e)=>{
+                            field.onChange(Number(e.target.value))
+                        }} 
                     />
                 }
             />
@@ -102,7 +105,10 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
                 render={({ field }) => 
                     <TextInput 
                         label='Tamaño'
-                        {...field} 
+                        {...field}
+                        onChange={(e)=>{
+                            field.onChange(Number(e.target.value))
+                        }} 
                         error={errors.cm3price?.message} 
                         type = 'number'
                     />
