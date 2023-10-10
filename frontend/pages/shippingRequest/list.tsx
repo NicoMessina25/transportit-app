@@ -1,10 +1,9 @@
- 
-
-import GenericCRUDTable from '@/app/Components/GenericCRUDTable/GenericCRUDTable';
-import { Cell } from '@/app/Components/Table/Table';
-import useShippingRequestsCont from '@/app/hooks/controllers/shippingRequest/useShippingRequestsCont';
-import useShippingRequests from '@/app/hooks/fetchers/shippingRequest/useShippingRequests';
-import { ShippingRequest } from '@/app/types/shippingRequest';
+import GenericCRUDTable from '@/appComponents/GenericCRUDTable/GenericCRUDTable';
+import GenericLayout from '@/appComponents/GenericLayout/GenericLayout';
+import { Cell } from '@/appComponents/Table/Table';
+import useShippingRequestsCont from '@/src/hooks/controllers/shippingRequest/useShippingRequestsCont';
+import useShippingRequests from '@/src/hooks/fetchers/shippingRequest/useShippingRequests';
+import { ShippingRequest } from '@/src/types/shippingRequest';
 import React from 'react'
 
 export default function ShippingRequestCRUD() {
@@ -15,7 +14,8 @@ export default function ShippingRequestCRUD() {
     const {delete:{deleteEntity}} = useShippingRequestsCont({});
 
 
-    return <GenericCRUDTable useFetcher={useShippingRequests} deleteEntity={deleteEntity} columns={[{
+    return <GenericLayout title='Solicitudes de Envío'> 
+     <GenericCRUDTable useFetcher={useShippingRequests} deleteEntity={deleteEntity} columns={[{
         accessorKey: 'shippingRequestId',
         header: 'Id'
     }, {
@@ -35,4 +35,5 @@ export default function ShippingRequestCRUD() {
       header: 'Fecha Solicitada',
       cell: requestDate
     }]} entityIdField='shippingRequestId' />
+    </GenericLayout>
 }

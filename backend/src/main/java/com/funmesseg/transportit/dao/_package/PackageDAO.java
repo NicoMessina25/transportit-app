@@ -30,8 +30,8 @@ public class PackageDAO {
     }
 
     @Transactional(readOnly = true)
-    public Package getPackageById(Long userId){
-        return entityManager.find(Package.class, userId);
+    public Package getPackageById(Long packageId){
+        return entityManager.find(Package.class, packageId);
     }
 
     @Transactional

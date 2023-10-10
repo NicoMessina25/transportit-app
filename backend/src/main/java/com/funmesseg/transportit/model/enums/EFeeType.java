@@ -1,6 +1,7 @@
 package com.funmesseg.transportit.model.enums;
 
 public enum EFeeType {
+    CHARITY(0),
     PAYMENT(1),
     PRICING(2);
 

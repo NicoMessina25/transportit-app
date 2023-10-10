@@ -20,7 +20,7 @@ export default function usePackagesCont({onSave, onUpdate, onDelete}:ControllerP
     }
 
     function deleteEntity(e:Package){
-        deletePackage({variables:{id: e.packageid}});
+        deletePackage({variables:{id: e.packageId}});
     }
 
     function updateEntity(e:Package, id:number){

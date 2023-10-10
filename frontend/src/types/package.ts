@@ -1,11 +1,11 @@
 import { EShippingState } from "./EShippingState";
 import { FeePricing } from "./fee";
-import { Indexable } from "../Components/Table/Table";
+import { Indexable } from '@/src/types/indexable';
 
 export interface Package extends Indexable {
-    packageid?: number,
+    packageId?: number,
     weight:number,
-    size:number,
+    cm3price:number,
     price: number,
     state?: EShippingState
     shippingrequestid?: number,
@@ -17,11 +17,11 @@ export interface Package extends Indexable {
 }
 
 export const defaultPackage:Package = {
-    packageid: undefined,
+    packageId: undefined,
     recipientfirstname: "",
     recipientdocument: "",
     weight: 0,
-    size: 0,
+    cm3price: 0,
     price:0,
     cityfeecoefficient:0,
     routemapid: undefined,

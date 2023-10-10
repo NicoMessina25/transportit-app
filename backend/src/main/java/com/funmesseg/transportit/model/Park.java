@@ -27,7 +27,7 @@ public class Park {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "parkid")
-    private Long parkId;
+    private Long parkid;
     
     @Id
     @JoinColumn(name = "cityid")

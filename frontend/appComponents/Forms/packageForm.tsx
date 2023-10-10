@@ -1,18 +1,15 @@
- 
-
-import BackButton from '@/app/Components/Buttons/BackButton/BackButton';
-import SubmitButton from '@/app/Components/Buttons/SubmitButton/SubmitButton';
-import { TextInput } from '@/app/Components/TextInput/TextInput';
-import { Package, defaultPackage } from '@/app/types/package'
-import { FormProps, personSchema, requiredMessage } from '@/app/types/form';
+import { useQuery } from '@apollo/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
-import {Output, string, minLength, number, object,optional,transform, minValue, maxValue, regex, nullable} from 'valibot'
-import { Button } from '@/components/ui/button';
-import { EFeeType } from '@/app/types/EFeeType';
-import { Label } from '@/app/Components/Labels/Label/Label';
-import { FeePricing } from '@/app/types/fee';
+import {Output, array, string, minLength, number, object,optional,transform, minValue, maxValue, regex, nullable} from 'valibot'
+import { FormProps, requiredMessage } from '@/src/types/form';
+import { EFeeType } from '@/src/types/EFeeType';
+import { FeePricing } from '@/src/types/fee';
+import { Package, defaultPackage } from '@/src/types/package';
+import { TextInput } from '../TextInput/TextInput';
+import BackButton from '../Buttons/BackButton/BackButton';
+import SubmitButton from '../Buttons/SubmitButton/SubmitButton';
 
 export const citySchema = object({
     cityId: transform(string(), (input:string)=>Number(input)),
@@ -27,15 +24,15 @@ export const feeSchema = object({
 })
 
 const packageSchema = object({
-    packageid: optional(number()),
+    packageId: optional(number()),
     recipientdocument: string([
         minLength(1,requiredMessage)
     ]),
     recipientfirstname: string([
         minLength(1,requiredMessage)
     ]),
-    weight: optional(nullable(number())),
-    cm3price: optional(nullable(number())),
+    weight: number([minValue(0.1,'Debe tener un peso válido')]),
+    cm3price: number([minValue(0.1,'Debe tener un tamaño válido')]),
     price: optional(nullable(number())),
     feepricing: optional(nullable(feeSchema))
 })
@@ -94,6 +91,7 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
                         label='Peso'
                         {...field} 
                         error={errors.weight?.message}
+                        type = 'number'
                     />
                 }
             />
@@ -106,6 +104,7 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
                         label='Tamaño'
                         {...field} 
                         error={errors.cm3price?.message} 
+                        type = 'number'
                     />
                 }
             />
