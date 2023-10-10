@@ -19,7 +19,7 @@ export const citySchema = object({
 export const feeSchema = object({
     feeId: optional(transform(string(requiredMessage),(input:string)=>Number(input))),
     kgprice: number([minValue(0,'No puede ser negativo'), maxValue(20,'No se permite más de 20 pesos por kg')]),
-    cm3price: number([minValue(0,'No puede ser negativo'), maxValue(20,'No se permite más de 20 pesos por cm3')]),
+    size: number([minValue(0,'No puede ser negativo'), maxValue(20,'No se permite más de 20 pesos por cm3')]),
     feeType: optional(transform(string(requiredMessage),()=>EFeeType.PRICING))
 })
 
@@ -32,7 +32,7 @@ const packageSchema = object({
         minLength(1,requiredMessage)
     ]),
     weight: number([minValue(0.1,'Debe tener un peso válido')]),
-    cm3price: number([minValue(0.1,'Debe tener un tamaño válido')]),
+    size: number([minValue(0.1,'Debe tener un tamaño válido')]),
     price: optional(nullable(number())),
     feepricing: optional(nullable(feeSchema))
 })
@@ -54,7 +54,7 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
         
         <form onSubmit={handleSubmit((p:PackageSchema)=>{
             if(p.feepricing && initialFee){
-                p.feepricing.feeId = initialFee.kgprice == p.feepricing.kgprice && initialFee.cm3price == p.feepricing.cm3price? p.feepricing.feeId : undefined
+                p.feepricing.feeId = initialFee.kgprice == p.feepricing.kgprice && initialFee.size == p.feepricing.size? p.feepricing.feeId : undefined
             }
             onSubmit(p as Package)
         })} className='flex flex-col w-1/2' >
@@ -100,7 +100,7 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
             />
             
             <Controller
-                name="cm3price"
+                name="size"
                 control={control}
                 render={({ field }) => 
                     <TextInput 
@@ -109,7 +109,7 @@ export default function PackageForm({onSubmit,onCancel, initialValue}:FormProps<
                         onChange={(e)=>{
                             field.onChange(Number(e.target.value))
                         }} 
-                        error={errors.cm3price?.message} 
+                        error={errors.size?.message} 
                         type = 'number'
                     />
                 }

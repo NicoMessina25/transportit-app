@@ -54,7 +54,8 @@ public class ShippingRequestDAO {
                 List<Long> packages = new ArrayList<>();
                 shippingRequestRequest.packages().forEach(p -> {
                     Package packagee = entityManager.find(Package.class, p);
-                    packagee = packageDAO.updatePackage(packagee.getPackageId(), new PackageRequest(packagee.getPackageId(), packagee.getWeight(), packagee.getSize(), packagee.getPrice(), packagee.getState(), shippingRequest.getRequestId(), /*packagee.getRouteMap().getRouteMapId()*/null, packagee.getRecipientDocument(), packagee.getRecipientFirstname(), packagee.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
+                    //packagee = 
+                    packageDAO.updatePackage(packagee.getPackageId(), new PackageRequest(packagee.getPackageId(), packagee.getWeight(), packagee.getSize(), packagee.getPrice(), packagee.getState(), shippingRequest.getRequestId(), /*packagee.getRouteMap().getRouteMapId()*/null, packagee.getRecipientdocument(), packagee.getRecipientfirstname(), packagee.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
                     packages.add(packagee.getPackageId());
                 });
             }

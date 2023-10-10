@@ -7,8 +7,8 @@ export const PACKAGES = gql`
             weight,
             size,
             price,
-            recipientDocument,
-            recipientFirstname
+            recipientdocument,
+            recipientfirstname
         }
     }
 `
@@ -24,8 +24,8 @@ query($id: ID){
         shippingRequestId
         routeMapId
         feePricingId
-        recipientDocument
-        recipientFirstname
+        recipientdocument
+        recipientfirstname
         cityFeeCoefficient
     }
 }

@@ -1,4 +1,4 @@
-import { Indexable } from "../Components/Table/Table";
+import { Indexable } from "@/src/types/indexable";
 import { EFeeType } from "./EFeeType";
 
 export interface FeePayment extends Indexable{
@@ -19,12 +19,12 @@ export interface FeePricing extends Indexable{
     feeId?:number;
     feeType: EFeeType.PRICING;
     kgprice:number;
-    cm3price:number;
+    size:number;
 }
 
 export const defaultFeePricing: FeePricing = {
     feeId: undefined,
     kgprice: 0,
-    cm3price: 0,
+    size: 0,
     feeType: EFeeType.PRICING
 }

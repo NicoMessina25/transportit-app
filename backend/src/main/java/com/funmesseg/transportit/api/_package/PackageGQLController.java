@@ -28,12 +28,12 @@ public class PackageGQLController {
     }
 
     @MutationMapping
-    public Package savePackage(@Argument PackageRequest packageRequest){
+    public CustomResponse savePackage(@Argument PackageRequest packageRequest){
         return packageDAO.savePackage(packageRequest);
     }
 
     @MutationMapping
-    public Package updatePackage(@Argument Long id, @Argument PackageRequest packageRequest){
+    public CustomResponse updatePackage(@Argument Long id, @Argument PackageRequest packageRequest){
         return packageDAO.updatePackage(id, packageRequest);
     }
 

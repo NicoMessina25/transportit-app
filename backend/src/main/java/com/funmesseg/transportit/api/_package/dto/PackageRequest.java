@@ -10,8 +10,8 @@ public record PackageRequest(
      EShippingState state,
      Long requestId,
      Long routeMapId,
-     String recipientDocument,
-     String recipientFirstname,
+     String recipientdocument,
+     String recipientfirstname,
      //float feeCoefficient,
      float cityFeeCoefficient,
      Long feePricingId

@@ -17,10 +17,10 @@ export default function PackageCRUD() {
         accessorKey: 'packageId',
         header: 'Id'
     },{
-        accessorKey: 'recipientFirstname',
+        accessorKey: 'recipientfirstname',
         header: 'Nombre receptor'
     }, {
-        accessorKey: 'recipientDocument',
+        accessorKey: 'recipientdocument',
         header: 'Documento receptor'
     },{
         accessorKey: 'weight',

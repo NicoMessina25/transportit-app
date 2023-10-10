@@ -1,26 +1,25 @@
  
 
-import BackButton from '@/app/Components/Buttons/BackButton/BackButton';
-import SubmitButton from '@/app/Components/Buttons/SubmitButton/SubmitButton';
-import { Combobox } from '@/app/Components/Combobox/Combobox';
-import { TextInput } from '@/app/Components/TextInput/TextInput';
-import { CITIES } from '@/app/graphql/city/cityQueries';
-import { City } from '@/app/types/city';
-import { ShippingRequest, defaultShippingRequest } from '@/app/types/shippingRequest'
-import { FormProps, personSchema, requiredMessage } from '@/app/types/form';
 import { useQuery } from '@apollo/client';
 import { valibotResolver } from '@hookform/resolvers/valibot';
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
-import {Output, array, string, minLength, number, object,optional,transform, minValue, maxValue, regex, nullable, required} from 'valibot'
+import {Output, array, string, minLength, number, object,optional,transform, minValue, maxValue, regex, nullable} from 'valibot'
 import { Button } from '@/components/ui/button';
-import { EFeeType } from '@/app/types/EFeeType';
-import { Label } from '@/app/Components/Labels/Label/Label';
-import { Package, defaultPackage } from '@/app/types/package';
-import ErrorLabel from '@/app/Components/Labels/ErrorLabel/ErrorLabel';
-import KeyValueLabel from '@/app/Components/Labels/KeyValueLabel/KeyValueLabel';
-import { FeePayment } from '@/app/types/fee';
 import Spinner from '../Spinner/Spinner';
+import { FormProps, requiredMessage } from '@/src/types/form';
+import { EFeeType } from '@/src/types/EFeeType';
+import { personSchema } from '@/src/types/form';
+import { FeePayment } from '@/src/types/fee';
+import { ShippingRequest, defaultShippingRequest } from '@/src/types/shippingRequest';
+import { Package, defaultPackage } from '@/src/types/package';
+import { CITIES } from '@/src/graphql/city/cityQueries';
+import KeyValueLabel from '../Labels/KeyValueLabel/KeyValueLabel';
+import { Label } from '../Labels/Label/Label';
+import { TextInput } from '../TextInput/TextInput';
+import { Combobox } from '../Combobox/Combobox';
+import BackButton from '../Buttons/BackButton/BackButton';
+import SubmitButton from '../Buttons/SubmitButton/SubmitButton';
 
 export const citySchema = object({
     cityId: transform(string(), (input:string)=>Number(input)),
@@ -47,14 +46,14 @@ export const packageSchema = object({
       minLength(1,requiredMessage)
   ]),
   weight: optional(nullable(number([minValue(0,'No puede ser menor a 0kg')]))),
-  cm3price: optional(nullable(number([minValue(0,'No puede ser menor a 0cm3')]))),
+  size: optional(nullable(number([minValue(0,'No puede ser menor a 0cm3')]))),
   price: optional(nullable(number([minValue(0,'No puede ser menor a 0 pesos')]))),
 })
 
 const shippingRequestSchema = object({
     requestid: optional(number()),
-    customer: required(customerSchema),
-    cityFrom: required(citySchema),
+    customer: customerSchema,
+    cityFrom: citySchema,
     cityTo: optional(citySchema),
     packages: optional(array(packageSchema))
 })
@@ -157,7 +156,7 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
                                     field.onChange(field.value)
                                     setNewPackage(packagee)
                                 }, errors.packages?.[index]?.recipientdocument?.message, errors.packages?.[index]?.recipientfirstname?.message,
-                                errors.packages?.[index]?.weight?.message, errors.packages?.[index]?.cm3price?.message,)
+                                errors.packages?.[index]?.weight?.message, errors.packages?.[index]?.size?.message,)
                             })}
 
                             {newPackage ? <><Label className='mt-2 text-lg' text={newPackage.packageid ? `Id: ${newPackage.packageid}`: 'Nuevo paquete'} />
@@ -171,7 +170,7 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
                                     setNewPackage({...newPackage, weight: Number(e.target.value)})
                                 }} type='number' />
 
-                                <TextInput label='Tamaño' name='cm3price' value={newPackage.weight.toString()} onChange={(e)=>{
+                                <TextInput label='Tamaño' name='size' value={newPackage.weight.toString()} onChange={(e)=>{
                                     setNewPackage({...newPackage, weight: Number(e.target.value)})
                                 }} type='number' />
 

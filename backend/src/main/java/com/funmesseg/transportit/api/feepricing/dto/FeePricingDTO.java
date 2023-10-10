@@ -19,6 +19,6 @@ public class FeePricingDTO {
 
     private float kgprice;
 
-    private float cm3price;
+    private float size;
     
 }

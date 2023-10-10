@@ -58,10 +58,10 @@ public class Package {
     private FeePricing feePricing;
 
     @Column(name = "recipientdocument")
-    private String recipientDocument;
+    private String recipientdocument;
 
     @Column(name = "recipientfirstname")
-    private String recipientFirstname;
+    private String recipientfirstname;
 
     @Column(name = "cityfeecoefficient")
     private float cityFeeCoefficient;

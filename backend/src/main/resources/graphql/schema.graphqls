@@ -19,8 +19,8 @@ type Mutation{
     updateShippingRequest(shippingRequestRequest: ShippingRequestRequest): CustomResponse
     deleteShippingRequest(id: ID!): CustomResponse
 
-    savePackage(packageRequest: PackageRequest): Package
-    updatePackage(id: ID!, packageRequest: PackageRequest): Package
+    savePackage(packageRequest: PackageRequest): CustomResponse
+    updatePackage(id: ID!, packageRequest: PackageRequest): CustomResponse
     deletePackage(id: ID!): CustomResponse
 
     saveRouteMap(routeMapRequest: RouteMapRequest!): CustomResponse
@@ -195,8 +195,8 @@ type Package {
     shippingRequest: ShippingRequest
     routeMap: RouteMap
     feePricing: Fee
-    recipientDocument: String
-    recipientFirstname: String
+    recipientdocument: String
+    recipientfirstname: String
     cityFeeCoefficient: Float 
 }
 
@@ -208,8 +208,8 @@ input PackageRequest {
     requestId: ID
     routeMapId: ID
     feePricingId: ID
-    recipientDocument: String!
-    recipientFirstName: String!
+    recipientdocument: String!
+    recipientfirstname: String!
     cityFeeCoefficient: Float 
 }
 

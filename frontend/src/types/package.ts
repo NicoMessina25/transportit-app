@@ -5,7 +5,7 @@ import { Indexable } from '@/src/types/indexable';
 export interface Package extends Indexable {
     packageId?: number,
     weight:number,
-    cm3price:number,
+    size:number,
     price: number,
     state?: EShippingState
     shippingrequestid?: number,
@@ -21,7 +21,7 @@ export const defaultPackage:Package = {
     recipientfirstname: "",
     recipientdocument: "",
     weight: 0,
-    cm3price: 0,
+    size: 0,
     price:0,
     cityfeecoefficient:0,
     routemapid: undefined,

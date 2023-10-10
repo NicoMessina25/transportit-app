@@ -34,7 +34,7 @@ public class FeePricingDAO {
 
         feePricing.setFeeType(feePricingDTO.getFeeType());
         feePricing.setKgprice(feePricingDTO.getKgprice());
-        feePricing.setCm3price(feePricingDTO.getCm3price());
+        feePricing.setCm3price(feePricingDTO.getSize());
 
         entityManager.persist(feePricing);
     }

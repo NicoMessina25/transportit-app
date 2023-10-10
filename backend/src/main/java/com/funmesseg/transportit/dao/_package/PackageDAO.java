@@ -47,12 +47,16 @@ public class PackageDAO {
     }
 
     @Transactional
-    public Package savePackage(PackageRequest packageRequest){
-       
-        Package packagee = getPackageFromRequest(null ,packageRequest);
-        packagee.setState(EShippingState.ORDERED);
-        entityManager.persist(packagee);
-        return packagee;
+    public CustomResponse savePackage(PackageRequest packageRequest){
+       try{
+            Package packagee = getPackageFromRequest(null ,packageRequest);
+            packagee.setState(EShippingState.ORDERED);
+            entityManager.persist(packagee);
+       } catch (Exception e) {
+            return new CustomResponse(false, "No se guardo exitosamente: " + e.getMessage());
+        }
+        return new CustomResponse(true, "Se guardo exitosamente: ");
+        
         
     }
 
@@ -68,11 +72,15 @@ public class PackageDAO {
     }
 
     @Transactional
-    public Package updatePackage(Long id, PackageRequest packageRequest){
-    
-        Package packagee = getPackageFromRequest(id, packageRequest);
-        entityManager.merge(packagee);
-        return packagee;
+    public CustomResponse updatePackage(Long id, PackageRequest packageRequest){
+        try{
+            Package packagee = getPackageFromRequest(id, packageRequest);
+            entityManager.merge(packagee);
+        } catch (Exception e) {
+            return new CustomResponse(false, "No se actualizo exitosamente: " + e.getMessage());
+        }
+        return new CustomResponse(true, "Se actualizo exitosamente: ");
+        
     }
 
     private Package getPackageFromRequest(Long id, PackageRequest packageRequest){
@@ -105,10 +113,10 @@ public class PackageDAO {
             feePricing = entityManager.find(FeePricing.class, packageRequest.feePricingId());
             packagee.setFeePricing(feePricing);
         }
-        if (packageRequest.recipientDocument() != null)
-            packagee.setRecipientDocument(packageRequest.recipientDocument());
-        if (packageRequest.recipientFirstname() != null)
-            packagee.setRecipientFirstname(packageRequest.recipientFirstname());
+        if (packageRequest.recipientdocument() != null)
+            packagee.setRecipientdocument(packageRequest.recipientdocument());
+        if (packageRequest.recipientfirstname() != null)
+            packagee.setRecipientfirstname(packageRequest.recipientfirstname());
         if (Float.valueOf(packageRequest.cityFeeCoefficient()) != null)
             packagee.setCityFeeCoefficient(packageRequest.cityFeeCoefficient());
 
@@ -116,55 +124,66 @@ public class PackageDAO {
     }
 
     @Transactional
-    public List<Package> updatePackagesFromShippingRequest(List<Long> newPackages, List<Package> oldPackages, Long requestId){
+    public CustomResponse updatePackagesFromShippingRequest(List<Long> newPackages, List<Package> oldPackages, Long requestId){
         final List<Package> packages = new ArrayList<>();
         List<Package> packageToSave = new ArrayList<>();
         List<Package> packagesToDelete = new ArrayList<>();
         List<Package> packagesToUpdate = new ArrayList<>();
 
+        try{
+            if(newPackages != null && oldPackages != null){                       
+                //packageToSave = newPackages.stream().filter(np -> np.packageID() == null).toList();
+                packagesToDelete = oldPackages.stream().filter(op -> newPackages.stream().noneMatch(np -> op.getPackageId().equals(np))).toList();//se borran
+                //List<Long> pTU = newPackages.stream().filter(np -> oldPackages.stream().anyMatch(op -> op.getPackageId().equals(np))).toList(); //se actualizan
 
+                newPackages.forEach(p -> {
+                    Package packagee = entityManager.find(Package.class, p);
+                    packagesToUpdate.add(packagee);
+                });
 
-        if(newPackages != null && oldPackages != null){                       
-            //packageToSave = newPackages.stream().filter(np -> np.packageID() == null).toList();
-            packagesToDelete = oldPackages.stream().filter(op -> newPackages.stream().noneMatch(np -> op.getPackageId().equals(np))).toList();//se borran
-            //List<Long> pTU = newPackages.stream().filter(np -> oldPackages.stream().anyMatch(op -> op.getPackageId().equals(np))).toList(); //se actualizan
+                for(Package p : packagesToUpdate){
+                    //Package packagee = 
 
-            newPackages.forEach(p -> {
-                Package packagee = entityManager.find(Package.class, p);
-                packagesToUpdate.add(packagee);
-            });
+                    updatePackage(p.getPackageId(), new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, /*packagee.getRouteMap().getRouteMapId()*/null, p.getRecipientdocument(), p.getRecipientfirstname(), p.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
+                    
+                    //packages.add(packagee);
+                }
 
-            for(Package p : packagesToUpdate){
-                Package packagee = updatePackage(p.getPackageId(), new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, /*packagee.getRouteMap().getRouteMapId()*/null, p.getRecipientDocument(), p.getRecipientFirstname(), p.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
-                packages.add(packagee);
+                /*List<Long> pTS = newPackages.stream().filter(np -> oldPackages.stream().noneMatch(op -> op.getPackageId().equals(np))).toList();
+
+                pTS.forEach(p -> {
+                    Package packagee = entityManager.find(Package.class, p);
+                    packageToSave.add(packagee);
+                });*/
+
+            } else if(newPackages != null) {    //los paquetes ya existen, se les actualiza el requestId
+                newPackages.forEach(p -> {
+                    Package packagee = entityManager.find(Package.class, p);
+                    packagesToUpdate.add(packagee);
+                });
+            } else {
+                packagesToDelete = oldPackages;
             }
-
-            /*List<Long> pTS = newPackages.stream().filter(np -> oldPackages.stream().noneMatch(op -> op.getPackageId().equals(np))).toList();
-
-            pTS.forEach(p -> {
-                Package packagee = entityManager.find(Package.class, p);
-                packageToSave.add(packagee);
-            });*/
-
-        } else if(newPackages != null) {    //los paquetes ya existen, se les actualiza el requestId
-            newPackages.forEach(p -> {
-                Package packagee = entityManager.find(Package.class, p);
-                packagesToUpdate.add(packagee);
-            });
-        } else {
-            packagesToDelete = oldPackages;
-        }
-        
-        if(packagesToUpdate != null)
-            packagesToUpdate.forEach(p -> {
-                Package packagee = updatePackage(p.getPackageId(), new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, /*packagee.getRouteMap().getRouteMapId()*/null, p.getRecipientDocument(), p.getRecipientFirstname(), p.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
-                packages.add(packagee);
-            });
             
-        if(packagesToDelete != null)
-            packagesToDelete.forEach(ot -> deletePackage(ot.getPackageId()));
+            if(packagesToUpdate != null)
+                packagesToUpdate.forEach(p -> {
+                    //Package packagee = 
 
-        return packages;
+                    updatePackage(p.getPackageId(), new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, /*packagee.getRouteMap().getRouteMapId()*/null, p.getRecipientdocument(), p.getRecipientfirstname(), p.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
+                    
+                    //packages.add(packagee);
+                });
+                
+            if(packagesToDelete != null)
+                packagesToDelete.forEach(ot -> deletePackage(ot.getPackageId()));
+
+        } catch (Exception e) {
+            return new CustomResponse(false, "fracaso: " + e.getMessage());
+        }
+        return new CustomResponse(true, "exito: ");
+
+        
+        //return packages;
     }
 
     @Transactional
