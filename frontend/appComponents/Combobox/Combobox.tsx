@@ -51,7 +51,7 @@ export function Combobox<TItem extends Indexable>({items,placeholder = "",option
         </Button>
       </PopoverTrigger></div>
       <ErrorLabel error={!!error} text={error} />
-      <PopoverContent className="w-full p-0 h-[300px]">
+      <PopoverContent className="w-full p-0 h-[300px] dark">
         <Command>
           <CommandInput placeholder={placeholder} />
           <CommandEmpty>{notFoundText}</CommandEmpty>
