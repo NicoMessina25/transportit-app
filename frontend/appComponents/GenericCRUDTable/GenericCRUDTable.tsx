@@ -33,7 +33,7 @@ export default function GenericCRUDTable<TEntity extends Indexable>({useFetcher,
         <DataTable columns={columns} data={data ?? []} onEdit={(c)=>{
           router.push(`./form/${c[entityIdField]}`)
         }} onDelete={deleteEntity} />
-        <AddButton onClick={()=>router.push("./form")}className='my-3' />
+        <AddButton onClick={()=>router.push("./form")} className='my-3' />
       </div>
     )
 }

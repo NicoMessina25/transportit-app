@@ -42,7 +42,7 @@ export const truckSchema = object({
 })
 
 const driverSchema = object({
-    driverid: optional(number()),
+    driverId: optional(number()),
     ...personSchema,
     phone: string([
         minLength(1,requiredMessage)

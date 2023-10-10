@@ -1,10 +1,11 @@
-import { Indexable } from "../Components/Table/Table";
+
 import { City, defaultCity } from "./city";
 import { FeePayment, defaultFeePayment } from "./fee";
+import { Indexable } from "./indexable";
 import { Truck } from "./truck";
 
 export interface Driver extends Indexable{
-    driverid?: number,
+    driverId?: number,
     firstname: string;
     lastname:string;
     document: string;
@@ -20,7 +21,7 @@ export interface Driver extends Indexable{
 }
 
 export const defaultDriver:Driver = {
-    driverid: undefined,
+    driverId: undefined,
     firstname: "",
     lastname: "",
     address: "",
