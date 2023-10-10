@@ -1,5 +1,6 @@
 package com.funmesseg.transportit.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -67,4 +68,8 @@ public class RouteMap {
     @JoinColumn(name = "cityfromid")
     @ManyToOne
     private City cityFrom;
+
+    @Column
+    private LocalDateTime deleted;
+
 }

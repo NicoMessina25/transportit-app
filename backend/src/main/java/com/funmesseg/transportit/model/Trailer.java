@@ -37,8 +37,8 @@ public class Trailer {
     private boolean available;
 
   
-    @JoinColumn(name = "parkId")
-    @JoinColumn(name = "city")
+    @JoinColumn(name = "parkid")
+    @JoinColumn(name = "cityid")
     @ManyToOne
     private Park park;
 

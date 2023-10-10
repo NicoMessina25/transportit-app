@@ -29,3 +29,11 @@ alter column recipientFirstname varchar(50) not null
 
 alter table package
 alter column requestId bigint null
+
+----------------------------
+
+alter table routemap
+add deleted datetime
+
+alter table shippingrequest
+add deleted datetime

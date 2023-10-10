@@ -1,5 +1,6 @@
 package com.funmesseg.transportit.model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
