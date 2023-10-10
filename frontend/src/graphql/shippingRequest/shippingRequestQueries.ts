@@ -21,7 +21,7 @@ export const SHIPPING_REQUESTS = gql`
                 lastname
             }
             packages {
-                packageid,
+                packageId,
                 weight,
                 size,
                 price
@@ -51,7 +51,7 @@ query($id: ID){
                 lastname
             }
             packages {
-                packageid,
+                packageId,
                 weight,
                 size,
                 price

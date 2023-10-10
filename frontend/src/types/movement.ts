@@ -9,7 +9,7 @@ export interface Movement extends Indexable {
 
 export interface PricingMovement extends Movement {
     movementtype: EMovementType.PRICING,
-    shippingRequestId: number;
+    requestId: number;
     _packageId: number;
 }
 

@@ -38,7 +38,7 @@ const customerSchema = object({
 })
 
 export const packageSchema = object({
-  packageid: optional(number()),
+  packageId: optional(number()),
   recipientdocument: string([
       minLength(1,requiredMessage)
   ]),
@@ -83,7 +83,7 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
         if(!packagee) return
 
         return <div key={packagee.recipientdocument + index} className='rounded-lg bg-cyan-950 p-3 flex flex-col justify-around my-3'>
-            <Label className='font-bold italic text-cyan-200 mr-3' text={packagee.packageid ? `Id: ${packagee.packageid}` : 'Nuevo paquete'}/>
+            <Label className='font-bold italic text-cyan-200 mr-3' text={packagee.packageId ? `Id: ${packagee.packageId}` : 'Nuevo paquete'}/>
             <div className='flex my-4'>
                 <KeyValueLabel label='Documento del receptor: ' value={packagee.recipientdocument} errorMessage={recipientdocumentErr} className='mx-1' />
                 <KeyValueLabel label='Nombre del receptor: ' value={packagee.recipientfirstname} errorMessage={recipientfirstnameErr} className='mx-1' /> 
@@ -159,7 +159,7 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
                                 errors.packages?.[index]?.weight?.message, errors.packages?.[index]?.size?.message,)
                             })}
 
-                            {newPackage ? <><Label className='mt-2 text-lg' text={newPackage.packageid ? `Id: ${newPackage.packageid}`: 'Nuevo paquete'} />
+                            {newPackage ? <><Label className='mt-2 text-lg' text={newPackage.packageId ? `Id: ${newPackage.packageId}`: 'Nuevo paquete'} />
                             <div className='rounded-lg bg-cyan-600 p-3'>
                                 <TextInput label='Documento del receptor' name='recipientdocument' value={newPackage.recipientdocument} onChange={(e)=>{
                                     setNewPackage({...newPackage, recipientdocument: e.target.value})

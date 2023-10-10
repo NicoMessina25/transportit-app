@@ -10,7 +10,7 @@ import React from 'react'
 export default function PackageEdit() {
     const router:NextRouter = useRouter();
     const {params}:EditProps = {params: {
-        id: Number(router.query.id)
+        id: Number(router.query.id)     //agarra el form/id, de form/4 agarra el 4, que es la id del paquete
     }} 
     return <GenericLayout title='Paquetes'> 
         <GenericEditEntityView formComponent={packageForm} useFetcher={usePackages} useEntityCont={usePackagesCont} params={params} />    

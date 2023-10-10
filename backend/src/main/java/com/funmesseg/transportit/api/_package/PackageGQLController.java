@@ -33,8 +33,8 @@ public class PackageGQLController {
     }
 
     @MutationMapping
-    public CustomResponse updatePackage(@Argument Long id, @Argument PackageRequest packageRequest){
-        return packageDAO.updatePackage(id, packageRequest);
+    public CustomResponse updatePackage(@Argument PackageRequest packageRequest){
+        return packageDAO.updatePackage(packageRequest);
     }
 
     @MutationMapping

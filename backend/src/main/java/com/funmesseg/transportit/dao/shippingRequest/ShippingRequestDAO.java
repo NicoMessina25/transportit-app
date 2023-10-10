@@ -55,7 +55,7 @@ public class ShippingRequestDAO {
                 shippingRequestRequest.packages().forEach(p -> {
                     Package packagee = entityManager.find(Package.class, p);
                     //packagee = 
-                    packageDAO.updatePackage(packagee.getPackageId(), new PackageRequest(packagee.getPackageId(), packagee.getWeight(), packagee.getSize(), packagee.getPrice(), packagee.getState(), shippingRequest.getRequestId(), /*packagee.getRouteMap().getRouteMapId()*/null, packagee.getRecipientdocument(), packagee.getRecipientfirstname(), packagee.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
+                    packageDAO.updatePackage(new PackageRequest(packagee.getPackageId(), packagee.getWeight(), packagee.getSize(), packagee.getPrice(), packagee.getState(), shippingRequest.getRequestId(), packagee.getRouteMap().getRouteMapId(), packagee.getRecipientdocument(), packagee.getRecipientfirstname(), packagee.getCityFeeCoefficient(), packagee.getFeePricing().getFeeId()));
                     packages.add(packagee.getPackageId());
                 });
             }
@@ -88,9 +88,9 @@ public class ShippingRequestDAO {
     }
 
     @Transactional
-    public CustomResponse deleteShippingRequest(Long shippingRequestId){
+    public CustomResponse deleteShippingRequest(Long requestId){
         try {
-            ShippingRequest shippingRequest = entityManager.getReference(ShippingRequest.class, shippingRequestId);
+            ShippingRequest shippingRequest = entityManager.getReference(ShippingRequest.class, requestId);
             shippingRequest.setDeleted(LocalDateTime.now());
             entityManager.merge(shippingRequest);
 

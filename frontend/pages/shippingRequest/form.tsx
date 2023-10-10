@@ -12,7 +12,7 @@ export default function ShippingRequestAddView() {
         router.back();
     }})
 
-    return <GenericLayout title='Solcitudes de Envío'> 
+    return <GenericLayout title='Solicitudes de Envío'> 
         <ShippingRequestForm onSubmit={saveEntity} />      
     </GenericLayout>  
 

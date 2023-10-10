@@ -8,7 +8,7 @@ export interface Package extends Indexable {
     size:number,
     price: number,
     state?: EShippingState
-    shippingrequestid?: number,
+    requestId?: number,
     routemapid?: number,
     feepricing?: FeePricing
     recipientdocument: string
@@ -27,5 +27,5 @@ export const defaultPackage:Package = {
     routemapid: undefined,
     feepricing: undefined,
     state: undefined,
-    shippingrequestid: undefined
+    requestId: undefined
 }

@@ -12,7 +12,7 @@ export default function ShippingRequestEdit() {
     const {params}:EditProps = {params: {
         id: Number(router.query.id)
     }} 
-    return <GenericLayout title='Conductores'> 
+    return <GenericLayout title='Solicitudes de Envio'> 
         <GenericEditEntityView formComponent={shippingRequestForm} useFetcher={useShippingRequests} useEntityCont={useShippingRequestsCont} params={params} />    
     </GenericLayout>
 

@@ -20,7 +20,7 @@ type Mutation{
     deleteShippingRequest(id: ID!): CustomResponse
 
     savePackage(packageRequest: PackageRequest): CustomResponse
-    updatePackage(id: ID!, packageRequest: PackageRequest): CustomResponse
+    updatePackage(packageRequest: PackageRequest): CustomResponse
     deletePackage(id: ID!): CustomResponse
 
     saveRouteMap(routeMapRequest: RouteMapRequest!): CustomResponse
@@ -201,6 +201,7 @@ type Package {
 }
 
 input PackageRequest {
+    packageId: ID
     weight: Float
     size: Float
     price: Float

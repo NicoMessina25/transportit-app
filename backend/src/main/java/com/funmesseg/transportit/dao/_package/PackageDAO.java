@@ -35,21 +35,9 @@ public class PackageDAO {
     }
 
     @Transactional
-    public CustomResponse saveePackage(PackageRequest packageRequest){
-        try {
-            entityManager.persist(getPackageFromRequest(null, packageRequest));
-        } catch (Exception e) {
-            
-            return new CustomResponse(false, "No se guardo exitosamente: " + e.getMessage());
-        }
-        
-        return new CustomResponse(true, "Se guardo exitosamente: ");
-    }
-
-    @Transactional
     public CustomResponse savePackage(PackageRequest packageRequest){
        try{
-            Package packagee = getPackageFromRequest(null ,packageRequest);
+            Package packagee = getPackageFromRequest(packageRequest);
             packagee.setState(EShippingState.ORDERED);
             entityManager.persist(packagee);
        } catch (Exception e) {
@@ -57,24 +45,12 @@ public class PackageDAO {
         }
         return new CustomResponse(true, "Se guardo exitosamente: ");
         
-        
-    }
-
-
-    @Transactional
-    public CustomResponse updateePackage(Long id, PackageRequest packageRequest){
-        try {
-            entityManager.merge(getPackageFromRequest(id, packageRequest));
-        } catch (Exception e) {
-            return new CustomResponse(false, "No se actualizo exitosamente: " + e.getMessage());
-        }
-        return new CustomResponse(true, "Se actualizo exitosamente: ");
     }
 
     @Transactional
-    public CustomResponse updatePackage(Long id, PackageRequest packageRequest){
+    public CustomResponse updatePackage(PackageRequest packageRequest){
         try{
-            Package packagee = getPackageFromRequest(id, packageRequest);
+            Package packagee = getPackageFromRequest(packageRequest);
             entityManager.merge(packagee);
         } catch (Exception e) {
             return new CustomResponse(false, "No se actualizo exitosamente: " + e.getMessage());
@@ -83,16 +59,17 @@ public class PackageDAO {
         
     }
 
-    private Package getPackageFromRequest(Long id, PackageRequest packageRequest){
+    private Package getPackageFromRequest(PackageRequest packageRequest){
         Package packagee;
-        if(id == null)
+        if(packageRequest.packageId() == null)
             packagee = new Package();
-        else packagee = entityManager.find(Package.class, id);
+        else packagee = entityManager.find(Package.class, packageRequest.packageId());
 
         ShippingRequest shippingRequest;
         RouteMap routeMap;
         FeePricing feePricing;
 
+        packagee.setPackageId(packageRequest.packageId());
         if (Float.valueOf(packageRequest.weight()) != null)
             packagee.setWeight(packageRequest.weight());
         if (Float.valueOf(packageRequest.size()) != null)
@@ -144,7 +121,8 @@ public class PackageDAO {
                 for(Package p : packagesToUpdate){
                     //Package packagee = 
 
-                    updatePackage(p.getPackageId(), new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, /*packagee.getRouteMap().getRouteMapId()*/null, p.getRecipientdocument(), p.getRecipientfirstname(), p.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
+                    updatePackage(new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, p.getRouteMap().getRouteMapId(), 
+                    p.getRecipientdocument(), p.getRecipientfirstname(), p.getCityFeeCoefficient(), p.getFeePricing().getFeeId()));
                     
                     //packages.add(packagee);
                 }
@@ -169,7 +147,8 @@ public class PackageDAO {
                 packagesToUpdate.forEach(p -> {
                     //Package packagee = 
 
-                    updatePackage(p.getPackageId(), new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, /*packagee.getRouteMap().getRouteMapId()*/null, p.getRecipientdocument(), p.getRecipientfirstname(), p.getCityFeeCoefficient(), /*packagee.getFeePricing().getFeePricing()*/null));
+                    updatePackage(new PackageRequest(p.getPackageId(), p.getWeight(), p.getSize(), p.getPrice(), p.getState(), requestId, p.getRouteMap().getRouteMapId(), 
+                    p.getRecipientdocument(), p.getRecipientfirstname(), p.getCityFeeCoefficient(), p.getFeePricing().getFeeId()));
                     
                     //packages.add(packagee);
                 });

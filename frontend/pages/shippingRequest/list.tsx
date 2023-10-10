@@ -16,7 +16,7 @@ export default function ShippingRequestCRUD() {
 
     return <GenericLayout title='Solicitudes de Envío'> 
      <GenericCRUDTable useFetcher={useShippingRequests} deleteEntity={deleteEntity} columns={[{
-        accessorKey: 'shippingRequestId',
+        accessorKey: 'requestId',
         header: 'Id'
     }, {
         accessorKey: 'customer',
@@ -34,6 +34,6 @@ export default function ShippingRequestCRUD() {
       accessorKey: 'requestDate',
       header: 'Fecha Solicitada',
       cell: requestDate
-    }]} entityIdField='shippingRequestId' />
+    }]} entityIdField='requestId' />
     </GenericLayout>
 }

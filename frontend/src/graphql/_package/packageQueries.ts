@@ -15,17 +15,17 @@ export const PACKAGES = gql`
 
 export const GET_PACKAGE = gql`
 query($id: ID){
-    package(id: $id){
-        packageid,
+    packagee(id: $id){
+        packageId,
         weight,
         size,
-        price
-        state
-        shippingRequestId
-        routeMapId
-        feePricingId
-        recipientdocument
-        recipientfirstname
+        price,
+        state,
+        requestId,
+        routeMapId,
+        feePricingId,
+        recipientdocument,
+        recipientfirstname,
         cityFeeCoefficient
     }
 }
@@ -42,8 +42,8 @@ export const SAVE_PACKAGE = gql`
 
 `
 export const UPDATE_PACKAGE = gql`
-    mutation($id: ID!, $package: PackageRequest!){
-        updatePackage(id: $id, packageRequest:$package) {
+    mutation($package: PackageRequest!){
+        updatePackage(packageRequest:$package) {
             success,
             message
         }
