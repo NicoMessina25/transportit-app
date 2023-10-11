@@ -33,7 +33,7 @@ public class ParkDAO {
     public void savePark(ParkDTO parkDTO){
         Park park = new Park();
 
-        City city = entityManager.getReference(City.class, parkDTO.getCityid());
+        City city = entityManager.getReference(City.class, parkDTO.getCityId());
         
         List<Trailer> trailers = null;
         if (park.getTrailers() != null){

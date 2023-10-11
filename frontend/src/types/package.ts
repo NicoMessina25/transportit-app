@@ -6,14 +6,14 @@ export interface Package extends Indexable {
     packageId?: number,
     weight:number,
     size:number,
-    price: number,
+    price?: number,
     state?: EShippingState
     requestId?: number,
     routemapid?: number,
     feepricing?: FeePricing
     recipientdocument: string
     recipientfirstname: string
-    cityfeecoefficient: number
+    cityfeecoefficient?: number
 }
 
 export const defaultPackage:Package = {

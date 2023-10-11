@@ -63,7 +63,7 @@ export default function Page(){
       label:'Solicitudes de Envío',
       description:'Consulta, registra, modifica o elimina conductores solicitudes de envío',
       onClick:()=>
-        router.push('./shippingRequests/list'),
+        router.push('./shippingRequest/list'),
       icon:'quill:paper'
     },
     {

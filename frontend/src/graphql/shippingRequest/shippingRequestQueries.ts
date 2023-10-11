@@ -3,16 +3,16 @@ import { gql } from "@apollo/client";
 export const SHIPPING_REQUESTS = gql`
     query{
         shippingRequests{
-            requestid
+            requestId
             price,
             state,
-            requesDate
+            requestDate
             cityFrom{
-                cityid,
+                cityId,
                 name
             }
             cityTo{
-                cityid,
+                cityId,
                 name
             }
             customer {
@@ -33,16 +33,16 @@ export const SHIPPING_REQUESTS = gql`
 export const GET_SHIPPING_REQUEST = gql`
 query($id: ID){
     shippingRequest(id: $id){
-        requestid
+        requestId
             price,
             state,
-            requesDate
+            requestDate
             cityFrom{
-                cityid,
+                cityId,
                 name
             }
             cityTo{
-                cityid,
+                cityId,
                 name
             }
             customer {
@@ -71,8 +71,8 @@ export const SAVE_SHIPPING_REQUEST = gql`
 
 `
 export const UPDATE_SHIPPING_REQUEST = gql`
-    mutation($id: ID!, $shippingRequest: ShippingRequest!){
-        updateShippingRequest(id: $id, shippingRequestRequest:$shippingRequest) {
+    mutation($shippingRequest: ShippingRequest!){
+        updateShippingRequest(shippingRequestRequest:$shippingRequest) {
             success,
             message
         }

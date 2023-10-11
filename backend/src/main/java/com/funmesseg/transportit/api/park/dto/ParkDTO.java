@@ -15,7 +15,7 @@ public class ParkDTO {
     
     private Long parkId;
 
-    private Long cityid;
+    private Long cityId;
 
     private List<Long> trailersid;
 

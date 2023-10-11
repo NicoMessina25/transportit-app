@@ -5,7 +5,7 @@ import { Indexable } from "./indexable";
 import { Package } from "./package";
 
 export interface ShippingRequest extends Indexable {
-    requestid?: number,
+    requestId?: number,
     price: number,
     state?: EShippingState,
     requestDate?: Date
@@ -16,7 +16,7 @@ export interface ShippingRequest extends Indexable {
 }
 
 export const defaultShippingRequest:ShippingRequest = {
-    requestid: undefined,
+    requestId: undefined,
     price: 0,
     state: undefined,
     requestDate: undefined,

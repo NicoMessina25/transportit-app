@@ -34,7 +34,7 @@ public class ShippingRequestDAO {
 
     @Transactional(readOnly = true)
     public List<ShippingRequest> getShippingRequests(){
-        return entityManager.createQuery("from shippingRequest where deleted IS NULL", ShippingRequest.class).getResultList();
+        return entityManager.createQuery("from ShippingRequest where deleted IS NULL", ShippingRequest.class).getResultList();
     }
 
     @Transactional(readOnly = true)
@@ -111,6 +111,8 @@ public class ShippingRequestDAO {
         City cityFrom;
         City cityTo;
         Customer customer;
+
+        shippingRequest.setRequestId(shippingRequestRequest.requestId());
         if (shippingRequestRequest.cityFromId() != null){
             cityFrom = entityManager.find(City.class, shippingRequestRequest.cityFromId());
             shippingRequest.setCityFrom(cityFrom);

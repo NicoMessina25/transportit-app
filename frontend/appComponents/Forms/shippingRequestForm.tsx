@@ -38,20 +38,20 @@ const customerSchema = object({
 })
 
 export const packageSchema = object({
-  packageId: optional(number()),
+  packageid: optional(number()),
   recipientdocument: string([
       minLength(1,requiredMessage)
   ]),
   recipientfirstname: string([
       minLength(1,requiredMessage)
   ]),
-  weight: optional(nullable(number([minValue(0,'No puede ser menor a 0kg')]))),
-  size: optional(nullable(number([minValue(0,'No puede ser menor a 0cm3')]))),
-  price: optional(nullable(number([minValue(0,'No puede ser menor a 0 pesos')]))),
+  weight: number([minValue(0,'No puede ser menor a 0kg')]),
+  size: number([minValue(0,'No puede ser menor a 0cm3')]),
+  price: optional(number([minValue(0,'No puede ser menor a 0 pesos')])),
 })
 
 const shippingRequestSchema = object({
-    requestid: optional(number()),
+    requestId: optional(number()),
     customer: customerSchema,
     cityFrom: citySchema,
     cityTo: optional(citySchema),
@@ -71,7 +71,7 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
     const [arePackages, setArePackages] = useState(!!initialValue?.packages?.length);
     const [newPackage, setNewPackage] = useState<Package|null>(defaultPackage)
 
-    const inputsWidth = 'w-full md:w-2/5 lg:w-1/4 mx-1';
+    const inputsWidth = 'w-full md:w-2/5 lg:w-3/4 mx-1';
 
     useEffect(()=>{
         console.log(errors);
@@ -79,16 +79,17 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
 
     const {data, loading, error} = useQuery(CITIES);
 
-    const packageTemplate = (packagee:Package,index:number,onEdit:()=>void,recipientdocumentErr:string|undefined, recipientfirstnameErr:string|undefined, weightErr:string|undefined, sizeErr:string|undefined ) => {
+    const packageTemplate = (packagee:Package,index:number,onEdit:()=>void,recipientdocumentErr:string|undefined, recipientfirstnameErr:string|undefined, weightErr:string|undefined, sizeErr:string|undefined, priceErr:string|undefined, ) => {
         if(!packagee) return
 
         return <div key={packagee.recipientdocument + index} className='rounded-lg bg-cyan-950 p-3 flex flex-col justify-around my-3'>
-            <Label className='font-bold italic text-cyan-200 mr-3' text={packagee.packageId ? `Id: ${packagee.packageId}` : 'Nuevo paquete'}/>
+            <Label className='font-bold italic text-cyan-200 mr-3' text={packagee.packageid ? `Id: ${packagee.packageid}` : 'Nuevo paquete'}/>
             <div className='flex my-4'>
                 <KeyValueLabel label='Documento del receptor: ' value={packagee.recipientdocument} errorMessage={recipientdocumentErr} className='mx-1' />
                 <KeyValueLabel label='Nombre del receptor: ' value={packagee.recipientfirstname} errorMessage={recipientfirstnameErr} className='mx-1' /> 
                 <KeyValueLabel label='Peso: ' value={packagee.weight} errorMessage={weightErr} className='mx-1' /> 
                 <KeyValueLabel label='Tamaño: ' value={packagee.size} errorMessage={sizeErr} className='mx-1' /> 
+                <KeyValueLabel label='Precio: ' value={packagee.price} errorMessage={priceErr} className='mx-1' /> 
             </div>
               
             <Button className='mr-1' variant='outline' onClick={onEdit} >Editar</Button>
@@ -147,8 +148,8 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
                     name='packages'
                     control={control}
                     render={({field})=>
-                        <div className='my-3 w-full md:w-2/3 justify-center rounded'>
-                            {field.value && field.value.length > 0 && <Label className='my-1 text-lg' text='Camiones' />}
+                        <div className='my-3 w-full md:w-7/8 justify-center rounded'>
+                            {field.value && field.value.length > 0 && <Label className='my-1 text-lg' text='Paquetes' />}
                             {field.value?.map((packagee,index)=>{
                                 
                                 return packageTemplate(packagee,index,()=>{
@@ -156,26 +157,29 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
                                     field.onChange(field.value)
                                     setNewPackage(packagee)
                                 }, errors.packages?.[index]?.recipientdocument?.message, errors.packages?.[index]?.recipientfirstname?.message,
-                                errors.packages?.[index]?.weight?.message, errors.packages?.[index]?.size?.message,)
+                                errors.packages?.[index]?.weight?.message, errors.packages?.[index]?.size?.message, errors.packages?.[index]?.price?.message)
                             })}
 
-                            {newPackage ? <><Label className='mt-2 text-lg' text={newPackage.packageId ? `Id: ${newPackage.packageId}`: 'Nuevo paquete'} />
+                            {newPackage ? <><Label className='mt-2 text-lg' text={newPackage.packageid ? `Id: ${newPackage.packageid}`: 'Nuevo paquete'} />
                             <div className='rounded-lg bg-cyan-600 p-3'>
+                                <TextInput label='Nombre del receptor' name='recipientfirstname' value={newPackage.recipientfirstname} onChange={(e)=>{
+                                    setNewPackage({...newPackage, recipientfirstname: e.target.value})
+                                }} />
+
                                 <TextInput label='Documento del receptor' name='recipientdocument' value={newPackage.recipientdocument} onChange={(e)=>{
                                     setNewPackage({...newPackage, recipientdocument: e.target.value})
-                                }} placeholder='XX9999XX' />
-
+                                }} />
 
                                 <TextInput label='Peso' name='weight' value={newPackage.weight.toString()} onChange={(e)=>{
                                     setNewPackage({...newPackage, weight: Number(e.target.value)})
                                 }} type='number' />
 
-                                <TextInput label='Tamaño' name='size' value={newPackage.weight.toString()} onChange={(e)=>{
-                                    setNewPackage({...newPackage, weight: Number(e.target.value)})
+                                <TextInput label='Tamaño' name='size' value={newPackage.size.toString()} onChange={(e)=>{
+                                    setNewPackage({...newPackage, size: Number(e.target.value)})
                                 }} type='number' />
 
-                                <TextInput label='Precio' name='weight' value={newPackage.weight.toString()} onChange={(e)=>{
-                                    setNewPackage({...newPackage, weight: Number(e.target.value)})
+                                <TextInput label='Precio' name='price' value={newPackage.price?.toString()} onChange={(e)=>{
+                                    setNewPackage({...newPackage, price: Number(e.target.value)})
                                 }} type='number' />
 
                                 <div className='flex justify-between'>
@@ -183,16 +187,16 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
                                         field.value?.push(newPackage)
                                         field.onChange(field.value)
                                         setNewPackage(defaultPackage)
-                                    }} >Agregar camión</Button>
+                                    }} >Agregar paquete</Button>
                                     <Button variant='destructive' onClick={()=>{
                                         setNewPackage(null)
                                         field.value?.length == 0 && setArePackages(false)
-                                    }} >Eliminar camión</Button>
+                                    }} >Eliminar paquete</Button>
                                 </div>
                                 
                             </div> </>  
                             :
-                            <Button className='my-1' variant={'outline'} onClick={()=>setNewPackage(defaultPackage)} >Agregar camión</Button>
+                            <Button className='my-1' variant={'outline'} onClick={()=>setNewPackage(defaultPackage)} >Agregar paquete</Button>
                             }                         
                         </div>
                     }
@@ -201,7 +205,7 @@ export default function ShippingRequestForm({onSubmit,onCancel, initialValue}:Fo
                 <Button className='my-3 w-full md:w-1/4 text-white transition-all bg-blue-700 hover:bg-blue-500' onClick={()=>{
                     setArePackages(true)
                     setNewPackage(defaultPackage)
-                }} >Camiones particulares</Button>}</div>
+                }} >Paquetes particulares</Button>}</div>
             
             <div className='flex justify-end'>
                 <BackButton text='Cancelar' onClick={onCancel} />
