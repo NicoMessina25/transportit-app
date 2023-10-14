@@ -1,5 +1,7 @@
 package com.funmesseg.transportit.model;
 
+import java.time.LocalDateTime;
+
 import com.funmesseg.transportit.model.enums.EFeeType;
 
 import jakarta.persistence.Column;
@@ -35,8 +37,14 @@ public class FeePricing {
     private EFeeType feeType;
 
     @Column
-    private float kgprice;
+    private Float kgprice;
 
     @Column
-    private float cm3price;
+    private Float cm3price;
+
+     @Column(name = "registrationdate")
+    private LocalDateTime registrationDate;
+
+    @Column(name = "enddate")
+    private LocalDateTime endDate;
 }

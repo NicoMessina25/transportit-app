@@ -72,7 +72,7 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   return  <div className={inter.className + " body dark min-h-screen"}>
     <Provider store={store}>
       <ApolloProvider client={client} >
-          <Component {...pageProps} />
+        <Component {...pageProps} />
         <AlertContainer/>
         <WindowLoader/>
       </ApolloProvider>

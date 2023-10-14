@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.funmesseg.transportit.api.Response.CustomResponse;
 import com.funmesseg.transportit.api._package.dto.PackageRequest;
+import com.funmesseg.transportit.dao.feepricing.FeePricingDAO;
 import com.funmesseg.transportit.model.FeePricing;
 import com.funmesseg.transportit.model.Package;
 import com.funmesseg.transportit.model.RouteMap;
@@ -23,6 +24,9 @@ public class PackageDAO {
 
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private FeePricingDAO feePricingDAO;
     
     @Transactional(readOnly = true)
     public List<Package> getPackages(){
@@ -38,6 +42,8 @@ public class PackageDAO {
     public CustomResponse savePackage(PackageRequest packageRequest){
        try{
             Package packagee = getPackageFromRequest(packageRequest);
+            FeePricing feePricing = feePricingDAO.getCompanyFeePricing();
+            packagee.setFeePricing(feePricing);
             packagee.setState(EShippingState.ORDERED);
             entityManager.persist(packagee);
        } catch (Exception e) {
